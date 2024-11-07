@@ -1,0 +1,27 @@
+package com.group4.entity;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name = "imageItems")
+public class ImageItemEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "image_id")
+    private Long id;
+
+    @Column(name = "name", columnDefinition = "nvarchar(250)", nullable = false)
+    private String name;
+
+    @Column(name = "image_url", nullable = false)
+    private String imageUrl;
+
+    @ManyToOne
+    @JoinColumn(name = "product_detail_id", nullable = false)
+    private ProductDetailEntity productDetail;
+
+}
