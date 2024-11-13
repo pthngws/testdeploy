@@ -35,13 +35,9 @@ public class OrderEntity {
     //Trạng thái giao hàng
     private String shippingStatus;
 
-    @Column(name = "payment_method", nullable = false)
-    //Phương thức thanh toán
-    private String paymentMethod;
-
-    @Column(name = "payment_status", nullable = false)
-    //Trạng thái thanh toán
-    private String paymentStatus;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "payment_id", referencedColumnName = "payment_id")
+    private PaymentEntity payment;
 
     @Column(name = "shipping_method", nullable = false)
     // Phương thức giao hàng
@@ -52,9 +48,6 @@ public class OrderEntity {
     private String phoneNumber;
 
     private String note;
-
-    @Column(name = "total_price", nullable = false)
-    private int totalPrice;
 
     @PrePersist
     public void onCreate() {
