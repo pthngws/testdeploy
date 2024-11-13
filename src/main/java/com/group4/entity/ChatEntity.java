@@ -3,6 +3,8 @@ package com.group4.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,8 +19,8 @@ public class ChatEntity {
     @Column(name = "customer_id", nullable = false)
     private int customerID;
 
-    @Column(name = "type_of_message", nullable = false)
-    private int typeOfMessage;
+    @Column(name = "sentTime", nullable = false)
+    private Date sentTime;
 
     @Column(name = "content",columnDefinition = "MEDIUMTEXT", nullable = false)
     private String contentMessage;
