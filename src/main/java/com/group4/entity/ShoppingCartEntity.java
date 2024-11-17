@@ -20,8 +20,12 @@ public class ShoppingCartEntity {
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private UserEntity user;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "cart_id")
-    private List<ProductEntity> productList;
+    @ManyToMany
+    @JoinTable(
+            name = "cart_products", // Tên bảng trung gian
+            joinColumns = @JoinColumn(name = "cart_id"), // Khóa ngoại trỏ đến ShoppingCartEntity
+            inverseJoinColumns = @JoinColumn(name = "product_id") // Khóa ngoại trỏ đến ProductEntity
+    )
+    private List<ProductEntity> products;
 
 }

@@ -3,6 +3,8 @@ package com.group4.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -35,4 +37,7 @@ public class ProductEntity {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "detail_id", referencedColumnName = "detail_id")
     private ProductDetailEntity detail;
+
+    @ManyToMany(mappedBy = "products")
+    private List<ShoppingCartEntity> carts;
 }
