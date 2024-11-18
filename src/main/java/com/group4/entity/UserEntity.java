@@ -1,6 +1,7 @@
 package com.group4.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.*;
 
 @Data
@@ -17,6 +18,7 @@ public class UserEntity {
     @Column(columnDefinition = "nvarchar(250) not null")
     private String name;
 
+    @Email
     @Column(columnDefinition = "nvarchar(200) not null", unique = true)
     private String email;
 
@@ -29,7 +31,7 @@ public class UserEntity {
     @Column(columnDefinition = "nvarchar(10)")
     private String phone;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "address_id", referencedColumnName = "address_id")
     private AddressEntity address;
 

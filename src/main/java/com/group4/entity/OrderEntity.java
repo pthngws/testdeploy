@@ -3,6 +3,7 @@ package com.group4.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -17,19 +18,19 @@ public class OrderEntity {
     @Column(name = "order_id", nullable = false)
     private Long orderId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shipping_address_id", referencedColumnName = "address_id")
     private AddressEntity shippingAddress;
 
     @Column(name = "order_date", nullable = false)
-    private Date orderDate;
+    private LocalDateTime orderDate;
 
     @Column(name = "receive_date", nullable = false)
-    private Date receiveDate;
+    private LocalDateTime  receiveDate;
 
     @Column(name = "shipping_state", nullable = false)
     //Trạng thái giao hàng
@@ -51,7 +52,7 @@ public class OrderEntity {
 
     @PrePersist
     public void onCreate() {
-        orderDate = new Date();
+        orderDate = LocalDateTime.now();
     }
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
