@@ -22,7 +22,7 @@ public class OrderEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "shipping_address_id", referencedColumnName = "address_id")
     private AddressEntity shippingAddress;
 

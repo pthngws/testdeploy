@@ -34,7 +34,7 @@ public class ProductEntity {
     @JoinColumn(name = "manufacturer_id", nullable = false)
     private ManufacturerEntity manufacturer;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "detail_id", referencedColumnName = "detail_id")
     private ProductDetailEntity detail;
 

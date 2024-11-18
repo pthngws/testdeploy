@@ -31,7 +31,7 @@ public class UserEntity {
     @Column(columnDefinition = "nvarchar(10)")
     private String phone;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "address_id", referencedColumnName = "address_id")
     private AddressEntity address;
 

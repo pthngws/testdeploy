@@ -29,7 +29,7 @@ public class PaymentEntity {
     @Column(nullable = false)
     private int total;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "order_id", referencedColumnName = "order_id")
     private OrderEntity order;
 
