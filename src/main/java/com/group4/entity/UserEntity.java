@@ -8,6 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "users")
 public class UserEntity {
     @Id
@@ -31,9 +32,11 @@ public class UserEntity {
     @Column(columnDefinition = "nvarchar(10)")
     private String phone;
 
+    @Column(columnDefinition = "nvarchar(10)")
+    private String roleNName;
+
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "address_id", referencedColumnName = "address_id")
     private AddressEntity address;
-
 }
 
