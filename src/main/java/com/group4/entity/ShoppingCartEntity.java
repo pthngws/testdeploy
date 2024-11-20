@@ -18,7 +18,7 @@ public class ShoppingCartEntity {
 
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
-    private UserEntity user;
+    private CustomerEntity customer;
 
     @ManyToMany
     @JoinTable(
@@ -27,5 +27,6 @@ public class ShoppingCartEntity {
             inverseJoinColumns = @JoinColumn(name = "product_id") // Khóa ngoại trỏ đến ProductEntity
     )
     private List<ProductEntity> products;
+
 
 }
