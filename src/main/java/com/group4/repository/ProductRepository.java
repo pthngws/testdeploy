@@ -41,7 +41,8 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
             + "(:operationSystem IS NULL OR p.detail.operationSystem LIKE %:operationSystem%) AND "
             + "(:minPrice IS NULL OR p.price >= :minPrice) AND "
             + "(:maxPrice IS NULL OR p.price <= :maxPrice) AND "
-            + "(:disk IS NULL OR p.detail.disk LIKE %:disk%)")
+            + "(:disk IS NULL OR p.detail.disk LIKE %:disk%) AND "
+            + "(:category IS NULL OR p.category.name LIKE %:category%)")
     Page<ProductEntity> findProductsByCriteria(
             @Param("searchName") String searchName,
             @Param("manufacturer") String manufacturer,
@@ -51,6 +52,7 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
             @Param("minPrice") Integer minPrice,
             @Param("maxPrice") Integer maxPrice,
             @Param("disk") String disk,
+            @Param("category") String category,
             Pageable pageable);
 
 }

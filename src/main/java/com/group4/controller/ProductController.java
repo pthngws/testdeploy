@@ -29,17 +29,23 @@ public class ProductController {
             @RequestParam(required = false) Integer minPrice,
             @RequestParam(required = false) Integer maxPrice,
             @RequestParam(required = false) String disk,
+            @RequestParam(required = false) String category,
             Model model) {
 
         Page<ProductEntity> productEntities = productService.searchProducts(
-                searchName, manufacturer, cpu, gpu, operationSystem, minPrice, maxPrice, disk, PageRequest.of(page, 12));
+                searchName, manufacturer, cpu, gpu, operationSystem, minPrice, maxPrice, disk, category, PageRequest.of(page, 12));
 
-        List<ProductModel> products = productEntities.stream()
-                .map(this::convertToModel)
-                .collect(Collectors.toList());
+//        List<ProductModel> products = productEntities.stream()
+//                .map(this::convertToModel)
+//                .collect(Collectors.toList());
 
-        model.addAttribute("products", products);
+        model.addAttribute("products", productEntities);
         model.addAttribute("page", productEntities);
+
+        // Gửi danh sách category để hiển thị trên giao diện
+        List<CategoryModel> categories = productService.getAllCategories();
+        model.addAttribute("categories", categories);
+
         return "BeeProductList";
     }
 
