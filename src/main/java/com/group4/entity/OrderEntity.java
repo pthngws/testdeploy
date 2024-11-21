@@ -36,7 +36,7 @@ public class OrderEntity {
     //Trạng thái giao hàng
     private String shippingStatus;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "payment_id", referencedColumnName = "payment_id")
     private PaymentEntity payment;
 

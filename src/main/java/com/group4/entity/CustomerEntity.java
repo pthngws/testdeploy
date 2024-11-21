@@ -21,5 +21,4 @@ public class CustomerEntity extends UserEntity {
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderEntity> ordersHistory;
 
-
 }
