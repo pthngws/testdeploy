@@ -18,6 +18,37 @@ import java.util.stream.Collectors;
 public class SearchController {
     @Autowired
     ProductService productService = new ProductService();
+    @GetMapping("/products")
+    public String listProducts(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(required = false) String searchName,
+            @RequestParam(required = false) String manufacturer,
+            @RequestParam(required = false) String cpu,
+            @RequestParam(required = false) String gpu,
+            @RequestParam(required = false) String operationSystem,
+            @RequestParam(required = false) Integer minPrice,
+            @RequestParam(required = false) Integer maxPrice,
+            @RequestParam(required = false) String disk,
+            @RequestParam(required = false) String category,
+            Model model) {
+
+        Page<ProductEntity> productEntities = productService.searchProducts(
+                searchName, manufacturer, cpu, gpu, operationSystem, minPrice, maxPrice, disk, category, PageRequest.of(page, 12));
+
+//        List<ProductModel> products = productEntities.stream()
+//                .map(this::convertToModel)
+//                .collect(Collectors.toList());
+
+        model.addAttribute("products", productEntities);
+        model.addAttribute("page", productEntities);
+
+        // Gửi danh sách category để hiển thị trên giao diện
+        List<CategoryModel> categories = productService.getAllCategories();
+        model.addAttribute("categories", categories);
+
+        return "BeeProductList";
+    }
+
 
 
     public ProductModel convertToModel(ProductEntity entity) {
