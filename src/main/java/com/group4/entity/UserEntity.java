@@ -35,8 +35,13 @@ public class UserEntity {
     @Column(columnDefinition = "nvarchar(10)")
     private String roleNName;
 
+    @Column(name = "active", nullable = false)
+    private boolean active = true; // Mặc định tài khoản được kích hoạt
+
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "address_id", referencedColumnName = "address_id")
     private AddressEntity address;
+
+
 }
 
