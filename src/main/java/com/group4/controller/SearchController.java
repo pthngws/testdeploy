@@ -46,7 +46,7 @@ public class SearchController {
         List<CategoryModel> categories = productServiceImpl.getAllCategories();
         model.addAttribute("categories", categories);
 
-        return "BeeProductList";
+        return "shop-grid-left-sidebar";
     }
 
 
