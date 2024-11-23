@@ -24,6 +24,11 @@
     <!-- Main Style CSS -->
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="assets/css/skin-default.css" rel="stylesheet" id="galio-skin">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.0/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 
 <body>
@@ -2870,6 +2875,31 @@
             </div>
         </div>
     </div>
+    <div id="chat-popup">
+        <div id="chat-popup-header">
+            <span id="page-title">Chat Room</span>
+            <button onclick="toggleChatPopup()">&times;</button>
+        </div>
+
+        <div id="customer-list" style="display: none;">
+            <h3>Danh sách khách hàng đã nhắn tin</h3>
+            <ul id="customer-list-items"></ul>
+        </div>
+
+        <!-- Chat Room -->
+        <div id="chat-room" style="display: none;">
+            <div id="chat-box"></div>
+            <form id="message-form">
+                <input id="message-input" type="text" placeholder="Enter message">
+                <div class="input-group-append">
+                    <button type="button" onclick="sendMessage()">&#10148;</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Nút Open Chat -->
+    <div> <button class="chat-btn btn-light" onclick="toggleChatPopup()"><i class="fas fa-comment"></i></button></div>
     <!-- Quick view modal end -->
 
     <!-- Scroll to top start -->
