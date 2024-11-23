@@ -1,6 +1,5 @@
 package com.group4.repository;
 
-
 import com.group4.entity.UserEntity;
 import jakarta.transaction.Transactional;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -41,6 +40,5 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
             "WHERE u.email = :email"
     )
     Long findIdByEmail(@Param("email") String email);
-
 
 }

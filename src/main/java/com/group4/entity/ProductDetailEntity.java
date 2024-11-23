@@ -67,6 +67,10 @@ public class ProductDetailEntity {
     @Column(columnDefinition = "nvarchar(250)")
     private String description;
 
-    @OneToMany(mappedBy = "productDetail", cascade = CascadeType.ALL, orphanRemoval = true)
+//    @OneToMany(mappedBy = "productDetail", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<ImageItemEntity> images;
+
+    @OneToMany(mappedBy = "productDetail", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ToString.Exclude // Loại trừ tham chiếu vòng lặp
     private List<ImageItemEntity> images;
 }
