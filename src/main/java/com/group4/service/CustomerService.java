@@ -79,6 +79,7 @@ public class CustomerService {
                 user.getPassword(),
                 user.getGender(),
                 user.getPhone(),
+                user.getRoleNName(),
                 user.isActive(),
                 new AddressModel( /* Mapping address fields */ )
         );
