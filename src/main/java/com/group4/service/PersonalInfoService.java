@@ -27,6 +27,8 @@ public class PersonalInfoService {
                     entity.getPassword(),
                     entity.getGender(),
                     entity.getPhone(),
+                    entity.getRoleNName(),
+                    entity.isActive(),
                     new AddressModel(
                             entity.getAddress().getAddressID(),
                             entity.getAddress().getCountry(),
@@ -50,6 +52,8 @@ public class PersonalInfoService {
                     userModel.getPassword(),
                     userModel.getGender(),
                     userModel.getPhone(),
+                    userModel.getRoleNName(),
+                    userModel.isActive(),
                     new AddressEntity(
                             userModel.getAddress().getAddressID(),
                             userModel.getAddress().getCountry(),
