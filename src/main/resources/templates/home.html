@@ -7,6 +7,15 @@
 </head>
 <body>
 
+
+<div th:if="${session.username != null}">
+    <p>Chào mừng, <span th:text="${session.username}"></span>!</p>
+    <a href="/logout">Đăng xuất</a>
+</div>
+<div th:if="${session.username == null}">
+    <p>Bạn chưa đăng nhập. Vui lòng <a href="/login">đăng nhập</a>.</p>
+</div>
+
 <!-- Kế thừa layout -->
 <div th:replace="layout :: content">
     <h2>Chào mừng đến với trang chủ của chúng tôi!</h2>
