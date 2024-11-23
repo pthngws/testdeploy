@@ -28,4 +28,7 @@ public class RateEntity {
     @Column(nullable = false)
     private int rate;
 
+    @Column(columnDefinition = "TEXT")
+    private String response;  // Trường phản hồi của Admin
+
 }
