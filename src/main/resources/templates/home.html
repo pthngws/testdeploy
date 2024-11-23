@@ -1,13 +1,15 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout.html}">
 
 <head>
     <!-- Thay thế phần header bằng fragment -->
     <th:block th:replace="~{fragments/head.html}"></th:block>
-</head>x
+</head>
 
 <body>
-<div class="wrapper box-layout">
+<div class="wrapper box-layout" th:replace="layout :: content">
 
     <!-- header area start -->
     <th:block th:replace="~{fragments/header.html}"></th:block>
@@ -191,5 +193,13 @@
     <i class="fa fa-angle-up"></i>
 </div>
 <!-- Scroll to Top End -->
+<div th:if="${session.username != null}">
+    <p>Chào mừng, <span th:text="${session.username}"></span>!</p>
+    <a href="/logout">Đăng xuất</a>
+</div>
+<div th:if="${session.username == null}">
+    <p>Bạn chưa đăng nhập. Vui lòng <a href="/login">đăng nhập</a>.</p>
+</div>
+
 </body>
 </html>

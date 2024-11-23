@@ -3,6 +3,7 @@ package com.group4.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -17,31 +18,27 @@ public class OrderEntity {
     @Column(name = "order_id", nullable = false)
     private Long orderId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    private UserEntity user;
+    private CustomerEntity customer;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "shipping_address_id", referencedColumnName = "address_id")
     private AddressEntity shippingAddress;
 
     @Column(name = "order_date", nullable = false)
-    private Date orderDate;
+    private LocalDateTime orderDate;
 
     @Column(name = "receive_date", nullable = false)
-    private Date receiveDate;
+    private LocalDateTime  receiveDate;
 
     @Column(name = "shipping_state", nullable = false)
     //Trạng thái giao hàng
     private String shippingStatus;
 
-    @Column(name = "payment_method", nullable = false)
-    //Phương thức thanh toán
-    private String paymentMethod;
-
-    @Column(name = "payment_status", nullable = false)
-    //Trạng thái thanh toán
-    private String paymentStatus;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "payment_id", referencedColumnName = "payment_id")
+    private PaymentEntity payment;
 
     @Column(name = "shipping_method", nullable = false)
     // Phương thức giao hàng
@@ -53,15 +50,14 @@ public class OrderEntity {
 
     private String note;
 
-    @Column(name = "total_price", nullable = false)
-    private int totalPrice;
-
     @PrePersist
     public void onCreate() {
-        orderDate = new Date();
+        orderDate = LocalDateTime.now();
     }
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<LineItemEntity> listLineItems;
+
+
 }
 
