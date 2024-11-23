@@ -2,7 +2,7 @@ package com.group4.controller;
 
 import com.group4.entity.*;
 import com.group4.model.*;
-import com.group4.services.ProductService;
+import com.group4.service.impl.ProductServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @Controller
 public class SearchController {
     @Autowired
-    ProductService productService = new ProductService();
+    ProductServiceImpl productServiceImpl = new ProductServiceImpl();
     @GetMapping("/products")
     public String listProducts(
             @RequestParam(defaultValue = "0") int page,
@@ -32,7 +32,7 @@ public class SearchController {
             @RequestParam(required = false) String category,
             Model model) {
 
-        Page<ProductEntity> productEntities = productService.searchProducts(
+        Page<ProductEntity> productEntities = productServiceImpl.searchProducts(
                 searchName, manufacturer, cpu, gpu, operationSystem, minPrice, maxPrice, disk, category, PageRequest.of(page, 12));
 
 //        List<ProductModel> products = productEntities.stream()
@@ -43,7 +43,7 @@ public class SearchController {
         model.addAttribute("page", productEntities);
 
         // Gửi danh sách category để hiển thị trên giao diện
-        List<CategoryModel> categories = productService.getAllCategories();
+        List<CategoryModel> categories = productServiceImpl.getAllCategories();
         model.addAttribute("categories", categories);
 
         return "BeeProductList";
