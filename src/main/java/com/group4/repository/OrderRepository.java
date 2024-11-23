@@ -13,4 +13,14 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
 
     @Query("SELECT o FROM OrderEntity o WHERE o.customer.userID = :customerId")
     List<OrderEntity> findByCustomerId(@Param("customerId") Long customerId);
+
+    @Query("SELECT o FROM OrderEntity o WHERE o.orderId = :keyword")
+    List<OrderEntity> findByOrderId(@Param("keyword") String keyword);
+
+    @Query("SELECT o FROM OrderEntity o WHERE o.orderId = :keyword AND o.shippingStatus = :status")
+    List<OrderEntity> findByOrderIdAndStatus(@Param("keyword") String keyword, @Param("status") String status);
+
+    @Query("SELECT o FROM OrderEntity o WHERE o.shippingStatus = :status")
+    List<OrderEntity> findByStatus(@Param("status") String status);
+
 }

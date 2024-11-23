@@ -55,18 +55,18 @@ public class CustomerController {
         return "TamaCustomerDetail";
     }
 
-    // Endpoint khóa tài khoản
+    // khóa tài khoản
     @GetMapping("/{id}/lock")
     public String lockCustomer(@PathVariable Long id, RedirectAttributes redirectAttributes) {
-        CustomerService.updateActiveStatus(id, false); // Khóa tài khoản
+        customerService.updateActiveStatus(id, false); // Khóa tài khoản
         redirectAttributes.addFlashAttribute("message", "Khóa tài khoản thành công!");
         return "redirect:/customers"; // Quay lại danh sách khách hàng
     }
-//
-    // Endpoint mở khóa tài khoản
+
+    // mở khóa tài khoản
     @GetMapping("/{id}/unlock")
     public String unlockCustomer(@PathVariable Long id, RedirectAttributes redirectAttributes) {
-        CustomerService.updateActiveStatus(id, true); // Mở khóa tài khoản
+        customerService.updateActiveStatus(id, true); // Mở khóa tài khoản
         redirectAttributes.addFlashAttribute("message", "Mở khóa tài khoản thành công!");
         return "redirect:/customers"; // Quay lại danh sách khách hàng
     }

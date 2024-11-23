@@ -16,7 +16,7 @@
         <div class="col-md-6 offset-md-3">
             <form th:action="@{/customers/search}" method="get" class="d-flex">
                 <input type="text" name="keyword" class="form-control me-2" placeholder="Tìm kiếm khách hàng theo tên hoặc email" />
-                <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                <button type="submit" class="btn btn-primary" style="white-space: nowrap;">Tìm kiếm</button>
             </form>
         </div>
     </div>
@@ -25,14 +25,14 @@
     <table class="table table-bordered table-hover">
         <thead class="table-dark">
         <tr>
-            <th scope="col">STT</th>
-            <th scope="col">Tên</th>
-            <th scope="col">Email</th>
-            <th scope="col">Giới tính</th>
-            <th scope="col">Số điện thoại</th>
-            <th scope="col">Địa chỉ</th>
-            <th scope="col">Thông tin chi tiết</th>
-            <th scope="col">Trạng thái</th>
+            <th style="text-align: center; vertical-align: middle;" scope="col">STT</th>
+            <th style="text-align: center; vertical-align: middle;" scope="col">Tên</th>
+            <th style="text-align: center; vertical-align: middle;" scope="col">Email</th>
+            <th style="text-align: center; vertical-align: middle;" scope="col">Giới tính</th>
+            <th style="text-align: center; vertical-align: middle;" scope="col">Số điện thoại</th>
+            <th style="text-align: center; vertical-align: middle;" scope="col">Địa chỉ</th>
+            <th style="text-align: center; vertical-align: middle;" scope="col">Thông tin chi tiết</th>
+            <th style="text-align: center; vertical-align: middle;" scope="col">Trạng thái</th>
         </tr>
         </thead>
         <tbody>
@@ -45,11 +45,11 @@
             <td th:text="${customer.phone}">0123456789</td>
             <td th:text="${customer.address.other} + ' ' + ${customer.address.commune} + ', ' +${customer.address.district} + ', ' +${customer.address.province} + ', ' +${customer.address.country}"></td>
 
-            <td>
+            <td style="text-align: center; vertical-align: middle;">
                 <a th:href="@{/customers/{id}(id=${customer.userID})}" class="btn btn-info btn-sm text-white">Chi tiết</a>
             </td>
 
-            <td>
+            <td style="text-align: center; vertical-align: middle;">
                 <input type="checkbox" disabled th:checked="${customer.active}" />
             </td>
 

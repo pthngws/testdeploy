@@ -25,7 +25,7 @@
       <p><strong>Địa chỉ:</strong>
         <span th:text="${customer.address.other} + ' ' + ${customer.address.commune} + ', ' + ${customer.address.district} + ', ' + ${customer.address.province} + ', ' + ${customer.address.country}">
                     Địa chỉ mẫu
-                </span>
+        </span>
       </p>
       <p><strong>Trạng thái:</strong>
         <span th:text="${customer.active ? 'Đang hoạt động' : 'Bị khóa'}"></span>

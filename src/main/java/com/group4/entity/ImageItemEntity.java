@@ -20,8 +20,13 @@ public class ImageItemEntity {
     @Column(name = "image_url", nullable = false)
     private String imageUrl;
 
+//    @ManyToOne
+//    @JoinColumn(name = "product_detail_id", nullable = false)
+//    private ProductDetailEntity productDetail;
+
     @ManyToOne
     @JoinColumn(name = "product_detail_id", nullable = false)
+    @ToString.Exclude // Loại trừ tham chiếu vòng lặp
     private ProductDetailEntity productDetail;
 
 }

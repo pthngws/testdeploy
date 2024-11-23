@@ -20,7 +20,7 @@ public class CustomerService {
     private CustomerRepository customerRepository;
 
     @Autowired
-    private static UserRepository userRepository;
+    private UserRepository userRepository;
 
     public List<CustomerEntity> searchCustomers(String keyword) {
         if (keyword == null || keyword.isEmpty()) {
@@ -30,23 +30,22 @@ public class CustomerService {
     }
 
 
-    // Thêm mới khách hàng
-    public CustomerEntity addCustomer(CustomerEntity customer) {
-        return customerRepository.save(customer);
-    }
+//    // Thêm mới khách hàng
+//    public CustomerEntity addCustomer(CustomerEntity customer) {
+//        return customerRepository.save(customer);
+//    }
 
 
-    // Sửa thông tin khách hàng
-    public CustomerEntity updateCustomer(Long id, CustomerEntity updatedCustomer) {
-        return (CustomerEntity) customerRepository.findById(id).map(customer -> {
-            customer.setName(updatedCustomer.getName());
-            customer.setEmail(updatedCustomer.getEmail());
-            customer.setPhone(updatedCustomer.getPhone());
-            customer.setAddress(updatedCustomer.getAddress());
-            return customerRepository.save(customer);
-        }).orElseThrow(() -> new RuntimeException("Customer not found"));
-    }
-
+//    // Sửa thông tin khách hàng
+//    public CustomerEntity updateCustomer(Long id, CustomerEntity updatedCustomer) {
+//        return (CustomerEntity) customerRepository.findById(id).map(customer -> {
+//            customer.setName(updatedCustomer.getName());
+//            customer.setEmail(updatedCustomer.getEmail());
+//            customer.setPhone(updatedCustomer.getPhone());
+//            customer.setAddress(updatedCustomer.getAddress());
+//            return customerRepository.save(customer);
+//        }).orElseThrow(() -> new RuntimeException("Customer not found"));
+//    }
 
     // Xóa tài khoản khách hàng
     public void deleteCustomer(Long id) {
