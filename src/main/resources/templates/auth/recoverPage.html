@@ -1,0 +1,78 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <title>Finding_Houses_System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+    <meta content="Coderthemes" name="author" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico">
+
+    <!-- App css -->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body class="authentication-bg bg-gradient">
+
+<div class="account-pages pt-5 mt-5 mb-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6 col-xl-5">
+                <div class="card bg-pattern">
+
+                    <div class="card-body p-4">
+
+                        <div class="text-center m-auto">
+                            <a href="index.html">
+                                <span><img src="assets/img/logo.jpeg" alt="" height="98"></span>
+                            </a>
+                            <p class="text-muted sub-header mb-4 mt-3">Nhập địa chỉ email của bạn và chúng tôi sẽ gửi cho bạn một email kèm theo OTP Code để đặt lại mật khẩu của bạn.</p>
+                        </div>
+
+                        <form th:action="@{send-otp-recover}" method="post">
+
+                            <div class="form-group mb-3">
+                                <label for="emailaddress">Địa chỉ email.</label>
+                                <input class="form-control" type="email" id="emailaddress" name="emailaddress" required placeholder="john@deo.com">
+                            </div>
+
+                            <div class="form-group mb-0 text-center">
+                                <button class="btn btn-gradient btn-block" type="submit"> Đặt lại mật khẩu</button>
+                            </div>
+
+                        </form>
+
+                        <div class="row mt-4">
+                            <div class="col-sm-12 text-center">
+                                <p class="text-muted mb-0">Quay lại <a href="pages-login.html" class="text-dark ml-1"><b>Sign In</b></a></p>
+                            </div>
+                        </div>
+
+
+                    </div> <!-- end card-body -->
+                </div>
+                <!-- end card -->
+
+
+
+            </div> <!-- end col -->
+        </div>
+        <!-- end row -->
+    </div>
+    <!-- end container -->
+</div>
+<!-- end page -->
+
+
+<!-- Vendor js -->
+<script src="assets/js/vendor.min.js"></script>
+
+<!-- App js -->
+<script src="assets/js/app.min.js"></script>
+
+</body>
+</html>

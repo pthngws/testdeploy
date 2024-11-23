@@ -13,16 +13,17 @@
     <!-- Favicon -->
     <link rel="shortcut icon" href="assets/img/favicon.ico" type="image/x-icon" />
     <!-- Bootstrap CSS -->
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
     <!-- Font-Awesome CSS -->
-    <link href="assets/css/font-awesome.min.css" rel="stylesheet">
+    <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet">
     <!-- helper class css -->
-    <link href="assets/css/helper.min.css" rel="stylesheet">
+    <link th:href="@{/css/helper.min.css}" rel="stylesheet">
     <!-- Plugins CSS -->
-    <link href="assets/css/plugins.css" rel="stylesheet">
+    <link th:href="@{/css/plugins.css}" rel="stylesheet">
     <!-- Main Style CSS -->
-    <link href="assets/css/style.css" rel="stylesheet">
-    <link href="assets/css/skin-default.css" rel="stylesheet" id="galio-skin">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <link th:href="@{/css/skin-default.css}" rel="stylesheet" id="galio-skin">
+
 </head>
 
 <body>
@@ -114,8 +115,8 @@
                                                 </a>
                                                 <div class="dropdown-menu" aria-labelledby="myaccount">
                                                     <a class="dropdown-item" href="my-account.html">my account</a>
-                                                    <a class="dropdown-item" href="login-register.html"> login</a>
-                                                    <a class="dropdown-item" href="login-register.html">register</a>
+                                                    <a class="dropdown-item" href="login.html"> login</a>
+                                                    <a class="dropdown-item" href="login.html">register</a>
                                                 </div>
                                             </div>
                                         </li>
@@ -388,7 +389,7 @@
                                                     <li class="mega-title"><a href="#">column 04</a>
                                                         <ul>
                                                             <li><a href="my-account.html">my-account</a></li>
-                                                            <li><a href="login-register.html">login-register</a></li>
+                                                            <li><a href="login.html">login-register</a></li>
                                                             <li><a href="about-us.html">about us</a></li>
                                                             <li><a href="contact-us.html">contact us</a></li>
                                                         </ul>
@@ -482,72 +483,33 @@
                         <!-- Login Content Start -->
                         <div class="col-lg-6">
                             <div class="login-reg-form-wrap  pr-lg-50">
-                                <h2>Sign In</h2>
-                                <form action="#" method="post">
+                                <h2>Đăng nhập</h2>
+                                <form action="#" th:action="@{/login}" method="post" id="myForm">
                                     <div class="single-input-item">
-                                        <input type="email" placeholder="Email or Username" required />
+                                        <input type="email" placeholder="Email" name="username" required />
                                     </div>
                                     <div class="single-input-item">
-                                        <input type="password" placeholder="Enter your Password" required />
+                                        <input type="password" placeholder="Mật khẩu" name="password" required />
                                     </div>
                                     <div class="single-input-item">
                                         <div class="login-reg-form-meta d-flex align-items-center justify-content-between">
                                             <div class="remember-meta">
                                                 <div class="custom-control custom-checkbox">
                                                     <input type="checkbox" class="custom-control-input" id="rememberMe">
-                                                    <label class="custom-control-label" for="rememberMe">Remember Me</label>
+                                                    <label class="custom-control-label" for="rememberMe">Ghi nhớ tôi</label>
                                                 </div>
                                             </div>
-                                            <a href="#" class="forget-pwd">Forget Password?</a>
+                                            <a th:href="@{/confirm}" class="forget-pwd">Xác minh email</a>
+                                            <a th:href="@{/recover}" class="forget-pwd">Quên mật khẩu</a>
                                         </div>
                                     </div>
                                     <div class="single-input-item">
-                                        <button class="sqr-btn">Login</button>
+                                        <button type="submit" class="sqr-btn">Đăng nhập</button>
                                     </div>
                                 </form>
                             </div>
                         </div>
                         <!-- Login Content End -->
-
-                        <!-- Register Content Start -->
-                        <div class="col-lg-6">
-                            <div class="login-reg-form-wrap mt-md-34 mt-sm-34">
-                                <h2>Singup Form</h2>
-                                <form action="#" method="post">
-                                    <div class="single-input-item">
-                                        <input type="text" placeholder="Full Name" required />
-                                    </div>
-                                    <div class="single-input-item">
-                                        <input type="email" placeholder="Enter your Email" required />
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <div class="single-input-item">
-                                                <input type="password" placeholder="Enter your Password" required />
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="single-input-item">
-                                                <input type="password" placeholder="Repeat your Password" required />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="single-input-item">
-                                        <div class="login-reg-form-meta">
-                                            <div class="remember-meta">
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="subnewsletter">
-                                                    <label class="custom-control-label" for="subnewsletter">Subscribe Our Newsletter</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="single-input-item">
-                                        <button class="sqr-btn">Register</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
                         <!-- Register Content End -->
                     </div>
                 </div>
