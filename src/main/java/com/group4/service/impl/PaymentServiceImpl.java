@@ -23,8 +23,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -123,5 +125,13 @@ public class PaymentServiceImpl implements IPaymentService {
         EmailDetail emailDetail = new EmailDetail();
 
         emailService.sendInvoice(emailDetail);
+    }
+
+    public Double getDailyRevenue(LocalDate date) {
+        return paymentRepository.getRevenueByDay(date);
+    }
+
+    public List<Map<String, Object>> getYearlyRevenue(int year) {
+        return paymentRepository.getMonthlyRevenue(year);
     }
 }
