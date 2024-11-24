@@ -3,15 +3,15 @@
 	"use strict";
 
 	var $window = $(window);
+
 	$window.on('scroll', function () {
-        // Sticky menu 
+        // Sticky menu
 		var scroll = $window.scrollTop();
 		if (scroll < 300) {
 			$(".sticky").removeClass("is-sticky");
 		} else {
 			$(".sticky").addClass("is-sticky");
 		}
-        
         // Scroll To Top
 		if ($(this).scrollTop() > 600) {
 			$('.scroll-top').removeClass('not-visible');
@@ -65,7 +65,7 @@
 			$('.category-menu .menu-item-has-children ul').slideDown();
 		}
 	}
-	
+
 	$(window).on({
 		load: function(){
 			categorySubMenuToggle();
@@ -762,5 +762,4 @@ function sendMessage() {
 		input.val("");
 	}
 }
-
-
+}(jQuery));

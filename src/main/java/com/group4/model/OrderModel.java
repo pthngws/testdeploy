@@ -34,5 +34,13 @@ public class OrderModel {
         }
         return totalAmount;
     }
+
+    public int getTotalPrice() {
+        int totalPrice = 0;
+        for (LineItemModel item : listLineItems) {
+            totalPrice += item.getTotalAmount(); // Cộng tổng giá từ các sản phẩm
+        }
+        return totalPrice;
+    }
 }
 

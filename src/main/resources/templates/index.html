@@ -14,13 +14,13 @@
     <!-- Favicon -->
     <link rel="shortcut icon" href="assets/img/favicon.ico" type="image/x-icon" />
     <!-- Bootstrap CSS -->
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
     <!-- Font-Awesome CSS -->
-    <link href="assets/css/font-awesome.min.css" rel="stylesheet">
+    <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet">
     <!-- helper class css -->
-    <link href="assets/css/helper.min.css" rel="stylesheet">
+    <link th:href="@{/css/helper.min.css}" rel="stylesheet">
     <!-- Plugins CSS -->
-    <link href="assets/css/plugins.css" rel="stylesheet">
+    <link th:href="@{/css/plugins.css}" rel="stylesheet">
     <!-- Main Style CSS -->
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="assets/css/skin-default.css" rel="stylesheet" id="galio-skin">
@@ -29,6 +29,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <link th:href="@{/css/skin-default.css}" rel="stylesheet" id="galio-skin">
+
 </head>
 
 <body>
@@ -121,8 +124,8 @@
                                                 </a>
                                                 <div class="dropdown-menu" aria-labelledby="myaccount">
                                                     <a class="dropdown-item" href="my-account.html">my account</a>
-                                                    <a class="dropdown-item" href="login-register.html"> login</a>
-                                                    <a class="dropdown-item" href="login-register.html">register</a>
+                                                    <a class="dropdown-item" href="login.html"> login</a>
+                                                    <a class="dropdown-item" href="login.html">register</a>
                                                 </div>
                                             </div>
                                         </li>
@@ -135,6 +138,21 @@
                                         <li>
                                             <a href="#">checkout</a>
                                         </li>
+                                        <th:block th:if="${session.username}">
+                                            <li>
+                                                <span>Xin chào, <span th:text="${session.username}"></span></span>
+                                                <a href="/logout">Logout</a>
+                                            </li>
+                                        </th:block>
+
+                                        <th:block th:unless="${session.username}">
+                                            <li>
+                                                <a href="/login">Đăng nhập</a>
+                                            </li>
+                                            <li>
+                                                <a href="/register">Đăng ký</a>
+                                            </li>
+                                        </th:block>
                                     </ul>
                                 </nav>
                             </div>
@@ -414,7 +432,7 @@
                                                     <li class="mega-title"><a href="#">column 04</a>
                                                         <ul>
                                                             <li><a href="my-account.html">my-account</a></li>
-                                                            <li><a href="login-register.html">login-register</a></li>
+                                                            <li><a href="login.html">login-register</a></li>
                                                             <li><a href="about-us.html">about us</a></li>
                                                             <li><a href="contact-us.html">contact us</a></li>
                                                         </ul>

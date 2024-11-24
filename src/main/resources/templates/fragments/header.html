@@ -1,0 +1,191 @@
+<header>
+    <!-- header middle start -->
+    <div class="header-middle-area pt-20 pb-20">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-3">
+                    <div class="brand-logo">
+                        <a href="index.html">
+                            <img th:src="@{/assets/img/logo/logo.png}" alt="brand logo">
+                        </a>
+                    </div>
+                </div> <!-- end logo area -->
+                <div class="col-lg-9">
+                    <div class="header-middle-right">
+                        <div class="header-middle-block">
+                            <div class="header-middle-searchbox">
+                                <input type="text" placeholder="Search...">
+                                <button class="search-btn"><i class="fa fa-search"></i></button>
+                            </div>
+                            <div class="header-mini-cart">
+                                <div class="mini-cart-btn">
+                                    <i class="fa fa-shopping-cart"></i>
+                                    <span class="cart-notification">2</span>
+                                </div>
+                                <div class="cart-total-price">
+                                    <span>total</span>
+                                    $50.00
+                                </div>
+                                <ul class="cart-list">
+                                    <li>
+                                        <div class="cart-img">
+                                            <a th:href="@{/product-details.html}"><img th:src="@{/assets/img/cart/cart-2.jpg}" alt=""></a>
+                                        </div>
+                                        <div class="cart-info">
+                                            <h4><a th:href="@{/product-details.html}">virtual product 10</a></h4>
+                                            <span>$50.00</span>
+                                        </div>
+                                        <div class="del-icon">
+                                            <i class="fa fa-times"></i>
+                                        </div>
+                                    </li>
+                                    <li class="mini-cart-price">
+                                        <span class="subtotal">subtotal : </span>
+                                        <span class="subtotal-price">$88.66</span>
+                                    </li>
+                                    <li class="checkout-btn">
+                                        <a th:href="@{/checkout}">checkout</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- header middle end -->
+
+    <!-- main menu area start -->
+    <div class="main-header-wrapper bdr-bottom1">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="main-header-inner">
+                        <div class="category-toggle-wrap">
+                            <div class="category-toggle">
+                                category
+                                <div class="cat-icon">
+                                    <i class="fa fa-angle-down"></i>
+                                </div>
+                            </div>
+                            <nav class="category-menu category-style-2">
+                                <ul>
+                                    <li><a th:href="@{/shop-grid-left-sidebar.html}"><i class="fa fa-desktop"></i> computer</a></li>
+                                    <li class="menu-item-has-children">
+                                        <a th:href="@{/shop-grid-left-sidebar.html}"><i class="fa fa-camera"></i> camera</a>
+                                        <!-- Mega Category Menu Start -->
+                                        <ul class="category-mega-menu">
+                                            <li class="menu-item-has-children">
+                                                <a th:href="@{/shop-grid-left-sidebar.html}">Smartphone</a>
+                                                <ul>
+                                                    <li><a th:href="@{/shop-grid-left-sidebar.html}">Cherry Berry</a></li>
+                                                </ul>
+                                            </li>
+                                            <li class="menu-item-has-children">
+                                                <a th:href="@{/shop-grid-left-sidebar.html}">headphone</a>
+                                                <ul>
+                                                    <li><a th:href="@{/shop-grid-left-sidebar.html}">LED Headphone</a></li>
+                                                </ul>
+                                            </li>
+                                            <li class="menu-item-has-children">
+                                                <a th:href="@{/shop-grid-left-sidebar.html}">accessories</a>
+                                                <ul>
+                                                    <li><a th:href="@{/shop-grid-left-sidebar.html}">Battery</a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                        <!-- Mega Category Menu End -->
+                                    </li>
+                                    <li class="menu-item-has-children"><a th:href="@{/shop-grid-left-sidebar.html}"><i class="fa fa-book"></i> smart phones</a>
+                                        <!-- Mega Category Menu Start -->
+                                        <ul class="category-mega-menu">
+                                            <li class="menu-item-has-children">
+                                                <a th:href="@{/shop-grid-left-sidebar.html}">Smartphone</a>
+                                                <ul>
+                                                    <li><a th:href="@{/shop-grid-left-sidebar.html}">uPhone</a></li>
+                                                </ul>
+                                            </li>
+                                            <li class="menu-item-has-children">
+                                                <a th:href="@{/shop-grid-left-sidebar.html}">headphone</a>
+                                                <ul>
+                                                    <li><a th:href="@{/shop-grid-left-sidebar.html}">Desktop Headphone</a></li>
+                                                    <li><a th:href="@{/shop-grid-left-sidebar.html}">Mobile Headphone</a></li>
+                                                </ul>
+                                            </li>
+                                            <li class="menu-item-has-children">
+                                                <a th:href="@{/shop-grid-left-sidebar.html}">accessories</a>
+                                                <ul>
+                                                    <li><a th:href="@{/shop-grid-left-sidebar.html}">Power Bank</a></li>
+                                                </ul>
+                                            </li>
+                                        </ul><!-- Mega Category Menu End -->
+                                    </li>
+                                    <li><a th:href="@{/shop-grid-left-sidebar.html}"><i class="fa fa-clock-o"></i> watch</a></li>
+                                    <li><a th:href="@{/shop-grid-left-sidebar.html}"><i class="fa fa-bullhorn"></i> bullhorn</a></li>
+                                </ul>
+                            </nav>
+
+                        </div>
+                        <div class="main-menu">
+                            <nav id="mobile-menu">
+                                <ul>
+                                    <li class="active"><a th:href="@{/}"><i class="fa fa-home"></i>Trang chủ </a></li>
+                                    <li class="static"><a th:href="@{/shop-grid-left-sidebar.html}">Sản phẩm</a></li>
+                                    <li><a href="#">shop <i class="fa fa-angle-down"></i></a>
+                                        <ul class="dropdown">
+                                            <li><a href="#">shop grid layout <i class="fa fa-angle-right"></i></a>
+                                                <ul class="dropdown">
+                                                    <li><a th:href="@{/shop-grid-left-sidebar.html}">shop grid left sidebar</a></li>
+                                                    <li><a th:href="@{/shop-grid-left-sidebar-3-col.html}">left sidebar 3 col</a></li>
+                                                    <li><a th:href="@{/shop-grid-right-sidebar.html}">shop grid right sidebar</a></li>
+                                                    <li><a th:href="@{/shop-grid-right-sidebar-3-col.html}">grid right sidebar 3 col</a></li>
+                                                    <li><a th:href="@{/shop-grid-full-3-col.html}">shop grid full 3 column</a></li>
+                                                    <li><a th:href="@{/shop-grid-full-4-col.html}">shop grid full 4 column</a></li>
+                                                </ul>
+                                            </li>
+                                            <li><a href="#">shop list layout <i class="fa fa-angle-right"></i></a>
+                                                <ul class="dropdown">
+                                                    <li><a th:href="@{/shop-list-left-sidebar.html}">shop list left sidebar</a></li>
+                                                    <li><a th:href="@{/shop-list-right-sidebar.html}">shop list right sidebar</a></li>
+                                                    <li><a th:href="@{/shop-list-full.html}">shop list full width</a></li>
+                                                </ul>
+                                            </li>
+                                            <li><a href="#">products details <i class="fa fa-angle-right"></i></a>
+                                                <ul class="dropdown">
+                                                    <li><a th:href="@{/product-details.html}">product details</a></li>
+                                                    <li><a th:href="@{/product-details-affiliate.html}">product details affiliate</a></li>
+                                                    <li><a th:href="@{/product-details-variable.html}">product details variable</a></li>
+                                                    <li><a th:href="@{/product-details-group.html}">product details group</a></li>
+                                                    <li><a th:href="@{/product-details-box.html}">product details box slider</a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="#">Blog <i class="fa fa-angle-down"></i></a>
+                                        <ul class="dropdown">
+                                            <li><a th:href="@{/blog-left-sidebar.html}">blog left sidebar</a></li>
+                                            <li><a th:href="@{/blog-left-sidebar-2-col.html}">blog left sidebar 2 col</a></li>
+                                            <li><a th:href="@{/blog-right-sidebar.html}">blog right sidebar</a></li>
+                                            <li><a th:href="@{/blog-right-sidebar-2-col.html}">blog right sidebar 2 col</a></li>
+                                            <li><a th:href="@{/blog-full-width.html}">blog full width</a></li>
+                                            <li><a th:href="@{/blog-single-post.html}">single post</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="#">pages <i class="fa fa-angle-down"></i></a>
+                                        <ul class="dropdown">
+                                            <li><a th:href="@{/about-us.html}">about us</a></li>
+                                            <li><a th:href="@{/contact.html}">contact</a></li>
+                                        </ul>
+                                    </li>
+
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- main menu area end -->
+</header>

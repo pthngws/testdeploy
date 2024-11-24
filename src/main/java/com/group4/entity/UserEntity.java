@@ -42,6 +42,4 @@ public class UserEntity {
     @JoinColumn(name = "address_id", referencedColumnName = "address_id")
     private AddressEntity address;
 
-
 }
-
