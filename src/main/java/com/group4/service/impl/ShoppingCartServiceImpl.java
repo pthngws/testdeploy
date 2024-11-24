@@ -1,5 +1,6 @@
 package com.group4.service.impl;
 
+import com.group4.entity.CustomerEntity;
 import com.group4.entity.ProductEntity;
 import com.group4.entity.ShoppingCartEntity;
 import com.group4.entity.UserEntity;
@@ -18,9 +19,9 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
     private ShoppingCartRepository shoppingCartRepository;
 
     @Override
-    public ShoppingCartEntity addProductToCart(UserEntity user, ProductEntity product) {
+    public ShoppingCartEntity addProductToCart(CustomerEntity customer, ProductEntity product) {
         // Find the shopping cart by user
-        Optional<ShoppingCartEntity> optionalCart = shoppingCartRepository.findByUser(user);
+        Optional<ShoppingCartEntity> optionalCart = shoppingCartRepository.findByCustomer(customer);
 
         ShoppingCartEntity shoppingCart;
         if (optionalCart.isPresent()) {
@@ -29,7 +30,7 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
         } else {
             // Create new cart for user
             shoppingCart = new ShoppingCartEntity();
-            shoppingCart.setUser(user);
+            shoppingCart.setCustomer(customer);
         }
         List<ProductEntity> products = shoppingCart.getProducts();
         if (products == null) {
@@ -40,4 +41,10 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
 
         return shoppingCartRepository.save(shoppingCart);
     }
+
+    @Override
+    public List<ProductEntity> findProductsByCustomerId(Long customerID) {
+        return shoppingCartRepository.findProductsByCustomerId(customerID);
+    }
+
 }
