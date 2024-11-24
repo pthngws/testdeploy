@@ -136,6 +136,7 @@ public class OtpController {
         String mess = "Chào bạn,\n\nMã OTP của bạn là: " + otpCode + "\n\nVui lòng không chia sẻ mã này với bất kỳ ai.\n\nTrân trọng,\nNhóm hỗ trợ.";
 
         this.emailSenderService.sendEmail(email, subject, mess);
+        this.email = email;
 
         session.setAttribute("recoverOtp", otpCode);
         session.setMaxInactiveInterval(360);
