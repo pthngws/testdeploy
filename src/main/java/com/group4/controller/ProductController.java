@@ -1,7 +1,7 @@
 package com.group4.controller;
 
 
-import com.group4.services.ProductService;
+import com.group4.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
