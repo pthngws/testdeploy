@@ -51,4 +51,6 @@ public class OrderController {
         model.addAttribute("order", order);
         return "TamaOrderDetail";
     }
+
+    
 }
