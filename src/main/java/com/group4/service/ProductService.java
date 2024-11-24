@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ProductService {
     public List<ProductEntity> searchProducts(String keyword, Double minPrice, Double maxPrice,
@@ -19,4 +20,9 @@ public interface ProductService {
 
     public List<CategoryModel> getAllCategories();
 
+    public List<Map<String, Object>> countProductsByName(int page, int size);
+
+    public List<Map<String, Object>> countProductsByCategoryName(int page, int size);
+
+    public List<Map<String, Object>> countProductsByManufacturerName(int page, int size);
 }

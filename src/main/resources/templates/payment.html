@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+        lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tạo mới đơn hàng</title>
+    <!-- Linking the uploaded CSS file -->
+    <link th:href="@{/css/style.css}" rel="stylesheet" />
+    <script th:src="@{/js/jquery-1.11.3.min.js}"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9; /* Nền sáng nhẹ */
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 25px 20px;
+        }
+
+        h4 {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #d8373e; /* Tiêu đề chính sử dụng màu đỏ chính */
+        }
+
+        .table-responsive {
+            padding: 15px 0;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 16px;
+            margin-left: 8px;
+            color: #444;
+            cursor: pointer;
+        }
+
+        input[type="radio"] {
+            margin-right: 10px;
+            accent-color: #d8373e; /* Màu chọn của radio */
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            margin-top: 10px;
+            font-size: 16px;
+            color: #333;
+            transition: border 0.3s ease;
+        }
+
+        input[type="number"]:focus {
+            border: 1px solid #d8373e;
+            outline: none;
+        }
+
+        #payButton {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+            background-color: #d8373e;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #payButton:hover {
+            background-color: #c02f35; /* Màu tối hơn khi hover */
+        }
+
+        #qrCodeContainer {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #qrCodeImage {
+            display: block;
+            margin: 20px auto;
+            border: 1px solid #eee;
+            padding: 10px;
+            background: #fff;
+            border-radius: 8px;
+            width: 250px;
+            height: 250px;
+        }
+
+        #callbackButton {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+            background-color: #2ecc71; /* Xanh lá cho nút "Đã thanh toán" */
+            border: none;
+            border-radius: 6px;
+            margin-top: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #callbackButton:hover {
+            background-color: #27ae60;
+        }
+
+        button:disabled {
+            background-color: #bbb;
+            cursor: not-allowed;
+        }
+
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <div class="table-responsive">
+        <form id="frmCreateOrder" method="post">
+            <h4>Chọn phương thức thanh toán</h4>
+            <div class="form-group">
+                <!-- Chọn các phương thức thanh toán -->
+                <input type="radio" id="qrMethod" name="bankCode" value="QR">
+                <label for="qrMethod">Quét mã QR</label><br>
+                <input type="radio" id="atmMethod" name="bankCode" value="VNBANK">
+                <label for="atmMethod">Thẻ ATM/Tài khoản nội địa</label><br>
+                <input type="radio" id="intCardMethod" name="bankCode" value="INTCARD">
+                <label for="intCardMethod">Thẻ quốc tế</label><br>
+            </div>
+            <!-- Nút thanh toán -->
+            <button type="button" id="payButton" class="btn btn-primary">Thanh toán</button>
+        </form>
+        <div class="form-group">
+            <!-- Nhập số tiền thanh toán -->
+            <label for="amount">Số tiền</label>
+            <input type="number" id="amount" name="amount" value="10000" required>
+        </div>
+        <!-- Hiển thị QR Code -->
+        <div id="qrCodeContainer" style="display: none; margin-top: 20px;">
+            <h4>Mã QR của bạn:</h4>
+            <img id="qrCodeImage" src="" alt="QR Code" style="width: 250px; height: 250px;">
+            <button id="callbackButton" class="btn btn-success" style="margin-top: 20px;">Đã thanh toán</button>
+        </div>
+
+    </div>
+</div>
+<script src="https://pay.vnpay.vn/lib/vnpay/vnpay.min.js"></script>
+<script type="text/javascript">
+    // Hàm lấy tham số từ URL
+    function getQueryParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+    }
+
+    // Lấy orderId và amount từ URL
+    const orderid = getQueryParam('orderId');
+    const amount = getQueryParam('amount');
+    alert(orderid +"     "+ amount)
+
+    // Kiểm tra nếu không có orderId hoặc amount trong URL
+    if (!orderid || !amount) {
+        alert("orderId hoặc amount không hợp lệ!");
+    } else {
+        console.log("Order ID: " + orderid);
+        console.log("Amount: " + amount);
+    }
+
+
+    $("#payButton").click(function () {
+        // Lấy dữ liệu từ form
+        const selectedMethod = $("input[name='bankCode']:checked").val();
+
+        // Kiểm tra người dùng đã chọn phương thức thanh toán
+        if (!selectedMethod) {
+            alert("Vui lòng chọn phương thức thanh toán!");
+            return;
+        }
+
+        // Nếu chọn VNPAYQR, gọi API để tạo mã QR
+        if (selectedMethod === "QR") {
+            $.ajax({
+                url: "/api/payments/qr", // Đường dẫn API
+                method: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    orderId: orderid, // Thay bằng ID hóa đơn
+                    amount: amount
+                }),
+                success: function (response) {
+                    // Hiển thị QR Code
+                    $("#qrCodeImage").attr("src", response.qrCode); // response là URL QR code
+                    $("#qrCodeContainer").show();
+
+                    // Đổi nút "Thanh toán" thành "Đã thanh toán"
+                    $("#payButton")
+                        .text("Đã thanh toán")
+                        .removeClass("btn-primary")
+                        .addClass("btn-success")
+                        .attr("disabled", true); // Vô hiệu hóa nút
+                },
+                error: function (xhr) {
+                    // Xử lý lỗi
+                    alert("Không thể tạo mã QR: " + xhr.responseText);
+                }
+            });
+        }
+        else if (selectedMethod === "VNBANK" || selectedMethod === "INTCARD") {
+            var apiUrl = `/api/payments/vn-pay?amount=${encodeURIComponent(amount)}&bankCode=${encodeURIComponent(selectedMethod)}&orderId=${encodeURIComponent(orderid)}`;
+            $.ajax({
+                url: apiUrl,
+                method: "GET",
+                dataType: "JSON",
+                success: function (response) {
+                    if (response.code === 200) { // Kiểm tra trạng thái trả về
+                        if (response.data.code === "ok") {
+                            // Lấy URL thanh toán từ response
+                            var paymentUrl = response.data.paymentUrl;
+
+                            // Chuyển hướng người dùng đến trang thanh toán
+                            window.location.href = paymentUrl;
+                        } else {
+                            alert("Không thể tạo URL thanh toán: " + response.data.message);
+                        }
+                    } else {
+                        alert("Lỗi từ API: " + response.message);
+                    }
+                },
+                error: function () {
+                    alert("Có lỗi xảy ra khi gọi API, vui lòng thử lại.");
+                }
+            });
+        }
+        else {
+            alert("Hiện tại chỉ hỗ trợ tạo mã QR.");
+        }
+    });
+
+</script>
+</body>
+</html>
