@@ -2915,7 +2915,10 @@
             </form>
         </div>
     </div>
-
+    <div th:if="${session.user != null}">
+        ${session.user.getUserID()}
+        <span id="userId" th:text="${session.user.getUserID()}"></span>
+    </div>
     <!-- Nút Open Chat -->
     <div> <button class="chat-btn btn-light" onclick="toggleChatPopup()"><i class="fas fa-comment"></i></button></div>
     <!-- Quick view modal end -->
