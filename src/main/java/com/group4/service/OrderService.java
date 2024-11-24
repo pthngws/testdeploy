@@ -2,6 +2,7 @@ package com.group4.service;
 
 import com.group4.entity.*;
 import com.group4.repository.CustomerRepository;
+import com.group4.repository.OrderFailRepository;
 import com.group4.repository.OrderRepository;
 import com.group4.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,8 @@ public class OrderService {
     private CustomerRepository customerRepository;
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private OrderFailRepository orderFailRepository;
 
     public List<OrderEntity> getAllOrders() {
         return orderRepository.findAll();
@@ -102,5 +105,14 @@ public class OrderService {
 
         // Lưu đơn hàng vào DB
         return orderRepository.save(order);
+    }
+
+    public void createOrderFail(Long orderId, String bankName, String accountNumber, String accountName) {
+        OrderFailEntity orderFail = new OrderFailEntity();
+        orderFail.setOrderId(orderId);
+        orderFail.setBankName(bankName);
+        orderFail.setAccountNumber(accountNumber);
+        orderFail.setAccountName(accountName);
+        orderFailRepository.save(orderFail);
     }
 }

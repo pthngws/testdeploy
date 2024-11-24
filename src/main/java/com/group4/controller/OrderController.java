@@ -3,6 +3,7 @@ package com.group4.controller;
 import com.group4.entity.CustomerEntity;
 import com.group4.entity.LineItemEntity;
 import com.group4.entity.OrderEntity;
+import com.group4.entity.OrderFailEntity;
 import com.group4.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -95,5 +96,57 @@ public class OrderController {
         redirectAttributes.addFlashAttribute("message", "Redirecting to payment...");
         return "redirect:/payment?orderId=" + orderId;
     }
-    
+
+    @GetMapping("/{orderId}/cancel")
+    public String showCancelOrderForm(@PathVariable Long orderId, Model model) {
+        // Tìm đơn hàng theo ID
+        OrderEntity order = orderService.getOrderById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+
+        // Kiểm tra trạng thái đơn hàng
+        if ("SHIPPED".equals(order.getShippingStatus())) {
+            // Nếu đơn hàng đã giao, không thể hủy
+            model.addAttribute("message", "Đơn hàng đã được vận chuyển, không thể hủy.");
+            return "order/cancelOrderPopup";
+        }
+
+        // Nếu đơn hàng đang chờ giao (PENDING_SHIPPING), hiển thị popup nhập thông tin ngân hàng
+        if ("PENDING_SHIPPING".equals(order.getShippingStatus())) {
+            model.addAttribute("order", order);
+            return "order/cancelOrderForm";
+        }
+
+        // Trường hợp khác (nếu có)
+        return "order/index";
+    }
+
+    @PostMapping("/{orderId}/cancel")
+    public String cancelOrder(@PathVariable Long orderId,
+                              @RequestParam String bankAccount,
+                              @RequestParam String accountName,
+                              @RequestParam String bankName,
+                              @RequestParam(required = false) String notes,
+                              RedirectAttributes redirectAttributes) {
+        // Tìm đơn hàng theo ID
+        OrderEntity order = orderService.getOrderById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+
+        // Kiểm tra trạng thái đơn hàng
+        if ("SHIPPED".equals(order.getShippingStatus())) {
+            redirectAttributes.addFlashAttribute("message", "Đơn hàng đã được vận chuyển, không thể hủy.");
+            return "redirect:/orders/" + orderId + "/cancel";
+        }
+
+        if ("PENDING_SHIPPING".equals(order.getShippingStatus())) {
+            orderService.createOrderFail(orderId,bankName,bankAccount,accountName);
+
+            // Thông báo chờ xét duyệt
+            redirectAttributes.addFlashAttribute("message", "Đơn hàng đã được hủy và đang chờ xét duyệt.");
+            return "redirect:/orders";
+        }
+
+        return "redirect:/orders";
+    }
+
+
 }
