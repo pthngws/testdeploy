@@ -19,7 +19,7 @@ public class OrderModel {
     //Trạng thái giao hàng
     private String shippingStatus;
     //Phương thức thanh toán
-    private PaymentModel payment;
+    private String paymentStatus;
     // Phương thức giao hàng
     private String shippingMethod;
     private String phoneNumber;
