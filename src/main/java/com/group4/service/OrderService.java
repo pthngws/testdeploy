@@ -49,4 +49,22 @@ public class OrderService {
         return orderRepository.findById(orderId);
     }
 
+    public void confirmCancelOrder(Long orderId) {
+        OrderEntity order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy đơn hàng"));
+
+        // Thay đổi trạng thái đơn hàng thành "Đã hủy"
+        order.setShippingStatus("Đã hủy");
+        orderRepository.save(order);
+    }
+
+    public void rejectCancelOrder(Long orderId) {
+        OrderEntity order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy đơn hàng"));
+
+        // Thay đổi trạng thái đơn hàng thành "Đang giao" hoặc trạng thái trước đó
+        order.setShippingStatus("Đang giao");
+        orderRepository.save(order);
+    }
+
 }

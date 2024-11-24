@@ -57,5 +57,20 @@ public class OrderEntity {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<LineItemEntity> listLineItems;
 
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "payment_id", referencedColumnName = "payment_id")
+    private PaymentEntity payment;
+
+    public int getTotalOrderValue() {
+        return listLineItems.stream()
+                .mapToInt(lineItem -> lineItem.getProduct().getPrice() * lineItem.getQuantity())
+                .sum();
+    }
+
+    // Phương thức tiện ích để lấy phương thức thanh toán
+    public String getPaymentMethod() {
+        return payment != null ? payment.getPaymentMethod() : "Chưa xác định";
+    }
+
 }
 
