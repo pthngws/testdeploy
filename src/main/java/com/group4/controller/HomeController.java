@@ -12,4 +12,10 @@ public class HomeController {
     public String index(){
         return "index";
     }
+
+    @GetMapping("/inventory")
+    public String inventory(){
+        return "inventory";
+    }
+
 }
