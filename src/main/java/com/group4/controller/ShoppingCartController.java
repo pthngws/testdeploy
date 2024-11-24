@@ -23,6 +23,6 @@ public class ShoppingCartController {
     public String getProductsByCustomerId(@PathVariable Long customerId, Model model) {
         List<ProductEntity> products = shoppingCartService.findProductsByCustomerId(customerId);
         //model.addAttribute("products", products);
-        return "testcart";
+        return "cart";
     }
 }
