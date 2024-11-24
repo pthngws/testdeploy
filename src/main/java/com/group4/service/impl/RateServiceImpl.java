@@ -1,16 +1,18 @@
-package com.group4.services;
+package com.group4.service.impl;
 
 import com.group4.entity.RateEntity;
 import com.group4.repository.RateRepository;
+import com.group4.service.RateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class RateService {
+public class RateServiceImpl implements RateService {
     @Autowired
     private RateRepository rateRepository;
+
 
     public void respondToRate(Long rateID, String response) {
         // Tìm đánh giá
@@ -27,14 +29,17 @@ public class RateService {
         rateRepository.save(rate);
     }
 
+    @Override
     public List<RateEntity> getAllRates() {
         return rateRepository.findAll(); // Lấy tất cả các đánh giá
     }
 
+    @Override
     public RateEntity getRateById(Long rateID) {
         return rateRepository.findById(rateID).orElseThrow(() -> new RuntimeException("Đánh giá không tồn tại"));
     }
 
+    @Override
     public void saveRate(RateEntity rate) {
         rateRepository.save(rate); // Lưu đánh giá sau khi cập nhật phản hồi
     }

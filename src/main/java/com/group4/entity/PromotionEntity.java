@@ -19,6 +19,9 @@ public class PromotionEntity {
     @Column(name = "discount_amount", nullable = false)
     private int discountAmount;
 
+    @Column(name = "remaining_uses", nullable = false)
+    private int remainingUses;
+
     @Column(name = "valid_from", nullable = false)
     private Date validFrom;
 
