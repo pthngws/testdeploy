@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh Sách Ảnh</title>
+</head>
+<body>
+    <h2>Danh Sách Ảnh</h2>
+
+    <!-- Liên kết thêm ảnh mới -->
+    <a href="#" th:href="@{/admin/product-details/images/add}">Thêm Mới Ảnh</a>
+
+    <!-- Bảng danh sách ảnh -->
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Tên Ảnh</th>
+                <th>URL Ảnh</th>
+                <th>Sản Phẩm</th>
+                <th>Hành Động</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Lặp qua danh sách ảnh và hiển thị từng ảnh -->
+            <tr th:each="imageItem : ${imageitems}">
+                <td th:text="${imageItem.id}"></td>
+                <td th:text="${imageItem.name}"></td>
+                <td th:text="${imageItem.imageUrl}"></td>
+                <!-- Truy cập thông tin sản phẩm qua productDetail -->
+                <td th:text="${imageItem.productDetail.productDetailID}"></td> <!-- productDetail là một đối tượng, lấy tên qua .name -->
+                <td>
+                    <!-- Liên kết xem chi tiết ảnh -->
+                    <a th:href="@{/admin/product-details/images/edit/{id}(id=${imageItem.id})}">Chỉnh sửa</a> |
+                    <!-- Liên kết xóa ảnh -->
+                    <a th:href="@{/admin/product-details/images/delete/{id}(id=${imageItem.id})}" 
+                       onclick="return confirm('Bạn có chắc muốn xóa ảnh này?');">Xóa</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>
