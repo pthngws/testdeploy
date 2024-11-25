@@ -2,20 +2,13 @@ package com.group4.controller;
 
 import java.util.Optional;
 
+import com.group4.service.impl.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import com.group4.entity.ProductEntity;
-import com.group4.service.impl.CategoryService;
-import com.group4.service.impl.ManufacturersService;
-import com.group4.service.impl.ProductDetailService;
-import com.group4.service.impl.ProductService;
 
 import org.springframework.http.ResponseEntity;
 
@@ -27,7 +20,13 @@ import java.util.Map;
 public class ProductController {
 
     @Autowired
-    private ProductService productService;
+    private ProductServiceImpl productService;
+    @Autowired
+    private CategoryService categoryService;
+    @Autowired
+    private ManufacturersService manufacturersService;
+    @Autowired
+    private ProductDetailService productDetailService;
 
     // Thống kê số lượng sản phẩm theo tên sản phẩm
     @GetMapping("/stats-by-name")

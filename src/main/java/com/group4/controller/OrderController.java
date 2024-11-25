@@ -124,10 +124,10 @@ public class OrderController {
         }
 
         // Tính tổng giá trị đơn hàng
-        double total = order.getListLineItems().stream()
-                .mapToDouble(LineItemEntity::getTotal)
-                .sum();
-
+//        double total = order.getListLineItems().stream()
+//                .mapToDouble(LineItemEntity::getTotal)
+//                .sum();
+        double total = 0;
         // Thêm vào model
         model.addAttribute("order", order);
         model.addAttribute("total", total);

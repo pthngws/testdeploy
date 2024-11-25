@@ -17,7 +17,7 @@ public class PromotionModel {
     @Min(value = 1, message = "Discount amount must be at least 1%")
     @Max(value = 100, message = "Discount amount cannot exceed 100%")
     private int discountAmount;
-
+    private int remainingUses;
     // Ngày bắt đầu của khuyến mãi, không được null
     @NotNull(message = "Valid from date cannot be null")
     @FutureOrPresent(message = "Valid from date must be today or in the future")

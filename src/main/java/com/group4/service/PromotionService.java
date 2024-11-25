@@ -84,6 +84,7 @@ public class PromotionService {
         return new PromotionEntity(
                 promotionModel.getPromotionID(),
                 promotionModel.getDiscountAmount(),
+                promotionModel.getRemainingUses(),
                 promotionModel.getValidFrom(),
                 promotionModel.getValidTo(),
                 promotionModel.getPromotionCode(),
@@ -96,6 +97,7 @@ public class PromotionService {
         return new PromotionModel(
                 promotionEntity.getPromotionID(),
                 promotionEntity.getDiscountAmount(),
+                promotionEntity.getRemainingUses(),
                 promotionEntity.getValidFrom(),
                 promotionEntity.getValidTo(),
                 promotionEntity.getPromotionCode(),
@@ -107,11 +109,18 @@ public class PromotionService {
         return promotionEntity.map(entity -> new PromotionModel(
                 entity.getPromotionID(),
                 entity.getDiscountAmount(),
+                entity.getRemainingUses(),
                 entity.getValidFrom(),
                 entity.getValidTo(),
                 entity.getPromotionCode(),
                 entity.getDescription())
         ).orElse(null);
+    }
+    public Optional<PromotionEntity> findByPromotionCode(String promotionCode) {
+        return promotionRepository.findByPromotionCode(promotionCode);
+    }
+    public void save(PromotionEntity promotion) {
+        promotionRepository.save(promotion);
     }
 }
 

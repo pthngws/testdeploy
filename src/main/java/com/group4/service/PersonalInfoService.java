@@ -19,7 +19,7 @@ public class PersonalInfoService {
 
     // Lấy thông tin cá nhân từ cơ sở dữ liệu
     public UserModel fetchPersonalInfo(Long userID) {
-        UserEntity entity = repository.retrieveInfoFormDB(); // Gọi repository để lấy thông tin từ DB
+        UserEntity entity = repository.retrieveInfoFormDB(userID); // Gọi repository để lấy thông tin từ DB
         if (entity != null) {
             return new UserModel(
                     entity.getUserID(),
@@ -88,7 +88,7 @@ public class PersonalInfoService {
                     userModel.getPassword(),
                     userModel.getGender(),
                     userModel.getPhone(),
-                    userModel.getRoleNName(),
+                    userModel.getRoleName(),
                     userModel.isActive(),
                     new AddressEntity(
                             userModel.getAddress().getAddressID(),
@@ -101,7 +101,7 @@ public class PersonalInfoService {
             );
 
             // Lưu hoặc cập nhật thông tin người dùng
-            repository.saveInfoToDB(userEntity);
+            repository.saveInfoToDB(entity);
 
             return true;
         } catch (Exception e) {
