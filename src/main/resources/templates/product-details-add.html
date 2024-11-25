@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Thêm Chi Tiết Sản Phẩm</title>
+</head>
+<body>
+    <h1>Thêm Chi Tiết Sản Phẩm Mới</h1>
+
+    <form th:action="@{/admin/product/product-details/add}" th:object="${productDetail}" method="post">
+        <!-- Ẩn CSRF Token 
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" /> -->
+
+        <!-- RAM -->
+        <label for="RAM">RAM:</label>
+        <input type="text" id="RAM" name="RAM" th:value="${productDetail.RAM}" placeholder="Nhập RAM" required />
+        <br><br>
+
+        <!-- CPU -->
+        <label for="CPU">CPU:</label>
+        <input type="text" id="CPU" name="CPU" th:value="${productDetail.CPU}" placeholder="Nhập CPU" required />
+        <br><br>
+
+        <!-- GPU -->
+        <label for="GPU">GPU:</label>
+        <input type="text" id="GPU" name="GPU" th:value="${productDetail.GPU}" placeholder="Nhập GPU" required />
+        <br><br>
+
+        <!-- Màn hình -->
+        <label for="monitor">Màn Hình:</label>
+        <input type="text" id="monitor" name="monitor" th:value="${productDetail.monitor}" placeholder="Nhập thông tin màn hình" required />
+        <br><br>
+
+        <!-- Bộ sạc -->
+        <label for="charger">Bộ Sạc:</label>
+        <input type="text" id="charger" name="charger" th:value="${productDetail.charger}" placeholder="Nhập thông tin bộ sạc" required />
+        <br><br>
+
+        <!-- Ổ đĩa -->
+        <label for="disk">Ổ Đĩa:</label>
+        <input type="text" id="disk" name="disk" th:value="${productDetail.disk}" placeholder="Nhập thông tin ổ đĩa" required />
+        <br><br>
+
+        <!-- Hệ điều hành -->
+        <label for="operationSystem">Hệ Điều Hành:</label>
+        <input type="text" id="operationSystem" name="operationSystem" th:value="${productDetail.operationSystem}" placeholder="Nhập hệ điều hành" required />
+        <br><br>
+
+        <!-- Màu sắc -->
+        <label for="color">Màu Sắc:</label>
+        <input type="text" id="color" name="color" th:value="${productDetail.color}" placeholder="Nhập màu sắc" required />
+        <br><br>
+
+        <!-- Trọng lượng -->
+        <label for="weight">Trọng Lượng:</label>
+        <input type="text" id="weight" name="weight" th:value="${productDetail.weight}" placeholder="Nhập trọng lượng" required />
+        <br><br>
+
+        <!-- Mô tả -->
+        <label for="description">Mô Tả:</label>
+        <textarea id="description" name="description" th:text="${productDetail.description}" placeholder="Nhập mô tả"></textarea>
+        <br><br>
+
+        <!-- Danh sách ảnh -->
+        <h3>Danh Sách Ảnh</h3>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tên Ảnh</th>
+                    <th>URL Ảnh</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Lặp qua danh sách ảnh và hiển thị -->
+                <tr th:each="image : ${productDetail.images}">
+                    <td th:text="${image.id}"></td>
+                    <td th:text="${image.name}"></td>
+                    <td th:text="${image.imageUrl}"></td>
+                </tr>
+            </tbody>
+        </table>
+        <br><br>
+
+        <!-- Nút lưu -->
+        <button type="submit">Lưu Chi Tiết</button>
+    </form>
+
+    <a th:href="@{/admin/product/product-details}">Quay lại danh sách</a>
+</body>
+</html>
