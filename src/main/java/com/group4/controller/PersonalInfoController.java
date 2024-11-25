@@ -1,11 +1,9 @@
 package com.group4.controller;
 
-import com.group4.entity.AddressEntity;
-import com.group4.entity.UserEntity;
 import com.group4.model.AddressModel;
 import com.group4.model.UserModel;
 import com.group4.service.AddressService;
-import com.group4.service.PersonalInfoService;
+import com.group4.service.impl.PersonalInfoService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

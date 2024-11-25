@@ -4,7 +4,7 @@ import com.group4.entity.RateEntity;
 
 import java.util.List;
 
-public interface RateService {
+public interface IRateService {
     public List<RateEntity> getAllRates();
     public RateEntity getRateById(Long rateID);
     public void saveRate(RateEntity rate);

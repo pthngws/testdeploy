@@ -10,10 +10,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.group4.entity.CategoryEntity;
 import com.group4.entity.ManufacturerEntity;
 import com.group4.entity.ProductEntity;
-import com.group4.service.impl.ProductService;
 import com.group4.service.impl.ManufacturersService;
 
 @Controller
@@ -21,6 +19,7 @@ public class ManufacturerController {
 
 	@Autowired
 	private ManufacturersService manufacturersService;
+
 	private ProductService productService;
 	
 	public ManufacturerController(ManufacturersService manufacturersService, ProductService productService) {

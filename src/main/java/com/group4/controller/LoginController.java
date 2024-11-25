@@ -1,7 +1,7 @@
 package com.group4.controller;
 
 import com.group4.entity.UserEntity;
-import com.group4.service.UserService;
+import com.group4.service.impl.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

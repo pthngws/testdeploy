@@ -1,10 +1,11 @@
-package com.group4.service;
+package com.group4.service.impl;
 
 import com.group4.entity.*;
 import com.group4.repository.CustomerRepository;
 import com.group4.repository.OrderFailRepository;
 import com.group4.repository.OrderRepository;
 import com.group4.repository.ProductRepository;
+import com.group4.service.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class OrderService {
+public class OrderServiceImpl implements IOrderService {
     @Autowired
     private OrderRepository orderRepository;
 
@@ -26,10 +27,12 @@ public class OrderService {
     @Autowired
     private OrderFailRepository orderFailRepository;
 
+    @Override
     public List<OrderEntity> getAllOrders() {
         return orderRepository.findAll();
     }
 
+    @Override
     public List<OrderEntity> searchOrders(String keyword, String status) {
         // Nếu cả keyword và status đều không được cung cấp, trả về tất cả đơn hàng
         if ((keyword == null || keyword.isEmpty()) && (status == null || status.isEmpty())) {
@@ -54,24 +57,33 @@ public class OrderService {
         return null;
 
     }
+
+    @Override
     public List<OrderEntity> getOrdersByCustomerId(Long customerId) {
         return orderRepository.findByCustomerId(customerId);
     }
 
+    @Override
     public Optional<OrderEntity> getOrderById(Long orderId) {
         return orderRepository.findById(orderId);
     }
+
+    @Override
     public List<OrderEntity> getOrdersByUserId(Long userID) {
         return orderRepository.findOrdersByUserID(userID);
     }
 
+    @Override
     public OrderEntity getOrderDetails(Long orderID) {
         return orderRepository.findById(orderID).get();
     }
 
+    @Override
     public OrderEntity placeOrder(OrderEntity order) {
         return orderRepository.save(order);
     }
+
+    @Override
     public void confirmCancelOrder(Long orderId) {
         OrderEntity order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy đơn hàng"));
@@ -81,6 +93,7 @@ public class OrderService {
         orderRepository.save(order);
     }
 
+    @Override
     public void rejectCancelOrder(Long orderId) {
         OrderEntity order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy đơn hàng"));
@@ -90,6 +103,7 @@ public class OrderService {
         orderRepository.save(order);
     }
 
+    @Override
     @Transactional
     public OrderEntity createOrder(Long userId, List<Long> productIds) {
 
@@ -124,6 +138,7 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
+    @Override
     public void createOrderFail(Long orderId, String bankName, String accountNumber, String accountName) {
         OrderFailEntity orderFail = new OrderFailEntity();
         orderFail.setOrderId(orderId);

@@ -1,50 +1,53 @@
-package com.group4.service;
+package com.group4.service.impl;
 
 import com.group4.entity.UserEntity;
 import com.group4.repository.UserRepository;
-import org.springframework.transaction.annotation.Transactional;
+import com.group4.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
-import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 @Service
-public class UserService {
-    private final UserRepository userRepository;
+public class UserServiceImpl implements IUserService {
 
+    @Autowired
+    private UserRepository userRepository;
 
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
-    
+    @Override
     public Long findIdByEmail(String email) {
         return userRepository.findIdByEmail(email);
     }
-    
+
+    @Override
     public UserEntity findById(Long id) {
         return userRepository.findById(id).get();
     }
-    
+
+    @Override
     public void recoverPassword(String password, String email) {
         UserEntity user = userRepository.findByEmail(email).get();
         user.setPassword(password);
         userRepository.save(user);
     }
-    
+
+    @Override
     public boolean validateCredentials(String username, String password) {
         return userRepository.existsByEmailAndPasswordAndActive(username, password, true);
     }
-    
+
+    @Override
     public UserEntity saveUser(UserEntity user) {
         return userRepository.save(user);
     }
-    
+
+    @Override
     public Optional<UserEntity> findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
-  
+
+    @Override
     @Transactional
     public void updateActiveStatus(Long userId, boolean status) {
         UserEntity user = userRepository.findById(userId)

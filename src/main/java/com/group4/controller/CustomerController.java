@@ -2,8 +2,8 @@ package com.group4.controller;
 
 import com.group4.entity.CustomerEntity;
 import com.group4.entity.OrderEntity;
-import com.group4.service.CustomerService;
-import com.group4.service.OrderService;
+import com.group4.service.impl.CustomerService;
+import com.group4.service.impl.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

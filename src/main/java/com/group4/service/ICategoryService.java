@@ -12,13 +12,9 @@ import com.group4.entity.CategoryEntity;
 
 @Service
 public interface ICategoryService {
-	
 	List<CategoryEntity> findAll();
-	
 	Optional<CategoryEntity> findById(Long id);
-	
 	CategoryEntity save(CategoryEntity category);
-	
 	void deleteById(Long id);
 	
 }
