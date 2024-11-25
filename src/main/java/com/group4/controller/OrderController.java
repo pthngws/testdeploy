@@ -50,7 +50,51 @@ public class OrderController {
         OrderEntity order = orderService.getOrderById(id)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy đơn hàng"));
         model.addAttribute("order", order);
+
+        int totalvalue = order.getTotalOrderValue();
+        model.addAttribute("totalvalue", totalvalue);
+
         return "TamaOrderDetail";
+    }
+
+    @PostMapping("/{id}/confirm")
+    public String confirmCancelOrder(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        try {
+            OrderEntity order = orderService.getOrderById(id)
+                    .orElseThrow(() -> new RuntimeException("Không tìm thấy đơn hàng"));
+
+            // Chỉ xử lý nếu trạng thái là "Yêu cầu hủy"
+            if (!"Yêu cầu hủy".equals(order.getShippingStatus())) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Chỉ có thể xác nhận hủy khi đơn hàng ở trạng thái 'Yêu cầu hủy'.");
+                return "redirect:/orders";
+            }
+
+            orderService.confirmCancelOrder(id);
+            redirectAttributes.addFlashAttribute("successMessage", "Đơn hàng đã được xác nhận hủy.");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Có lỗi xảy ra khi xác nhận hủy đơn hàng.");
+        }
+        return "redirect:/orders";
+    }
+
+    @PostMapping("/{id}/cancel")
+    public String rejectCancelOrder(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        try {
+            OrderEntity order = orderService.getOrderById(id)
+                    .orElseThrow(() -> new RuntimeException("Không tìm thấy đơn hàng"));
+
+            // Chỉ xử lý nếu trạng thái là "Yêu cầu hủy"
+            if (!"Yêu cầu hủy".equals(order.getShippingStatus())) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Chỉ có thể từ chối hủy khi đơn hàng ở trạng thái 'Yêu cầu hủy'.");
+                return "redirect:/orders";
+            }
+
+            orderService.rejectCancelOrder(id);
+            redirectAttributes.addFlashAttribute("successMessage", "Đơn hàng đã được từ chối hủy.");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Có lỗi xảy ra khi từ chối hủy đơn hàng.");
+        }
+        return "redirect:/orders";
     }
     @GetMapping("/order-details")
     public String showOrderDetails(
@@ -120,7 +164,7 @@ public class OrderController {
         return "order/index";
     }
 
-    @PostMapping("/{orderId}/cancel")
+    @PostMapping("/cancel/{orderId}")
     public String cancelOrder(@PathVariable Long orderId,
                               @RequestParam String bankAccount,
                               @RequestParam String accountName,
@@ -147,6 +191,4 @@ public class OrderController {
 
         return "redirect:/orders";
     }
-
-
 }
