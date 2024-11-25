@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Trang web của bạn</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+
+<!-- Include Header -->
+<div th:replace="~{../fragments/header :: header}"></div>
+
+<!-- Content chính sẽ được thay thế ở đây -->
+<div th:fragment="content">
+    <!-- Nội dung động của từng trang sẽ nằm ở đây -->
+</div>
+
+<!-- Include Footer -->
+<div th:replace="~{../fragments/footer :: footer}"></div>
+
+</body>
+</html>

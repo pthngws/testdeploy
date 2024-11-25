@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -86,5 +87,24 @@ public class ProductServiceImpl implements ProductService {
                 .collect(Collectors.toList());
     }
 
+    public List<ProductEntity> findAll() {
+        // TODO Auto-generated method stub
+        return productRepository.findAll();
+    }
+
+    public Optional<ProductEntity> findById(Long id) {
+        // TODO Auto-generated method stub
+        return productRepository.findById(id);
+    }
+
+    public ProductEntity save(ProductEntity productEntity) {
+        // TODO Auto-generated method stub
+        return productRepository.save(productEntity);
+    }
+
+    public void deleteById(Long id) {
+        // TODO Auto-generated method stub
+        productRepository.deleteById(id);
+    }
 
 }

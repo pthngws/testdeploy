@@ -2,6 +2,7 @@ package com.group4.service;
 
 import com.group4.entity.*;
 import com.group4.repository.CustomerRepository;
+import com.group4.repository.OrderFailRepository;
 import com.group4.repository.OrderRepository;
 import com.group4.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,8 @@ public class OrderService {
     private CustomerRepository customerRepository;
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private OrderFailRepository orderFailRepository;
 
     public List<OrderEntity> getAllOrders() {
         return orderRepository.findAll();
@@ -69,6 +72,23 @@ public class OrderService {
     public OrderEntity placeOrder(OrderEntity order) {
         return orderRepository.save(order);
     }
+    public void confirmCancelOrder(Long orderId) {
+        OrderEntity order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy đơn hàng"));
+
+        // Thay đổi trạng thái đơn hàng thành "Đã hủy"
+        order.setShippingStatus("Đã hủy");
+        orderRepository.save(order);
+    }
+
+    public void rejectCancelOrder(Long orderId) {
+        OrderEntity order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy đơn hàng"));
+
+        // Thay đổi trạng thái đơn hàng thành "Đang giao" hoặc trạng thái trước đó
+        order.setShippingStatus("Đang giao");
+        orderRepository.save(order);
+    }
 
     @Transactional
     public OrderEntity createOrder(Long userId, List<Long> productIds) {
@@ -102,5 +122,14 @@ public class OrderService {
 
         // Lưu đơn hàng vào DB
         return orderRepository.save(order);
+    }
+
+    public void createOrderFail(Long orderId, String bankName, String accountNumber, String accountName) {
+        OrderFailEntity orderFail = new OrderFailEntity();
+        orderFail.setOrderId(orderId);
+        orderFail.setBankName(bankName);
+        orderFail.setAccountNumber(accountNumber);
+        orderFail.setAccountName(accountName);
+        orderFailRepository.save(orderFail);
     }
 }

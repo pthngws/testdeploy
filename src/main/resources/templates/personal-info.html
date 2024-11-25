@@ -28,8 +28,8 @@
             <div class="row">
               <div class="col-lg-3 col-md-4">
                 <div class="myaccount-tab-menu nav" role="tablist">
-                  <a th:href="@{#address-edit}" data-toggle="tab"><i class="fa fa-map-marker"></i> Address</a>
                   <a th:href="@{#info-edit}" data-toggle="tab"><i class="fa fa-user"></i> Personal Information</a>
+                  <a th:href="@{#address-edit}" data-toggle="tab"><i class="fa fa-map-marker"></i> Address</a>
                 </div>
               </div>
               <!-- My Account Tab Menu End -->
@@ -40,45 +40,45 @@
                   <!-- Personal Information Tab Start -->
                   <div class="tab-pane fade show active" id="info-edit" role="tabpanel">
                     <div class="myaccount-content">
-                      <h3>Personal Information</h3>
-                      <form th:action="@{/user/update}" method="post">
+                      <h3>Thông tin cá nhân</h3>
+                      <form th:action="@{/personal-info/profile}" method="post">
                         <div class="row">
                           <div class="col-lg-6">
                             <div class="single-input-item">
-                              <label for="name" class="required">Full Name</label>
+                              <label for="name" class="required">Họ và tên</label>
                               <input type="text" id="name" name="name" class="form-control"
-                                     th:value="${user.name}" placeholder="Enter your full name" />
+                                     th:value="${user.name}" placeholder="Nhập họ và tên của bạn" />
                             </div>
                           </div>
                           <div class="col-lg-6">
                             <div class="single-input-item">
                               <label for="email" class="required">Email</label>
                               <input type="email" id="email" name="email" class="form-control"
-                                     th:value="${user.email}" placeholder="Enter your email" />
+                                     th:value="${user.email}" placeholder="Nhập email của bạn" />
                             </div>
                           </div>
                         </div>
                         <div class="row">
                           <div class="col-lg-6">
                             <div class="single-input-item">
-                              <label for="gender" class="required">Gender</label>
+                              <label for="gender" class="required">Giới tính</label>
                               <select id="gender" name="gender" class="form-control">
-                                <option value="Male" th:selected="${user.gender == 'Male'}">Male</option>
-                                <option value="Female" th:selected="${user.gender == 'Female'}">Female</option>
-                                <option value="Other" th:selected="${user.gender == 'Other'}">Other</option>
+                                <option value="Male" th:selected="${user.gender == 'Nam'}">Nam</option>
+                                <option value="Female" th:selected="${user.gender == 'Nữ'}">Nữ</option>
+                                <option value="Other" th:selected="${user.gender == 'Khác'}">Khác</option>
                               </select>
                             </div>
                           </div>
                           <div class="col-lg-6">
                             <div class="single-input-item">
-                              <label for="phone" class="required">Phone Number</label>
+                              <label for="phone" class="required">Số điện thoại</label>
                               <input type="text" id="phone" name="phone" class="form-control"
-                                     th:value="${user.phone}" placeholder="Enter your phone number" />
+                                     th:value="${user.phone}" placeholder="Nhập số điện thoại của bạn" />
                             </div>
                           </div>
                         </div>
                         <div class="single-input-item">
-                          <button type="submit" class="check-btn sqr-btn">Save Changes</button>
+                          <button type="submit" class="check-btn sqr-btn">Lưu</button>
                         </div>
                       </form>
                     </div>
@@ -86,10 +86,11 @@
                   <!-- Personal Information Tab End -->
 
                   <!-- Address Details Tab Start -->
-                  <div class="tab-pane fade show active" id="address-edit" role="tabpanel">
+                  <div class="tab-pane fade" id="address-edit" role="tabpanel">
                     <div class="myaccount-content">
-                      <h3>Address Details</h3>
-                      <form th:action="@{/user/update}" method="post">
+                      <h3>Thông tin địa chỉ</h3>
+                      <form th:action="@{/personal-info/address}" method="post">
+                        <!-- Country Information -->
                         <div class="row">
                           <div class="col-lg-6">
                             <div class="single-input-item">
@@ -101,25 +102,18 @@
                           <div class="col-lg-6">
                             <div class="single-input-item">
                               <label for="province" class="required">Province/City</label>
-                              <select id="province" name="province" class="form-control" onchange="updateDistricts()">
-                                <option value="" disabled selected>Select Province/City</option>
-                                <th:block th:each="entry : ${provincesAndDistricts}">
-                                  <option th:value="${entry.key}" th:text="${entry.key}" th:selected="${entry.key == user.address.province}"></option>
-                                </th:block>
-                              </select>
+                              <input type="text" id="province" name="province" class="form-control"
+                                     th:value="${user.address.province}" placeholder="Enter your province" />
                             </div>
                           </div>
                         </div>
+
                         <div class="row">
                           <div class="col-lg-6">
                             <div class="single-input-item">
                               <label for="district" class="required">District</label>
-                              <select id="district" name="district" class="form-control">
-                                <option value="" disabled selected>Select District</option>
-                                <th:block th:each="district : ${provincesAndDistricts[user.address.province]}">
-                                  <option th:value="${district}" th:text="${district}" th:selected="${district == user.address.district}"></option>
-                                </th:block>
-                              </select>
+                              <input type="text" id="district" name="district" class="form-control"
+                                     th:value="${user.address.district}" placeholder="Enter your district" />
                             </div>
                           </div>
                           <div class="col-lg-6">
@@ -130,23 +124,31 @@
                             </div>
                           </div>
                         </div>
+
                         <div class="row">
-                          <div class="col-lg-12">
+                          <div class="col-lg-6">
                             <div class="single-input-item">
                               <label for="other" class="required">Other Details</label>
                               <input type="text" id="other" name="other" class="form-control"
-                                     th:value="${user.address.other}" placeholder="Enter other details" />
+                                     th:value="${user.address.other}" placeholder="Enter your other details" />
+                            </div>
+                          </div>
+                          <!-- Empty column to maintain layout structure -->
+                          <div class="col-lg-6">
+                            <div class="single-input-item">
+                              <!-- Empty space if not needed -->
                             </div>
                           </div>
                         </div>
+
                         <div class="single-input-item">
                           <button type="submit" class="check-btn sqr-btn">Save Address</button>
                         </div>
                       </form>
                     </div>
                   </div>
-                  <!-- Address Details Tab End -->
 
+                  <!-- Address Details Tab End -->
                 </div>
               </div>
               <!-- My Account Tab Content End -->
@@ -175,27 +177,8 @@
   <i class="fa fa-angle-up"></i>
 </div>
 <!-- Scroll to Top End -->
-
-<script>
-  const provincesAndDistricts = /*[[${provincesAndDistricts}]]*/ {}; // Nhúng dữ liệu từ backend vào JavaScript
-
-  function updateDistricts() {
-    const province = document.getElementById("province").value;
-    const districtSelect = document.getElementById("district");
-
-    // Xóa các quận/huyện hiện tại
-    districtSelect.innerHTML = "<option value='' disabled selected>Select District</option>";
-
-    // Thêm quận/huyện mới dựa theo tỉnh/thành phố đã chọn
-    if (provincesAndDistricts[province]) {
-      provincesAndDistricts[province].forEach(district => {
-        const option = document.createElement("option");
-        option.value = district;
-        option.textContent = district;
-        districtSelect.appendChild(option);
-      });
-    }
-  }
-</script>
+<script th:src="@{/assets/js/address.js}"></script>
 </body>
 </html>
+
+

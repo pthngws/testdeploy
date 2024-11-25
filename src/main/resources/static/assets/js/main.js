@@ -3,9 +3,6 @@
 	"use strict";
 
 	var $window = $(window);
-
-	$window.on('scroll', function () {
-        // Sticky menu
 		var scroll = $window.scrollTop();
 		if (scroll < 300) {
 			$(".sticky").removeClass("is-sticky");
@@ -66,7 +63,6 @@
 			$('.category-menu .menu-item-has-children ul').slideDown();
 		}
 	}
-
 	$(window).on({
 		load: function(){
 			categorySubMenuToggle();
@@ -767,5 +763,4 @@ function sendMessage() {
 		input.val("");
 	}
 }
-
 

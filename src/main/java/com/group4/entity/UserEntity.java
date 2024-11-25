@@ -33,7 +33,7 @@ public class UserEntity {
     private String phone;
 
     @Column(columnDefinition = "nvarchar(10)")
-    private String roleNName;
+    private String roleName;
 
     @Column(name = "active", nullable = false)
     private boolean active = true; // Mặc định tài khoản được kích hoạt
