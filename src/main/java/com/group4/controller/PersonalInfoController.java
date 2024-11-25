@@ -1,7 +1,5 @@
 package com.group4.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.group4.model.AddressModel;
 import com.group4.model.UserModel;
 import com.group4.service.PersonalInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.Map;
 
 @Controller
 public class PersonalInfoController {
