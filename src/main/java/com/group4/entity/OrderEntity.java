@@ -12,6 +12,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "orders")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class OrderEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,19 +37,18 @@ public class OrderEntity {
     //Trạng thái giao hàng
     private String shippingStatus;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "payment_id", referencedColumnName = "payment_id")
-    private PaymentEntity payment;
-
     @Column(name = "shipping_method", nullable = false)
     // Phương thức giao hàng
     private String shippingMethod;
-
 
     @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
 
     private String note;
+
+    @Column(name = "payment_tatus", nullable = false)
+    //Trạng thái giao hàng
+    private String paymentStatus;
 
     @PrePersist
     public void onCreate() {
@@ -58,6 +58,20 @@ public class OrderEntity {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<LineItemEntity> listLineItems;
 
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "payment_id", referencedColumnName = "payment_id")
+    private PaymentEntity payment;
+
+    public int getTotalOrderValue() {
+        return listLineItems.stream()
+                .mapToInt(lineItem -> lineItem.getProduct().getPrice() * lineItem.getQuantity())
+                .sum();
+    }
+
+    // Phương thức tiện ích để lấy phương thức thanh toán
+    public String getPaymentMethod() {
+        return payment != null ? payment.getPaymentMethod() : "Chưa xác định";
+    }
 
 }
 

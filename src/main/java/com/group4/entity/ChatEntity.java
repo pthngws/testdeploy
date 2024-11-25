@@ -16,8 +16,11 @@ public class ChatEntity {
     @Column(name = "chat_id")
     private Long chatID;
 
-    @Column(name = "customer_id", nullable = false)
-    private int customerID;
+    @Column(name = "sender_id", nullable = false)
+    private Long senderID;
+
+    @Column(name = "receiver_id", nullable = false)
+    private Long receiverID;
 
     @Column(name = "sentTime", nullable = false)
     private Date sentTime;

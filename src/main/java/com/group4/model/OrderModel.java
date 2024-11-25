@@ -19,7 +19,7 @@ public class OrderModel {
     //Trạng thái giao hàng
     private String shippingStatus;
     //Phương thức thanh toán
-    private PaymentModel payment;
+    private String paymentStatus;
     // Phương thức giao hàng
     private String shippingMethod;
     private String phoneNumber;
@@ -33,6 +33,14 @@ public class OrderModel {
             totalAmount = lineItemModel.getTotalAmount();
         }
         return totalAmount;
+    }
+
+    public int getTotalPrice() {
+        int totalPrice = 0;
+        for (LineItemModel item : listLineItems) {
+            totalPrice += item.getTotalAmount(); // Cộng tổng giá từ các sản phẩm
+        }
+        return totalPrice;
     }
 }
 

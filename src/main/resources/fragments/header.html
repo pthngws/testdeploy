@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.0/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script th:src="@{/js/chat.js}"></script>
+    <link th:href="@{/css/chat.css}" rel="stylesheet">
     <link rel="shortcut icon" th:href="@{/img/favicon.ico}" type="image/x-icon" />
     <!-- Bootstrap CSS -->
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
@@ -13,12 +20,16 @@
     <!-- Main Style CSS -->
     <link th:href="@{/css/style.css}" rel="stylesheet">
     <link th:href="@{/css/skin-default.css}" rel="stylesheet" id="galio-skin">
+
+
+
 </head>
 <body>
 <div class="wrapper" th:fragment="header">
     <header>
 
         <!-- header top start -->
+
         <div class="header-top-area bg-gray text-center text-md-left">
             <div class="container">
                 <div class="row">
@@ -415,6 +426,31 @@
                 </div>
             </div>
         </div>
+        <div id="chat-popup">
+            <div id="chat-popup-header">
+                <span id="page-title">Chat Room</span>
+                <button onclick="toggleChatPopup()">&times;</button>
+            </div>
+
+            <div id="customer-list" style="display: none;">
+                <h3>Danh sách khách hàng đã nhắn tin</h3>
+                <ul id="customer-list-items"></ul>
+            </div>
+
+            <!-- Chat Room -->
+            <div id="chat-room" style="display: none;">
+                <div id="chat-box"></div>
+                <form id="message-form">
+                    <input id="message-input" type="text" placeholder="Enter message">
+                    <div class="input-group-append">
+                        <button type="button" onclick="sendMessage()">&#10148;</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Nút Open Chat -->
+        <div> <button class="chat-btn btn-light" onclick="toggleChatPopup()"><i class="fas fa-comment"></i></button></div>
         <!-- main menu area end -->
     </header>
 </div>

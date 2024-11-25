@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <!-- Thay thế phần header bằng fragment -->
+  <th:block th:replace="~{fragments/head.html}"></th:block>
+</head>
+
+<body>
+<div class="wrapper box-layout">
+
+  <!-- header area start -->
+  <th:block th:replace="~{fragments/header.html}"></th:block>
+  <!-- header area end -->
+
+  <!-- breadcrumb area start -->
+  <th:block th:replace="~{fragments/breadcrumb.html}"></th:block>
+  <!-- breadcrumb area end -->
+
+  <!-- my account wrapper start -->
+  <div class="my-account-wrapper">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <!-- My Account Page Start -->
+          <div class="myaccount-page-wrapper">
+            <!-- My Account Tab Menu Start -->
+            <div class="row">
+              <div class="col-lg-3 col-md-4">
+                <div class="myaccount-tab-menu nav" role="tablist">
+                  <a th:href="@{#info-edit}" data-toggle="tab"><i class="fa fa-user"></i> Personal Information</a>
+                  <a th:href="@{#address-edit}" data-toggle="tab"><i class="fa fa-map-marker"></i> Address</a>
+                </div>
+              </div>
+              <!-- My Account Tab Menu End -->
+
+              <!-- My Account Tab Content Start -->
+              <div class="col-lg-9 col-md-8">
+                <div class="tab-content" id="myaccountContent">
+                  <!-- Personal Information Tab Start -->
+                  <div class="tab-pane fade show active" id="info-edit" role="tabpanel">
+                    <div class="myaccount-content">
+                      <h3>Thông tin cá nhân</h3>
+                      <form th:action="@{/personal-info/profile}" method="post">
+                        <div class="row">
+                          <div class="col-lg-6">
+                            <div class="single-input-item">
+                              <label for="name" class="required">Họ và tên</label>
+                              <input type="text" id="name" name="name" class="form-control"
+                                     th:value="${user.name}" placeholder="Nhập họ và tên của bạn" />
+                            </div>
+                          </div>
+                          <div class="col-lg-6">
+                            <div class="single-input-item">
+                              <label for="email" class="required">Email</label>
+                              <input type="email" id="email" name="email" class="form-control"
+                                     th:value="${user.email}" placeholder="Nhập email của bạn" />
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-lg-6">
+                            <div class="single-input-item">
+                              <label for="gender" class="required">Giới tính</label>
+                              <select id="gender" name="gender" class="form-control">
+                                <option value="Male" th:selected="${user.gender == 'Nam'}">Nam</option>
+                                <option value="Female" th:selected="${user.gender == 'Nữ'}">Nữ</option>
+                                <option value="Other" th:selected="${user.gender == 'Khác'}">Khác</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-lg-6">
+                            <div class="single-input-item">
+                              <label for="phone" class="required">Số điện thoại</label>
+                              <input type="text" id="phone" name="phone" class="form-control"
+                                     th:value="${user.phone}" placeholder="Nhập số điện thoại của bạn" />
+                            </div>
+                          </div>
+                        </div>
+                        <div class="single-input-item">
+                          <button type="submit" class="check-btn sqr-btn">Lưu</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <!-- Personal Information Tab End -->
+
+                  <!-- Address Details Tab Start -->
+                  <div class="tab-pane fade" id="address-edit" role="tabpanel">
+                    <div class="myaccount-content">
+                      <h3>Thông tin địa chỉ</h3>
+                      <form th:action="@{/personal-info/address}" method="post">
+                        <!-- Country Information -->
+                        <div class="row">
+                          <div class="col-lg-6">
+                            <div class="single-input-item">
+                              <label for="country" class="required">Country</label>
+                              <input type="text" id="country" name="country" class="form-control"
+                                     th:value="${user.address.country}" placeholder="Enter your country" />
+                            </div>
+                          </div>
+                          <div class="col-lg-6">
+                            <div class="single-input-item">
+                              <label for="province" class="required">Province/City</label>
+                              <input type="text" id="province" name="province" class="form-control"
+                                     th:value="${user.address.province}" placeholder="Enter your province" />
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-lg-6">
+                            <div class="single-input-item">
+                              <label for="district" class="required">District</label>
+                              <input type="text" id="district" name="district" class="form-control"
+                                     th:value="${user.address.district}" placeholder="Enter your district" />
+                            </div>
+                          </div>
+                          <div class="col-lg-6">
+                            <div class="single-input-item">
+                              <label for="commune" class="required">Commune</label>
+                              <input type="text" id="commune" name="commune" class="form-control"
+                                     th:value="${user.address.commune}" placeholder="Enter your commune" />
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-lg-6">
+                            <div class="single-input-item">
+                              <label for="other" class="required">Other Details</label>
+                              <input type="text" id="other" name="other" class="form-control"
+                                     th:value="${user.address.other}" placeholder="Enter your other details" />
+                            </div>
+                          </div>
+                          <!-- Empty column to maintain layout structure -->
+                          <div class="col-lg-6">
+                            <div class="single-input-item">
+                              <!-- Empty space if not needed -->
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="single-input-item">
+                          <button type="submit" class="check-btn sqr-btn">Save Address</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+
+                  <!-- Address Details Tab End -->
+                </div>
+              </div>
+              <!-- My Account Tab Content End -->
+            </div>
+          </div>
+          <!-- My Account Page End -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- my account wrapper end -->
+
+  <!-- brand area start -->
+  <div class="brand-area pt-34 pb-30">
+  </div>
+  <!-- brand area end -->
+
+  <!-- footer area start -->
+  <th:block th:replace="~{fragments/footer.html}"></th:block>
+  <!-- footer area end -->
+
+</div>
+
+<!-- Scroll to top start -->
+<div class="scroll-top not-visible">
+  <i class="fa fa-angle-up"></i>
+</div>
+<!-- Scroll to Top End -->
+<script th:src="@{/assets/js/address.js}"></script>
+</body>
+</html>
+
+

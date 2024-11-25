@@ -9,3 +9,4 @@ import com.group4.entity.CategoryEntity;
 public interface CategoryRepository extends JpaRepository<CategoryEntity, Long>{
 	
 }
+

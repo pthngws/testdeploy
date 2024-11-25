@@ -12,6 +12,7 @@ public class UserModel {
     private String password;
     private String gender;
     private String phone;
+    private String roleName;
     private boolean active;
     private AddressModel address;
 }

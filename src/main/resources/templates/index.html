@@ -14,16 +14,23 @@
     <!-- Favicon -->
     <link rel="shortcut icon" href="assets/img/favicon.ico" type="image/x-icon" />
     <!-- Bootstrap CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
     <!-- Font-Awesome CSS -->
-    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet">
     <!-- helper class css -->
-    <link href="css/helper.min.css" rel="stylesheet">
+    <link th:href="@{/css/helper.min.css}" rel="stylesheet">
     <!-- Plugins CSS -->
-    <link href="css/plugins.css" rel="stylesheet">
+    <link th:href="@{/css/plugins.css}" rel="stylesheet">
     <!-- Main Style CSS -->
-    <link href="css/style.css" rel="stylesheet">
-    <link href="css/skin-default.css" rel="stylesheet" id="galio-skin">
+    <link href="assets/css/style.css" rel="stylesheet">
+    <link href="assets/css/skin-default.css" rel="stylesheet" id="galio-skin">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.0/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <link th:href="@{/css/skin-default.css}" rel="stylesheet" id="galio-skin">
 </head>
 
 <body>
@@ -116,8 +123,8 @@
                                                 </a>
                                                 <div class="dropdown-menu" aria-labelledby="myaccount">
                                                     <a class="dropdown-item" href="my-account.html">my account</a>
-                                                    <a class="dropdown-item" href="login-register.html"> login</a>
-                                                    <a class="dropdown-item" href="login-register.html">register</a>
+                                                    <a class="dropdown-item" href="login.html"> login</a>
+                                                    <a class="dropdown-item" href="login.html">register</a>
                                                 </div>
                                             </div>
                                         </li>
@@ -130,6 +137,21 @@
                                         <li>
                                             <a href="#">checkout</a>
                                         </li>
+                                        <th:block th:if="${session.username}">
+                                            <li>
+                                                <span>Xin chào, <span th:text="${session.username}"></span></span>
+                                                <a href="/logout">Logout</a>
+                                            </li>
+                                        </th:block>
+
+                                        <th:block th:unless="${session.username}">
+                                            <li>
+                                                <a href="/login">Đăng nhập</a>
+                                            </li>
+                                            <li>
+                                                <a href="/register">Đăng ký</a>
+                                            </li>
+                                        </th:block>
                                     </ul>
                                 </nav>
                             </div>
@@ -409,7 +431,7 @@
                                                     <li class="mega-title"><a href="#">column 04</a>
                                                         <ul>
                                                             <li><a href="my-account.html">my-account</a></li>
-                                                            <li><a href="login-register.html">login-register</a></li>
+                                                            <li><a href="login.html">login-register</a></li>
                                                             <li><a href="about-us.html">about us</a></li>
                                                             <li><a href="contact-us.html">contact us</a></li>
                                                         </ul>
@@ -2872,6 +2894,34 @@
             </div>
         </div>
     </div>
+    <div id="chat-popup">
+        <div id="chat-popup-header">
+            <span id="page-title">Chat Room</span>
+            <button onclick="toggleChatPopup()">&times;</button>
+        </div>
+
+        <div id="customer-list" style="display: none;">
+            <h3>Danh sách khách hàng đã nhắn tin</h3>
+            <ul id="customer-list-items"></ul>
+        </div>
+
+        <!-- Chat Room -->
+        <div id="chat-room" style="display: none;">
+            <div id="chat-box"></div>
+            <form id="message-form">
+                <input id="message-input" type="text" placeholder="Enter message">
+                <div class="input-group-append">
+                    <button type="button" onclick="sendMessage()">&#10148;</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div th:if="${session.user != null}">
+        ${session.user.getUserID()}
+        <span id="userId" th:text="${session.user.getUserID()}"></span>
+    </div>
+    <!-- Nút Open Chat -->
+    <div> <button class="chat-btn btn-light" onclick="toggleChatPopup()"><i class="fas fa-comment"></i></button></div>
     <!-- Quick view modal end -->
 
     <!-- Scroll to top start -->
