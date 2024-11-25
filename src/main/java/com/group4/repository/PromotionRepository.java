@@ -11,7 +11,6 @@ import java.util.Optional;
 
 @Repository
 public interface PromotionRepository extends JpaRepository<PromotionEntity, Long> {
-
     @Query("SELECT p FROM PromotionEntity p")
     List<PromotionEntity> retrievePromotionsFromDB();
 
@@ -54,4 +53,5 @@ public interface PromotionRepository extends JpaRepository<PromotionEntity, Long
         this.deleteById(id);
         return false;
     }
+    Optional<PromotionEntity> findByPromotionCode(String promotionCode);
 }

@@ -22,6 +22,9 @@ public class PromotionEntity {
     @Max(value = 99, message = "Discount amount cannot be greater than 99")
     private int discountAmount;
 
+    @Column(name = "remaining_uses", nullable = false)
+    private int remainingUses;
+
     @Column(name = "valid_from", nullable = false)
     private Date validFrom;
 

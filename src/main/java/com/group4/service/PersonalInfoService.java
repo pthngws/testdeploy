@@ -19,31 +19,25 @@ public class PersonalInfoService {
 
     // Lấy thông tin cá nhân từ cơ sở dữ liệu
     public UserModel fetchPersonalInfo(Long userID) {
-        UserEntity userEntity = repository.retrieveInfoFormDB(userID);
-        if (userEntity != null) {
-            // Đã có mối quan hệ OneToOne nên không cần gọi AddressRepository
-            AddressEntity addressEntity = userEntity.getAddress(); // Địa chỉ sẽ được lấy trực tiếp từ userEntity
-            AddressModel addressModel = null;
-            if (addressEntity != null) {
-                addressModel = new AddressModel(
-                        addressEntity.getAddressID(),
-                        addressEntity.getCountry(),
-                        addressEntity.getProvince(),
-                        addressEntity.getDistrict(),
-                        addressEntity.getCommune(),
-                        addressEntity.getOther()
-                );
-            }
+        UserEntity entity = repository.retrieveInfoFormDB(); // Gọi repository để lấy thông tin từ DB
+        if (entity != null) {
             return new UserModel(
-                    userEntity.getUserID(),
-                    userEntity.getName(),
-                    userEntity.getEmail(),
-                    userEntity.getPassword(),
-                    userEntity.getGender(),
-                    userEntity.getPhone(),
-                    userEntity.getRoleName(),
-                    userEntity.isActive(),
-                    addressModel
+                    entity.getUserID(),
+                    entity.getName(),
+                    entity.getEmail(),
+                    entity.getPassword(),
+                    entity.getGender(),
+                    entity.getPhone(),
+                    entity.getRoleName(),
+                    entity.isActive(),
+                    new AddressModel(
+                            entity.getAddress().getAddressID(),
+                            entity.getAddress().getCountry(),
+                            entity.getAddress().getProvince(),
+                            entity.getAddress().getDistrict(),
+                            entity.getAddress().getCommune(),
+                            entity.getAddress().getOther()
+                    )
             );
         }
         return null;
@@ -87,16 +81,23 @@ public class PersonalInfoService {
             }
 
             // Tạo UserEntity từ UserModel
-            UserEntity userEntity = new UserEntity(
-                    userID, // Sử dụng userID hiện tại
+            UserEntity entity = new UserEntity(
+                    userModel.getUserID(),
                     userModel.getName(),
                     userModel.getEmail(),
-                    password,
+                    userModel.getPassword(),
                     userModel.getGender(),
                     userModel.getPhone(),
-                    role,
-                    isActive,
-                    addressEntity // Liên kết địa chỉ mới hoặc giữ nguyên địa chỉ cũ
+                    userModel.getRoleNName(),
+                    userModel.isActive(),
+                    new AddressEntity(
+                            userModel.getAddress().getAddressID(),
+                            userModel.getAddress().getCountry(),
+                            userModel.getAddress().getProvince(),
+                            userModel.getAddress().getDistrict(),
+                            userModel.getAddress().getCommune(),
+                            userModel.getAddress().getOther()
+                    )
             );
 
             // Lưu hoặc cập nhật thông tin người dùng

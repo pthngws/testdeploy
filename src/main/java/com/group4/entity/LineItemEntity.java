@@ -20,9 +20,6 @@ public class LineItemEntity {
     @Column(nullable = false)
     private int quantity;
 
-    @Column(nullable = false)
-    private int total;
-
     @ManyToOne
     @JoinColumn(name = "order_id", nullable = false)
     private OrderEntity order;

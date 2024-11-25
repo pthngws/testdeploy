@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout.html}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -57,7 +59,15 @@
         }
     </style>
 </head>
+
+<head>
+    <!-- Thay thế phần header bằng fragment -->
+    <th:block th:replace="~{fragments/head.html}"></th:block>
+</head>
+
 <body>
+<body>
+  <div class="wrapper box-layout" th:replace="layout :: content">
 <div class="tab-pane fade" id="address-edit" role="tabpanel">
     <div class="myaccount-content">
         <h3>Address Details</h3>
@@ -117,5 +127,15 @@
         </form>
     </div>
 </div>
+=======
+<!-- Scroll to Top End -->
+<div th:if="${session.username != null}">
+    <p>Chào mừng, <span th:text="${session.username}"></span>!</p>
+    <a href="/logout">Đăng xuất</a>
+</div>
+<div th:if="${session.username == null}">
+    <p>Bạn chưa đăng nhập. Vui lòng <a href="/login">đăng nhập</a>.</p>
+</div>
+
 </body>
 </html>

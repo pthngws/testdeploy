@@ -1,5 +1,6 @@
 package com.group4.entity;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import jakarta.persistence.*;
@@ -17,6 +18,9 @@ public class PaymentEntity {
     @Column(name = "payment_id")
     private Long paymentID;
 
+    @Column(name = "transaction_id")
+    private String transactionID;
+
     @Column(name = "payment_method",columnDefinition = "nvarchar(250)", nullable = false)
     private String paymentMethod;
 
@@ -24,12 +28,12 @@ public class PaymentEntity {
     private String paymentStatus;
 
     @Column(name = "payment_date", nullable = false)
-    private Date paymentDate;
+    private LocalDateTime paymentDate;
 
     @Column(nullable = false)
     private int total;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "order_id", referencedColumnName = "order_id")
     private OrderEntity order;
 
