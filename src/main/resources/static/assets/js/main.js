@@ -12,6 +12,7 @@
 		} else {
 			$(".sticky").addClass("is-sticky");
 		}
+
         // Scroll To Top
 		if ($(this).scrollTop() > 600) {
 			$('.scroll-top').removeClass('not-visible');
@@ -621,16 +622,17 @@
 
 }(jQuery));
 
-// chat.js
-
 let USERID = null;
+
 let RECEIVERID = null;
 let isAdmin = false;
 let stompClient = null;
 let lastMessageDate = null;
+// Fetch user từ server
+var userId = document.getElementById("userId").innerText; // Giá trị là chuỗi
+USERID = parseInt(userId, 10); // Chuyển đổi thành số nguyên (int)
 
-const urlParams = new URLSearchParams(window.location.search);
-USERID = parseInt(urlParams.get('userId'));
+
 isAdmin = USERID === 1;
 
 function toggleChatPopup() {
@@ -644,7 +646,7 @@ function toggleChatPopup() {
 			$("#customer-list").show();
 			$("#chat-room").hide();
 		} else {
-			openChat(1);
+			openChat(1,"Chăm sóc khách hàng");
 		}
 
 }
@@ -656,10 +658,11 @@ function loadCustomerList() {
 		success: function (data) {
 			const customerListItems = $("#customer-list-items");
 			customerListItems.empty();
-			data.forEach(customerId => {
+			data.forEach(customer => {
+				// Tạo một item hiển thị email hoặc tên người dùng
 				const listItem = $("<li>")
-					.text(`Customer ${customerId}`)
-					.click(() => openChat(customerId));
+					.text(`${customer.name}`) // Hiển thị tên và email
+					.click(() => openChat(customer.userID,customer.name)); // Lấy `userID` để mở chat
 				customerListItems.append(listItem);
 			});
 		},
@@ -669,8 +672,10 @@ function loadCustomerList() {
 	});
 }
 
-function openChat(customerId) {
+
+function openChat(customerId,customerName) {
 	RECEIVERID = customerId;
+	$("#page-title").text(customerName);
 	$("#customer-list").hide();
 	$("#chat-room").show();
 	connect();
@@ -762,4 +767,5 @@ function sendMessage() {
 		input.val("");
 	}
 }
-}(jQuery));
+
+

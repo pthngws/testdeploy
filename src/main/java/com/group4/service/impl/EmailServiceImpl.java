@@ -44,6 +44,11 @@ public class EmailServiceImpl implements IEmailService {
         }
     }
 
+    public void sendInvoice(EmailDetail detail) {
+
+    }
+
+
     @Override
     public void sendEmail(String to, String subject, String message) {
 
