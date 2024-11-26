@@ -5,21 +5,20 @@ import com.group4.entity.ChatEntity;
 import com.group4.entity.UserEntity;
 import com.group4.repository.ChatRepository;
 import com.group4.service.IChatService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -28,12 +27,49 @@ public class ChatController {
     @Autowired
     private IChatService chatService;
 
+    @GetMapping("/")
+    public String homePage(HttpSession session, Model model) {
+        // Kiểm tra xem khách đã có ID tạm trong session chưa
+        String guestId = (String) session.getAttribute("GID");
+        System.out.println("AAAAAAAA" + guestId);
+        // Nếu chưa có ID, tạo ID tạm và lưu vào session
+        if (guestId == null) {
+            guestId = generateRandomNumberString(10);
+            System.out.println("BBBBBBBB" + guestId);
+            session.setAttribute("GID", guestId);
+        }
+
+        // Gửi ID tạm vào model để hiển thị lên trang
+        model.addAttribute("GID", guestId);
+        return "index"; // trả về view home (home.html hoặc home.jsp)
+    }
+
+    private String generateRandomNumberString(int length) {
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            sb.append(random.nextInt(10)); // Thêm một chữ số ngẫu nhiên từ 0 đến 9
+        }
+        return sb.toString();
+    }
 
     @GetMapping("/getCustomerList")
     public ResponseEntity<List<UserEntity>> getCustomerList() {
         try {
             // Truy vấn các senderId đã nhắn tin cho receiverId được truyền vào
             List<UserEntity> customerList = chatService.findDistinctSendersByReceiverId();
+            return ResponseEntity.ok(customerList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error fetching customer list", e);
+        }
+    }
+
+    @GetMapping("/getGuestList")
+    public ResponseEntity<List<Long>> getGuestList() {
+        try {
+            // Truy vấn các senderId đã nhắn tin cho receiverId được truyền vào
+            List<Long> customerList = chatService.findDistinctGuestsByReceiverId();
             return ResponseEntity.ok(customerList);
         } catch (Exception e) {
             e.printStackTrace();
@@ -90,6 +126,5 @@ public class ChatController {
     }
 
 
-
-
 }
+

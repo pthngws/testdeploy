@@ -18,5 +18,10 @@ public interface ChatRepository extends JpaRepository<ChatEntity, Long> {
             "WHERE c.receiverID = 1")
     List<UserEntity> findDistinctSendersByReceiverId();
 
+    @Query("SELECT DISTINCT c.senderID " +
+            "FROM ChatEntity c " +
+            "WHERE c.receiverID = 1 " +
+            "AND NOT EXISTS (SELECT u FROM UserEntity u WHERE u.userID = c.senderID)")
+    List<Long> findDistinctGuestsByReceiverId();
 }
 
