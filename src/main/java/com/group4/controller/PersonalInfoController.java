@@ -1,11 +1,9 @@
 package com.group4.controller;
 
-import com.group4.entity.AddressEntity;
-import com.group4.entity.UserEntity;
 import com.group4.model.AddressModel;
 import com.group4.model.UserModel;
-import com.group4.service.AddressService;
-import com.group4.service.PersonalInfoService;
+import com.group4.service.IAddressService;
+import com.group4.service.IPersonalInfoService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,13 +18,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class PersonalInfoController {
 
     @Autowired
-    private PersonalInfoService service;
+    private IPersonalInfoService service;
     @Autowired
-    private AddressService addressService;
+    private IAddressService addressService;
     @Autowired
     private HttpSession session;
     @Autowired
-    private PersonalInfoService personalInfoService;
+    private IPersonalInfoService personalInfoService;
 
     // Lấy thông tin cá nhân và địa chỉ
     @GetMapping

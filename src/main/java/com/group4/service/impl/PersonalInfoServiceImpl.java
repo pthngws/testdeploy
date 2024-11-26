@@ -1,4 +1,4 @@
-package com.group4.service;
+package com.group4.service.impl;
 
 import com.group4.entity.AddressEntity;
 import com.group4.entity.UserEntity;
@@ -6,11 +6,12 @@ import com.group4.model.AddressModel;
 import com.group4.model.UserModel;
 import com.group4.repository.AddressRepository;
 import com.group4.repository.PersonalInfoRepository;
+import com.group4.service.IPersonalInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PersonalInfoService {
+public class PersonalInfoServiceImpl implements IPersonalInfoService {
 
     @Autowired
     private PersonalInfoRepository repository;
@@ -18,6 +19,7 @@ public class PersonalInfoService {
     private AddressRepository addressRepository;
 
     // Lấy thông tin cá nhân từ cơ sở dữ liệu
+    @Override
     public UserModel fetchPersonalInfo(Long userID) {
         UserEntity entity = repository.retrieveInfoFormDB(userID); // Gọi repository để lấy thông tin từ DB
         if (entity != null) {
@@ -44,6 +46,7 @@ public class PersonalInfoService {
     }
 
     // Lưu thông tin cá nhân vào cơ sở dữ liệu
+    @Override
     public boolean savePersonalInfo(UserModel userModel, Long userID) {
         try {
             if (userID == null) {

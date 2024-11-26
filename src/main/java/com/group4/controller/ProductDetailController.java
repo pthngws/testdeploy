@@ -3,6 +3,8 @@ package com.group4.controller;
 import java.util.List;
 import java.util.Optional;
 
+import com.group4.service.IImageItemService;
+import com.group4.service.IProductDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,28 +13,18 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import com.group4.entity.ImageItemEntity;
 import com.group4.entity.ProductDetailEntity;
-import com.group4.service.impl.ImageItemService;
-import com.group4.service.impl.ProductDetailService;
 
 @Controller
 @RequestMapping("/admin/product/product-details")
 public class ProductDetailController {
 
 	@Autowired
-	private ProductDetailService productDetailService;
-	private ImageItemService imageItemService;
-	
+	private IProductDetailService productDetailService;
 
-	public ProductDetailController(ProductDetailService productDetailService, ImageItemService imageItemService) {
-		this.productDetailService = productDetailService;
-		this.imageItemService = imageItemService;
-	}
-
-
+	@Autowired
+	private IImageItemService imageItemService;
 
 	@GetMapping
 	public String getAllProductDetail(Model model) {

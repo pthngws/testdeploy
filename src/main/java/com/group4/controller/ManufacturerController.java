@@ -2,6 +2,8 @@ package com.group4.controller;
 
 import java.util.List;
 
+import com.group4.service.IManufacturersService;
+import com.group4.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,23 +12,17 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.group4.entity.CategoryEntity;
 import com.group4.entity.ManufacturerEntity;
 import com.group4.entity.ProductEntity;
-import com.group4.service.impl.ProductService;
-import com.group4.service.impl.ManufacturersService;
 
 @Controller
 public class ManufacturerController {
 
 	@Autowired
-	private ManufacturersService manufacturersService;
-	private ProductService productService;
-	
-	public ManufacturerController(ManufacturersService manufacturersService, ProductService productService) {
-		this.manufacturersService = manufacturersService;
-		this.productService = productService;
-	}
+	private IManufacturersService manufacturersService;
+
+	@Autowired
+	private IProductService productService;
 
 
 	@GetMapping("/admin/manufacturers")

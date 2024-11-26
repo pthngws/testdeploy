@@ -1,8 +1,9 @@
-package com.group4.service;
+package com.group4.service.impl;
 
 import com.group4.entity.PromotionEntity;
 import com.group4.model.PromotionModel;
 import com.group4.repository.PromotionRepository;
+import com.group4.service.IPromotionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,12 +12,13 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class PromotionService {
+public class PromotionServiceImpl implements IPromotionService {
 
     @Autowired
     private PromotionRepository promotionRepository;
 
     // Lấy danh sách khuyến mãi từ DB
+    @Override
     public List<PromotionModel> fetchPromotionList() {
         List<PromotionEntity> promotionEntities = promotionRepository.retrievePromotionsFromDB();
         return promotionEntities.stream()
@@ -25,16 +27,19 @@ public class PromotionService {
     }
 
     // Lưu khuyến mãi mới
+    @Override
     public boolean savePromotion(PromotionModel promotionModel) {
         PromotionEntity promotionEntity = convertToEntity(promotionModel);
         return promotionRepository.savePromotionToDB(promotionEntity);
     }
 
+    @Override
     public boolean isPromotionCodeExists(String promotionCode) {
         return promotionRepository.checkPromotionCodeExist(promotionCode);
     }
 
     // Cập nhật khuyến mãi
+    @Override
     public boolean updatePromotion(PromotionModel promotionModel) {
         if (promotionRepository.checkPromotionExist(promotionModel.getPromotionID())) {
             PromotionEntity promotionEntity = convertToEntity(promotionModel);
@@ -45,6 +50,7 @@ public class PromotionService {
 
 
     // Lưu hoặc cập nhật khuyến mãi
+    @Override
     public boolean saveOrUpdatePromotion(PromotionModel promotionModel) {
         // Kiểm tra xem khuyến mãi đã tồn tại hay chưa
         PromotionEntity promotionEntity = new PromotionEntity();
@@ -75,6 +81,7 @@ public class PromotionService {
     }
 
     // Xóa khuyến mãi
+    @Override
     public boolean deletePromotion(Long id) {
         return promotionRepository.deletePromotion(id);
     }
@@ -104,6 +111,8 @@ public class PromotionService {
                 promotionEntity.getDescription()
         );
     }
+
+    @Override
     public PromotionModel findPromotionById(Long id) {
         Optional<PromotionEntity> promotionEntity = promotionRepository.findById(id);
         return promotionEntity.map(entity -> new PromotionModel(
@@ -116,9 +125,13 @@ public class PromotionService {
                 entity.getDescription())
         ).orElse(null);
     }
+
+    @Override
     public Optional<PromotionEntity> findByPromotionCode(String promotionCode) {
         return promotionRepository.findByPromotionCode(promotionCode);
     }
+
+    @Override
     public void save(PromotionEntity promotion) {
         promotionRepository.save(promotion);
     }

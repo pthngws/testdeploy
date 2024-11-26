@@ -1,4 +1,4 @@
-package com.group4.service;
+package com.group4.service.impl;
 
 import com.group4.entity.CustomerEntity;
 import com.group4.entity.UserEntity;
@@ -6,15 +6,15 @@ import com.group4.model.AddressModel;
 import com.group4.model.UserModel;
 import com.group4.repository.CustomerRepository;
 import com.group4.repository.UserRepository;
+import com.group4.service.ICustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CustomerService {
+public class CustomerService implements ICustomerService {
 
     @Autowired
     private CustomerRepository customerRepository;
@@ -22,6 +22,7 @@ public class CustomerService {
     @Autowired
     private UserRepository userRepository;
 
+    @Override
     public List<CustomerEntity> searchCustomers(String keyword) {
         if (keyword == null || keyword.isEmpty()) {
             return customerRepository.findAllCustomers();
@@ -48,21 +49,25 @@ public class CustomerService {
 //    }
 
     // Xóa tài khoản khách hàng
+    @Override
     public void deleteCustomer(Long id) {
         customerRepository.deleteById(id);
     }
 
     // Lấy danh sách khách hàng
+    @Override
     public List<CustomerEntity> getAllCustomers() {
         return customerRepository.findAllCustomers();
     }
 
     // Phương thức lấy thông tin khách hàng theo ID
+    @Override
     public Optional<CustomerEntity> getCustomerById(Long id) {
         return customerRepository.findCustomerById(id);
     }
 
     // Cập nhật trạng thái hoạt động
+    @Override
     public void updateActiveStatus(Long userId, boolean status) {
         UserEntity user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy khách hàng với ID: " + userId));
@@ -86,6 +91,7 @@ public class CustomerService {
     }
 
     // Xóa tài khoản người dùng
+    @Override
     public void deleteCustomerAccount(Long id) {
         if (!customerRepository.existsById(id)) {
             throw new RuntimeException("Không tìm thấy khách hàng với ID: " + id);

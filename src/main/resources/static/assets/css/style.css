@@ -7558,18 +7558,18 @@ body.image-bg .wrapper {
 
 
 #chat-popup {
-     display: none; /* Mặc định ẩn */
-     position: fixed;
-     bottom: 20px; /* Cùng độ cao với nút */
-     right: 90px; /* Khoảng cách từ nút đến popup */
-     width: 350px; /* Độ rộng của popup */
-     background-color: #ffffff;
-     border-radius: 10px;
-     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-     overflow: hidden;
-     font-family: Arial, sans-serif;
-     z-index: 1000;
- }
+    display: none; /* Mặc định ẩn */
+    position: fixed;
+    bottom: 20px; /* Cùng độ cao với nút */
+    right: 90px; /* Khoảng cách từ nút đến popup */
+    width: 350px; /* Độ rộng của popup */
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    z-index: 1000;
+}
 .chat-btn {
     position: fixed; /* Giữ cố định vị trí */
     bottom: 20px;    /* Cách đáy 20px */
@@ -7579,7 +7579,7 @@ body.image-bg .wrapper {
     height: 60px;    /* Chiều cao của nút */
     border-radius: 50%; /* Tạo hình tròn */
     font-size: 24px;  /* Kích thước chữ lớn hơn */
-    background-color: #ff004d; /* Màu nền xanh của nút */
+    background-color: #ff004d; !important; /* Màu nền xanh của nút */
     color: white;     /* Màu chữ trắng */
     cursor: pointer;
     display: flex;
@@ -7649,6 +7649,17 @@ body.image-bg .wrapper {
     padding: 10px;
     max-width: 70%;
 }
+
+.message-bubble {
+    word-wrap: break-word; /* Tự động xuống dòng khi gặp từ dài */
+    word-break: break-word; /* Tự động ngắt từ khi không đủ chỗ */
+    max-width: 70%; /* Giới hạn chiều rộng của khung tin nhắn */
+    background-color: #f1f1f1; /* Màu nền (tuỳ chỉnh theo ý thích) */
+    padding: 10px; /* Khoảng cách giữa nội dung và viền */
+    border-radius: 10px; /* Bo góc */
+    margin-bottom: 10px; /* Khoảng cách giữa các tin nhắn */
+}
+
 
 .receiver .message-bubble {
     background-color: white;

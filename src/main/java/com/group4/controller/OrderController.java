@@ -1,10 +1,7 @@
 package com.group4.controller;
 
-import com.group4.entity.CustomerEntity;
-import com.group4.entity.LineItemEntity;
 import com.group4.entity.OrderEntity;
-import com.group4.entity.OrderFailEntity;
-import com.group4.service.OrderService;
+import com.group4.service.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +16,7 @@ import java.util.List;
 public class OrderController {
 
     @Autowired
-    private OrderService orderService;
+    private IOrderService orderService;
 
     // Hiển thị danh sách đơn hàng
     @GetMapping

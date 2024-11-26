@@ -2,14 +2,14 @@ package com.group4.service.impl;
 
 import com.group4.entity.RateEntity;
 import com.group4.repository.RateRepository;
-import com.group4.service.RateService;
+import com.group4.service.IRateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class RateServiceImpl implements RateService {
+public class RateServiceImpl implements IRateService {
     @Autowired
     private RateRepository rateRepository;
 

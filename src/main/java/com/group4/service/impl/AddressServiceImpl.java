@@ -1,26 +1,26 @@
-package com.group4.service;
+package com.group4.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.group4.entity.AddressEntity;
-import com.group4.entity.UserEntity;
 import com.group4.model.AddressModel;
 import com.group4.repository.AddressRepository;
 import com.group4.repository.PersonalInfoRepository;
+import com.group4.service.IAddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 @Service
-public class AddressService {
+public class AddressServiceImpl implements IAddressService {
 
     @Autowired
     private AddressRepository addressRepository;
     @Autowired
     private PersonalInfoRepository personalInfoRepository;
     // Đọc file Address.json và ánh xạ vào AddressModel
+    @Override
     public AddressModel loadAddressFromJson() {
         try {
             // Đọc dữ liệu từ file Address.json
@@ -37,6 +37,7 @@ public class AddressService {
         }
     }
 
+    @Override
     public boolean updateAddressForUser(AddressModel addressModel, Long addressID) {
         try {
             // Tìm AddressEntity trong database theo AddressID
