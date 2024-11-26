@@ -3,6 +3,8 @@ package com.group4.controller;
 import java.util.List;
 import java.util.Optional;
 
+import com.group4.service.IImageItemService;
+import com.group4.service.IProductDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,21 +18,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.group4.entity.CategoryEntity;
 import com.group4.entity.ImageItemEntity;
 import com.group4.entity.ProductDetailEntity;
-import com.group4.service.impl.ImageItemService;
-import com.group4.service.impl.ProductDetailService;
 
 @Controller
 @RequestMapping("/admin/product-details/images")
 public class ImageItemController {
 
 	@Autowired
-	private ImageItemService imageItemService;
-	private ProductDetailService productDetailService;
-
-	public ImageItemController(ImageItemService imageItemService, ProductDetailService productDetailService) {
-		this.imageItemService = imageItemService;
-		this.productDetailService = productDetailService;
-	}
+	private IImageItemService imageItemService;
+	@Autowired
+	private IProductDetailService productDetailService;
 
 	// Xuất tất cả danh sách ảnh
 	@GetMapping

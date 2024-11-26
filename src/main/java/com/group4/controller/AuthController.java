@@ -3,7 +3,7 @@ package com.group4.controller;
 
 import com.group4.entity.UserEntity;
 import com.group4.service.IEmailService;
-import com.group4.service.impl.UserService;
+import com.group4.service.IUserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.Data;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @Data
 public class AuthController {
     @Autowired
-    private final UserService userService;
+    private final IUserService userService;
     @Autowired
     private final IEmailService emailSenderService;
 

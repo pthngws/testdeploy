@@ -8,9 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.group4.entity.CategoryEntity;
 
-
-
-@Service
 public interface ICategoryService {
 	List<CategoryEntity> findAll();
 	Optional<CategoryEntity> findById(Long id);

@@ -1,13 +1,13 @@
 package com.group4.controller;
 
 import com.group4.entity.PromotionEntity;
+import com.group4.service.IPromotionService;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import com.group4.model.PromotionModel;
-import com.group4.service.impl.PromotionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,7 +25,7 @@ public class PromotionController {
 
 
     @Autowired
-    private PromotionService promotionService;
+    private IPromotionService promotionService;
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {

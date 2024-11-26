@@ -7,7 +7,7 @@ import com.group4.repository.AddressRepository;
 import com.group4.repository.CustomerRepository;
 import com.group4.repository.UserRepository;
 import com.group4.service.IEmailService;
-import com.group4.service.impl.UserService;
+import com.group4.service.IUserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 
 public class OtpController {
-    private final UserService userService;
+    private final IUserService userService;
     private final IEmailService emailSenderService;
 
     @Autowired
@@ -33,7 +33,7 @@ public class OtpController {
     Constants constants = new Constants();
     String email;
 
-    public OtpController(UserService userService, IEmailService emailSenderService) {
+    public OtpController(IUserService userService, IEmailService emailSenderService) {
         this.userService = userService;
         this.emailSenderService = emailSenderService;
     }

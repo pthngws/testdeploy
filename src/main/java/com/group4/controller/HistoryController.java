@@ -2,7 +2,7 @@ package com.group4.controller;
 
 
 import com.group4.entity.OrderEntity;
-import com.group4.service.impl.OrderService;
+import com.group4.service.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +17,7 @@ import java.util.List;
 public class HistoryController {
 
     @Autowired
-    private OrderService orderService;
+    private IOrderService orderService;
 
     @GetMapping
     public String viewOrderHistory(@RequestParam Long userID, Model model) {

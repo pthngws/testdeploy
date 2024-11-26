@@ -2,6 +2,10 @@ package com.group4.controller;
 
 import java.util.Optional;
 
+import com.group4.service.ICategoryService;
+import com.group4.service.IManufacturersService;
+import com.group4.service.IProductDetailService;
+import com.group4.service.IProductService;
 import com.group4.service.impl.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,13 +24,13 @@ import java.util.Map;
 public class ProductController {
 
     @Autowired
-    private ProductServiceImpl productService;
+    private IProductService productService;
     @Autowired
-    private CategoryService categoryService;
+    private ICategoryService categoryService;
     @Autowired
-    private ManufacturersService manufacturersService;
+    private IManufacturersService manufacturersService;
     @Autowired
-    private ProductDetailService productDetailService;
+    private IProductDetailService productDetailService;
 
     // Thống kê số lượng sản phẩm theo tên sản phẩm
     @GetMapping("/stats-by-name")
