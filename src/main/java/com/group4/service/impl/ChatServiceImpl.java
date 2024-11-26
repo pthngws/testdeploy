@@ -20,10 +20,17 @@ public class ChatServiceImpl implements IChatService {
         return chatRepository.findDistinctSendersByReceiverId();
     }
 
+    @Override
+    public List<Long> findDistinctGuestsByReceiverId() {
+        return chatRepository.findDistinctGuestsByReceiverId();
+    }
+
+    @Override
     public ChatEntity save(ChatEntity chatEntity) {
         return chatRepository.save(chatEntity);
     }
 
+    @Override
     public List<ChatEntity> findAll() {
         return chatRepository.findAll();
     }
