@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/admin")
 public class ProductController {
     @GetMapping("/inventory")
-    public String inventory(Model model){
+    public String inventory(){
         return "inventory";
     }
 }

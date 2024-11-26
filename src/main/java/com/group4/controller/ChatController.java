@@ -4,6 +4,7 @@ package com.group4.controller;
 import com.group4.entity.ChatEntity;
 import com.group4.entity.UserEntity;
 import com.group4.repository.ChatRepository;
+import com.group4.service.IChatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,14 +26,14 @@ import java.util.stream.Collectors;
 public class ChatController {
 
     @Autowired
-    private ChatRepository chatRepository;
+    private IChatService chatService;
 
 
     @GetMapping("/getCustomerList")
     public ResponseEntity<List<UserEntity>> getCustomerList() {
         try {
             // Truy vấn các senderId đã nhắn tin cho receiverId được truyền vào
-            List<UserEntity> customerList = chatRepository.findDistinctSendersByReceiverId();
+            List<UserEntity> customerList = chatService.findDistinctSendersByReceiverId();
             return ResponseEntity.ok(customerList);
         } catch (Exception e) {
             e.printStackTrace();
@@ -54,7 +55,7 @@ public class ChatController {
         }
 
         chatEntity.setSentTime(new Date());
-        chatRepository.save(chatEntity);
+        chatService.save(chatEntity);
         return chatEntity;
     }
 
@@ -73,7 +74,7 @@ public class ChatController {
     public List<Map<String, Object>> getMessagesBetweenUsers(
             @RequestParam Long senderId,
             @RequestParam Long receiverId) {
-        return chatRepository.findAll().stream()
+        return chatService.findAll().stream()
                 .filter(row -> (row.getSenderID().equals(senderId) && row.getReceiverID().equals(receiverId)) ||
                         (row.getSenderID().equals(receiverId) && row.getReceiverID().equals(senderId)))
                 .map(row -> {
