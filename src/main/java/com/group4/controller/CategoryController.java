@@ -1,5 +1,6 @@
 package com.group4.controller;
 
+import com.group4.service.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,19 +11,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 
 import com.group4.entity.CategoryEntity;
-import com.group4.service.impl.CategoryService;
 
 
 @Controller
 public class CategoryController {
 
 	@Autowired
-	private CategoryService categoryService;
-	
-	public CategoryController(CategoryService categoryService) {
-		this.categoryService = categoryService;
-	}
-
+	private ICategoryService categoryService;
 
 	// Lấy tất cả category để show lên
 	@GetMapping("/admin/categories")
