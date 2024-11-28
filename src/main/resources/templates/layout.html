@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -32,15 +32,19 @@
 <body>
 
 <!-- Include Header -->
-<div th:replace="~{../fragments/header :: header}"></div>
+<div th:replace="~{/fragments/header :: header}"></div>
 
 <!-- Content chính sẽ được thay thế ở đây -->
-<div th:fragment="content">
-    <!-- Nội dung động của từng trang sẽ nằm ở đây -->
-</div>
+<main class="container">
+    <!-- Content Section -->
+
+            <div layout:fragment="content"></div>
+
+
+</main>
 
 <!-- Include Footer -->
-<div th:replace="~{../fragments/footer :: footer}"></div>
+<div th:replace="~{/fragments/footer :: footer}"></div>
 
 </body>
 <!--All jQuery, Third Party Plugins & Activation (main.js) Files-->

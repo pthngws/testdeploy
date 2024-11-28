@@ -1,4 +1,4 @@
-package com.group4.controller;
+package com.group4.controller.admin;
 
 import com.group4.entity.CustomerEntity;
 import com.group4.entity.OrderEntity;
@@ -17,7 +17,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/customers")
-public class CustomerController {
+public class AdminCustomerController {
 
     @Autowired
     private ICustomerService customerService;

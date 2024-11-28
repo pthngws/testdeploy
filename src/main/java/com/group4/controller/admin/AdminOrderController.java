@@ -1,4 +1,4 @@
-package com.group4.controller;
+package com.group4.controller.admin;
 
 import com.group4.entity.OrderEntity;
 import com.group4.service.IOrderService;
@@ -13,7 +13,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/orders")
-public class OrderController {
+public class AdminOrderController {
 
     @Autowired
     private IOrderService orderService;
