@@ -1,9 +1,11 @@
 package com.group4.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
 @Data
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -15,15 +17,17 @@ public class LineItemEntity {
 
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
+    @ToString.Exclude
+    @JsonManagedReference
     private ProductEntity product;
 
     @Column(nullable = false)
     private int quantity;
 
-    @Column(nullable = false)
-    private int total;
-
+    //SSS
     @ManyToOne
     @JoinColumn(name = "order_id", nullable = false)
-    private OrderEntity order;
+    @ToString.Exclude // Loại trừ khỏi toString()
+    @JsonManagedReference
+    private OrderEntity order;//
 }

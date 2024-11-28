@@ -1,9 +1,13 @@
 package com.group4.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Data
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -24,15 +28,20 @@ public class ProductEntity {
     @Column(nullable = false)
     private int status;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false)
     private CategoryEntity category;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "manufacturer_id", nullable = false)
+    @ToString.Exclude
+    @JsonManagedReference
     private ManufacturerEntity manufacturer;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "detail_id", referencedColumnName = "detail_id")
     private ProductDetailEntity detail;
+
+    @ManyToMany(mappedBy = "products", fetch = FetchType.LAZY)
+    private List<ShoppingCartEntity> carts;
 }
