@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<section class="row" layout:fragment="content">
 <head>
     <meta charset="UTF-8">
     <title>Danh sách đơn hàng</title>
@@ -65,4 +68,5 @@
     </table>
 </div>
 </body>
+    </section>
 </html>
