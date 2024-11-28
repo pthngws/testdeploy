@@ -12,11 +12,11 @@ import java.util.List;
 @Repository
 public interface ChatRepository extends JpaRepository<ChatEntity, Long> {
 
-    @Query("SELECT DISTINCT u " +
+    @Query("SELECT DISTINCT u.userID, COALESCE(u.name, CAST(u.userID AS string)) " +
             "FROM ChatEntity c " +
             "JOIN UserEntity u ON c.senderID = u.userID " +
             "WHERE c.receiverID = 1")
-    List<UserEntity> findDistinctSendersByReceiverId();
+    List<Object[]> findDistinctSendersByReceiverId();
 
     @Query("SELECT DISTINCT c.senderID " +
             "FROM ChatEntity c " +

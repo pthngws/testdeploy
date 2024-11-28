@@ -6,8 +6,7 @@ import com.group4.entity.UserEntity;
 import java.util.List;
 
 public interface IChatService {
-    List<UserEntity> findDistinctSendersByReceiverId();
-    List<Long> findDistinctGuestsByReceiverId();
+    List<Object[]> findDistinctSendersByReceiverId();
 
     ChatEntity save(ChatEntity chatEntity);
 

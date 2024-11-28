@@ -13,4 +13,11 @@ public class ProductModel {
     private CategoryModel category;
     private ManufacturerModel manufacturer;
     private ProductDetailModel detail;
+
+    public ProductModel(Long productID, String name, int price, int status) {
+        this.productID = productID;
+        this.name = name;
+        this.price = price;
+        this.status = status;
+    }
 }

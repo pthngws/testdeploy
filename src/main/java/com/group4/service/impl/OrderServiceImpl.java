@@ -1,10 +1,12 @@
 package com.group4.service.impl;
 
+import com.group4.dto.EmailDetail;
 import com.group4.entity.*;
 import com.group4.repository.CustomerRepository;
 import com.group4.repository.OrderFailRepository;
 import com.group4.repository.OrderRepository;
 import com.group4.repository.ProductRepository;
+import com.group4.service.IEmailService;
 import com.group4.service.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,8 @@ public class OrderServiceImpl implements IOrderService {
     private ProductRepository productRepository;
     @Autowired
     private OrderFailRepository orderFailRepository;
+    @Autowired
+    private IEmailService emailService;
 
     @Override
     public List<OrderEntity> getAllOrders() {
@@ -172,5 +176,17 @@ public class OrderServiceImpl implements IOrderService {
 
         order.setShippingStatus("CANCELLED");
         orderRepository.save(order);
+
+        EmailDetail emailDetail = new EmailDetail();
+
+        String body = "Chào " + order.getCustomer().getName() + ",\n\n" +
+                "Chúng tôi thông báo rằng đơn hàng của bạn (Mã đơn hàng: " + orderId +
+                ") đã hủy.\n\n" +
+                "Nếu bạn có bất kỳ câu hỏi nào, vui lòng liên hệ với chúng tôi.\n\n" +
+                "Trân trọng,\n";
+        emailDetail.setMsgBody(body);
+        emailDetail.setRecipient(order.getCustomer().getEmail());
+        emailDetail.setSubject("Thông báo hủy đơn hàng");
+        emailService.sendEmailConfirmCancelOrder(emailDetail);
     }
 }

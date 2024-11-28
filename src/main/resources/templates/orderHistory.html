@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Purchased Products</title>
+</head>
+<body>
+<h1>Danh sách các sản phẩm đã mua</h1>
+<table border="1" style="width: 100%; border-collapse: collapse;">
+    <thead>
+    <tr>
+        <th>Mã đơn hàng</th>
+        <th>Tên sản phẩm</th>
+        <th>Giá</th>
+        <th>Số lượng</th>
+        <th>Tổng</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    <!-- Kiểm tra nếu danh sách purchasedProducts rỗng hoặc null -->
+    <tr th:if="${#lists.isEmpty(purchasedProducts)}">
+        <td colspan="5" style="text-align: center; font-style: italic;">Không có sản phẩm nào trong đơn hàng này.</td>
+    </tr>
+
+    <!-- Lặp qua từng đơn hàng -->
+    <tr th:each="order : ${purchasedProducts}">
+        <td colspan="5" style="text-align: center; font-weight: bold;">
+            Đơn hàng #: <span th:text="${order.orderId}"></span> - Ngày đặt: <span th:text="${order.orderDate}"></span>
+        </td>
+    </tr>
+
+    </tbody>
+</table>
+</body>
+</html>
