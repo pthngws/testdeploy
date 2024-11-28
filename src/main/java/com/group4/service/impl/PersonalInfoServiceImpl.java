@@ -112,4 +112,10 @@ public class PersonalInfoServiceImpl implements IPersonalInfoService {
             return false;
         }
     }
+
+    @Override
+    // Tìm kiếm người dùng theo ID
+    public UserEntity findUserById(Long userID) {
+        return repository.findByUserID(userID);
+    }
 }

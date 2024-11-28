@@ -10,6 +10,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @Data
+@NoArgsConstructor
 public class OrderModel {
     private Long orderId;
     private UserModel user;

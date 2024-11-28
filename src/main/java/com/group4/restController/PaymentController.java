@@ -38,7 +38,7 @@ public class PaymentController {
         return ResponseEntity.ok(Map.of("qrCode", qrCode));
     }
 
-    @GetMapping("qr-callback")
+    @PostMapping("qr-callback")
     public void qrPayCallbackHandler(HttpServletRequest request){
 
     }

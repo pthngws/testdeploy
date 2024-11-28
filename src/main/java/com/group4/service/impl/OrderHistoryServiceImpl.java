@@ -7,7 +7,7 @@ import com.group4.entity.UserEntity;
 import com.group4.model.*;
 import com.group4.repository.PurchasedProductsRepository;
 import com.group4.service.IOrderHistoryService;
-import com.group4.service.PersonalInfoService;
+import com.group4.service.IPersonalInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 public class OrderHistoryServiceImpl implements IOrderHistoryService {
 
     @Autowired
-    private PersonalInfoService personalInfoService;
+    private IPersonalInfoService personalInfoService;
 
     @Autowired
     private PurchasedProductsRepository purchasedProductsRepository;
