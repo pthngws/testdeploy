@@ -1,11 +1,13 @@
 package com.group4.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
 
 @Data
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -32,6 +34,8 @@ public class ProductEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "manufacturer_id", nullable = false)
+    @ToString.Exclude
+    @JsonManagedReference
     private ManufacturerEntity manufacturer;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

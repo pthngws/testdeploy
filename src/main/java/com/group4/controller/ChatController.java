@@ -54,22 +54,10 @@ public class ChatController {
     }
 
     @GetMapping("/getCustomerList")
-    public ResponseEntity<List<UserEntity>> getCustomerList() {
+    public ResponseEntity<List<Object[]>> getCustomerList() {
         try {
             // Truy vấn các senderId đã nhắn tin cho receiverId được truyền vào
-            List<UserEntity> customerList = chatService.findDistinctSendersByReceiverId();
-            return ResponseEntity.ok(customerList);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error fetching customer list", e);
-        }
-    }
-
-    @GetMapping("/getGuestList")
-    public ResponseEntity<List<Long>> getGuestList() {
-        try {
-            // Truy vấn các senderId đã nhắn tin cho receiverId được truyền vào
-            List<Long> customerList = chatService.findDistinctGuestsByReceiverId();
+            List<Object[]> customerList = chatService.findDistinctSendersByReceiverId();
             return ResponseEntity.ok(customerList);
         } catch (Exception e) {
             e.printStackTrace();
