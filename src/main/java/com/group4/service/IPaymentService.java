@@ -14,6 +14,8 @@ public interface IPaymentService {
     public PaymentDTO createVnPayPayment(HttpServletRequest request);
 
     void handlePayBank(String transactionNo, String bankCode, String transactionStatus, LocalDateTime localDateTime, int amount, Long orderId);
+    void handlePayQr(Long orderId, int amount);
     Double getDailyRevenue(LocalDate date);
     List<Map<String, Object>> getYearlyRevenue(int year);
+
 }
