@@ -5,7 +5,7 @@ import com.group4.entity.ProductEntity;
 import com.group4.model.CategoryModel;
 import com.group4.repository.CategoryRepository;
 import com.group4.repository.ProductRepository;
-import com.group4.service.ProductService;
+import com.group4.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,10 +14,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class ProductServiceImpl implements ProductService {
+public class ProductServiceImpl implements IProductService {
     @Autowired
     private ProductRepository productRepository;
 
@@ -86,5 +87,28 @@ public class ProductServiceImpl implements ProductService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<ProductEntity> findAll() {
+        // TODO Auto-generated method stub
+        return productRepository.findAll();
+    }
+
+    @Override
+    public Optional<ProductEntity> findById(Long id) {
+        // TODO Auto-generated method stub
+        return productRepository.findById(id);
+    }
+
+    @Override
+    public ProductEntity save(ProductEntity productEntity) {
+        // TODO Auto-generated method stub
+        return productRepository.save(productEntity);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        // TODO Auto-generated method stub
+        productRepository.deleteById(id);
+    }
 
 }

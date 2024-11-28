@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thêm Mới Ảnh</title>
+</head>
+<body>
+    <h2>Thêm Mới Ảnh</h2>
+
+    <!-- Form thêm ảnh -->
+    <form th:action="@{/admin/product-details/images/add}" method="post">
+        <!-- Tên ảnh -->
+        <label for="name">Tên Ảnh:</label>
+        <input type="text" id="name" name="name" required placeholder="Nhập tên ảnh" />
+
+        <br><br>
+
+        <!-- URL ảnh -->
+        <label for="imageUrl">URL Ảnh:</label>
+        <input type="text" id="imageUrl" name="imageUrl" required placeholder="Nhập URL ảnh" />
+
+        <br><br>
+
+        <!-- Lựa chọn sản phẩm -->
+        <label for="productDetail">Sản Phẩm:</label>
+        <select id="productDetail" name="productDetailId" required>
+            <option value="">Chọn ID Chi Tiết Sản Phẩm</option>
+            <!-- Lặp qua danh sách sản phẩm và hiển thị trong dropdown -->
+            <option th:each="product : ${products}" 
+                    th:value="${product.productDetailID}" 
+                    th:text="${product.productDetailID}"></option>
+        </select>
+
+        <br><br>
+
+        <!-- Nút submit -->
+        <button type="submit">Thêm Ảnh</button>
+    </form>
+
+    <br>
+    <a href="#" th:href="@{/admin/product-details/images}">Quay lại danh sách ảnh</a>
+</body>
+</html>

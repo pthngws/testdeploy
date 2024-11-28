@@ -43,7 +43,7 @@ public class EmailServiceImpl implements IEmailService {
             return "Lỗi khi gửi email thông báo hủy đơn hàng!";
         }
     }
-
+    @Override
     public void sendInvoice(EmailDetail detail) {
 
     }

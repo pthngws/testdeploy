@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout.html}">
+<head>
+    <title>Trang chủ</title>
+</head>
+<body>
+
+<!-- Kế thừa layout -->
+<div th:replace="layout :: content">
+    <h2>Chào mừng đến với trang chủ của chúng tôi!</h2>
+    <p>Nội dung chính của trang sẽ nằm ở đây.</p>
+</div>
+
+</body>
+</html>

@@ -23,8 +23,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -122,6 +124,24 @@ public class PaymentServiceImpl implements IPaymentService {
 
         EmailDetail emailDetail = new EmailDetail();
 
+        String body = "Chào " + order.getCustomer().getName() + ",\n\n" +
+                "Chúng tôi xác nhận rằng bạn đã thanh toán thành công cho đơn hàng (Mã đơn hàng: " + orderId + ").\n" +
+                "Số tiền thanh toán: " + amount + " VND.\n" +
+                "Ngày thanh toán: " + localDateTime + ".\n\n" +
+                "Cảm ơn bạn đã tin tưởng và mua sắm tại cửa hàng của chúng tôi.\n\n" +
+                "Trân trọng,\nYour Company Name";
+        emailDetail.setMsgBody(body);
+        emailDetail.setRecipient(order.getCustomer().getEmail());
+        emailDetail.setSubject("Thông báo thánh toán đơn hàng");
+        emailService.sendEmailConfirmCancelOrder(emailDetail);
         emailService.sendInvoice(emailDetail);
+    }
+
+    public Double getDailyRevenue(LocalDate date) {
+        return paymentRepository.getRevenueByDay(date);
+    }
+
+    public List<Map<String, Object>> getYearlyRevenue(int year) {
+        return paymentRepository.getMonthlyRevenue(year);
     }
 }

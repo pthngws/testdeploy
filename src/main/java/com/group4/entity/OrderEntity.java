@@ -1,5 +1,8 @@
 package com.group4.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,6 +15,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "orders")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class OrderEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,6 +24,8 @@ public class OrderEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
+    @ToString.Exclude
+    @JsonManagedReference
     private CustomerEntity customer;
 
     @OneToOne(fetch = FetchType.EAGER)
@@ -54,8 +60,26 @@ public class OrderEntity {
         orderDate = LocalDateTime.now();
     }
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @ToString.Exclude
+    @JsonManagedReference
     private List<LineItemEntity> listLineItems;
 
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "payment_id", referencedColumnName = "payment_id")
+    @ToString.Exclude
+    @JsonManagedReference
+    private PaymentEntity payment;
+
+    public int getTotalOrderValue() {
+        return listLineItems.stream()
+                .mapToInt(lineItem -> lineItem.getProduct().getPrice() * lineItem.getQuantity())
+                .sum();
+    }
+
+    // Phương thức tiện ích để lấy phương thức thanh toán
+    public String getPaymentMethod() {
+        return payment != null ? payment.getPaymentMethod() : "Chưa xác định";
+    }
 }
 

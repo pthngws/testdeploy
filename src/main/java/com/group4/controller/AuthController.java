@@ -3,23 +3,23 @@ package com.group4.controller;
 
 import com.group4.entity.UserEntity;
 import com.group4.service.IEmailService;
-import com.group4.service.UserService;
+import com.group4.service.IUserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+@Data
 public class AuthController {
-    private final UserService userService;
+    @Autowired
+    private final IUserService userService;
+    @Autowired
     private final IEmailService emailSenderService;
-
-    public AuthController(UserService userService, IEmailService emailSenderService) {
-        this.userService = userService;
-        this.emailSenderService = emailSenderService;
-    }
 
     @GetMapping("/login")
     public String showLogin() {
@@ -54,7 +54,7 @@ public class AuthController {
         String subject = "Mã OTP đăng ký của bạn";
         String mess = "Chào bạn,\n\nMã OTP của bạn là: " + session.getAttribute("otp-register") + "\n\nVui lòng không chia sẻ mã này với bất kỳ ai.\n\nTrân trọng,\nNhóm hỗ trợ.";
 
-        this.emailSenderService.sendEmail(user.getEmail(), subject, mess);
+        emailSenderService.sendEmail(user.getEmail(), subject, mess);
 
         session.setAttribute("email", user.getEmail());
         session.setAttribute("name", user.getName());
@@ -73,7 +73,7 @@ public class AuthController {
         String subject = "Mã OTP đăng ký của bạn";
         String mess = "Chào bạn,\n\nMã OTP của bạn là: " + session.getAttribute("otp-register") + "\n\nVui lòng không chia sẻ mã này với bất kỳ ai.\n\nTrân trọng,\nNhóm hỗ trợ.";
 
-        this.emailSenderService.sendEmail((String) session.getAttribute("email"), subject, mess);
+        emailSenderService.sendEmail((String) session.getAttribute("email"), subject, mess);
 
         return "redirect:/otp-check";
     }

@@ -5,7 +5,7 @@
 	var $window = $(window);
 
 	$window.on('scroll', function () {
-        // Sticky menu
+		// Sticky menu
 		var scroll = $window.scrollTop();
 		if (scroll < 300) {
 			$(".sticky").removeClass("is-sticky");
@@ -13,7 +13,7 @@
 			$(".sticky").addClass("is-sticky");
 		}
 
-        // Scroll To Top
+		// Scroll To Top
 		if ($(this).scrollTop() > 600) {
 			$('.scroll-top').removeClass('not-visible');
 		} else {
@@ -66,7 +66,6 @@
 			$('.category-menu .menu-item-has-children ul').slideDown();
 		}
 	}
-
 	$(window).on({
 		load: function(){
 			categorySubMenuToggle();
@@ -620,10 +619,10 @@
 		mymap.scrollWheelZoom.disable();
 	}
 
+
 }(jQuery));
 
-let USERID = null;
-
+let USERID = null
 let RECEIVERID = null;
 let isAdmin = false;
 let stompClient = null;
@@ -642,6 +641,7 @@ function toggleChatPopup() {
 	if (chatPopup.css("display") === "block")
 
 		if (isAdmin) {
+			$("#page-title").text("Tin Nhắn");
 			loadCustomerList();
 			$("#customer-list").show();
 			$("#chat-room").hide();
@@ -655,15 +655,34 @@ function loadCustomerList() {
 	$.ajax({
 		url: '/getCustomerList',
 		type: 'GET',
-		success: function (data) {
-			const customerListItems = $("#customer-list-items");
-			customerListItems.empty();
-			data.forEach(customer => {
-				// Tạo một item hiển thị email hoặc tên người dùng
-				const listItem = $("<li>")
-					.text(`${customer.name}`) // Hiển thị tên và email
-					.click(() => openChat(customer.userID,customer.name)); // Lấy `userID` để mở chat
-				customerListItems.append(listItem);
+		success: function (customerData) {
+			$.ajax({
+				url: '/getGuestList',
+				type: 'GET',
+				success: function (guestData) {
+					const customerListItems = $("#customer-list-items");
+					// Xóa sạch nội dung hiện tại của danh sách trước khi thêm mới
+					customerListItems.empty();
+
+					// Thêm danh sách khách hàng
+					customerData.forEach(customer => {
+						const listItem = $("<li>")
+							.text(`${customer.name}`) // Hiển thị tên và email
+							.click(() => openChat(customer.userID, customer.name)); // Lấy `userID` để mở chat
+						customerListItems.append(listItem);
+					});
+
+					// Thêm danh sách khách vãng lai
+					guestData.forEach(customerid => {
+						const listItem = $("<li>")
+							.text(`${customerid}`) // Hiển thị ID khách vãng lai
+							.click(() => openChat(customerid, customerid)); // Lấy `userID` (customerid) để mở chat
+						customerListItems.append(listItem);
+					});
+				},
+				error: function (error) {
+					console.error("Error loading guest list:", error);
+				}
 			});
 		},
 		error: function (error) {
@@ -671,6 +690,8 @@ function loadCustomerList() {
 		}
 	});
 }
+
+
 
 
 function openChat(customerId,customerName) {
@@ -767,5 +788,3 @@ function sendMessage() {
 		input.val("");
 	}
 }
-
-
