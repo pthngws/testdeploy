@@ -3,6 +3,9 @@ package com.group4.controller;
 import com.group4.entity.PromotionEntity;
 import com.group4.service.IPromotionService;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -15,14 +18,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 @Controller
 @RequestMapping("/promotions")
 public class PromotionController {
-
 
     @Autowired
     private IPromotionService promotionService;
@@ -36,9 +37,15 @@ public class PromotionController {
     }
     // Lấy danh sách tất cả các khuyến mãi
     @GetMapping()
-    public String showPromotions(Model model) {
-        List<PromotionModel> promotions = promotionService.fetchPromotionList();
-        model.addAttribute("promotions", promotions);
+    public String showPromotions(@RequestParam(defaultValue = "0") int page,
+                                 @RequestParam(defaultValue = "10") int size,
+                                 Model model) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<PromotionEntity> promotionPage = promotionService.fetchPromotionList(pageable);
+
+        model.addAttribute("promotions", promotionPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", promotionPage.getTotalPages());
         return "promotion";
     }
 
@@ -94,12 +101,17 @@ public class PromotionController {
     }
 
     // Xóa khuyến mãi
-    @DeleteMapping("/promotions/delete/{id}")
-    public String deletePromotion(@PathVariable Long id) {
-        promotionService.deletePromotion(id);
-        return "redirect:/promotions"; // Chuyển hướng sau khi xóa thành công
+    @PostMapping("/delete/{id}")
+    public String deletePromotion(@PathVariable("id") Long promotionID, Model model) {
+        boolean status = promotionService.deletePromotion(promotionID);
+
+        if (status) {
+            return "redirect:/promotions?delete-success";
+        } else {
+            return "redirect:/promotions?delete-error";
+        }
     }
-  @PostMapping("/api/promotions/apply")
+    @PostMapping("/api/promotions/apply")
     public ResponseEntity<?> applyPromotion(@RequestBody Map<String, Object> request) {
         String promotionCode = (String) request.get("promotionCode");
         double totalAmount = Double.parseDouble(request.get("totalAmount").toString());
@@ -142,3 +154,4 @@ public class PromotionController {
         return ResponseEntity.ok(Map.of("message", "Checkout successful!"));
     }
 }
+

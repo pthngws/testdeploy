@@ -4,7 +4,6 @@
 <head>
     <!-- Thay thế phần header bằng fragment -->
     <th:block th:replace="~{fragments/head.html}"></th:block>
-    <script th:src="@{/assets/js/promotion.js}"></script>
 </head>
 
 <body>
@@ -28,41 +27,43 @@
             <div th:if="${errorMessage}" class="alert alert-danger">
                 <p th:text="${errorMessage}"></p>
             </div>
+            <!-- Add New Promotion Button -->
+            <a th:href="@{/promotions/add}" class="btn btn-danger">Add New Promotion</a>
 
             <table class="table table-bordered">
                 <thead>
                 <tr>
-                    <th class="promotion-id">Promotion ID</th>
-                    <th class="discount-amount">Discount Amount (%)</th>
-                    <th class="valid-from">Valid From</th>
-                    <th class="valid-to">Valid To</th>
-                    <th class="promotion-code">Promotion Code</th>
-                    <th class="description">Description</th>
+                    <th class="discount-amount">Giá trị của mã khuyến mãi</th>
+                    <th class="remaining-uses">Lượt sử dụng</th>
+                    <th class="valid-from">Ngày bắt đầu</th>
+                    <th class="valid-to">Ngày kết thúc</th>
+                    <th class="promotion-code">Mã khuyến mãi</th>
+                    <th class="description">Mô tả</th>
                     <th class="actions">Actions</th>
                 </tr>
                 </thead>
+                <tr th:if="${#lists.isEmpty(promotions)}">
+                    <td colspan="8">Không có mã khuyến mãi nào.</td>
+                </tr>
                 <tbody>
                 <!-- Sử dụng Thymeleaf để lặp qua danh sách các promotion -->
                 <tr th:each="promotion : ${promotions}">
-                    <td th:text="${promotion.promotionID}">1</td>
                     <td th:text="${promotion.discountAmount}">10</td>
+                    <td th:text="${promotion.remainingUses}">10</td>
                     <td th:text="${#dates.format(promotion.validFrom, 'yyyy-MM-dd')}">2024-01-01</td>
                     <td th:text="${#dates.format(promotion.validTo, 'yyyy-MM-dd')}">2024-12-31</td>
                     <td th:text="${promotion.promotionCode}">PROMO2024</td>
-                    <td th:text="${promotion.description}">Special New Year Discount</td>
+                    <td th:text="${promotion.description}"></td>
                     <td>
-                        <a th:href="@{/promotions/edit/{id}(id=${promotion.promotionID})}" class="btn btn-primary">Edit</a>
-                        <form th:action="@{/promotions/delete/{id}(id=${promotion.promotionID})}" method="post" onsubmit="return confirm('Are you sure you want to delete this promotion?');">
-                            <input type="hidden" name="_method" value="delete" />
-                            <button type="submit" class="btn btn-danger">Delete</button>
+                        <a th:href="@{/promotions/edit/{id}(id=${promotion.promotionID})}" class="btn btn-primary">Cập nhật</a>
+                        <form th:action="@{/promotions/delete/{id}(id=${promotion.promotionID})}" method="post" style="display:inline;">
+                            <input type="hidden" name="_method" value="delete"/>
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa mã khuyến mãi này không?');">Xóa</button>
                         </form>
                     </td>
                 </tr>
                 </tbody>
             </table>
-
-            <!-- Add New Promotion Button -->
-            <a th:href="@{/promotions/add}" class="btn btn-danger">Add New Promotion</a>
 
         </div>
 
@@ -70,11 +71,29 @@
 
 
         <!-- Pagination -->
-        <div class="pagination">
-            <button th:disabled="${currentPage == 0}" th:href="@{/promotions(page=${currentPage - 1})}">Previous</button>
-            <span>Page <span th:text="${currentPage + 1}"></span> of <span th:text="${totalPages}"></span></span>
-            <button th:disabled="${currentPage == totalPages - 1}" th:href="@{/promotions(page=${currentPage + 1})}">Next</button>
+        <div class="paginatoin-area text-center pt-28">
+            <div class="row">
+                <div class="col-12">
+                    <ul class="pagination-box">
+                        <!-- Nút "Trang trước" -->
+                        <li th:if="${currentPage > 0}">
+                            <a class="Previous" th:href="@{/promotions(page=${currentPage - 1})}">Trang trước</a>
+                        </li>
+                        <!-- Số trang -->
+                        <li th:each="page : ${#numbers.sequence(1, totalPages)}"
+                            th:classappend="${currentPage + 1 == page} ? 'active'">
+                            <a th:href="@{/promotions(page=${page - 1})}"
+                               th:text="${page}">1</a>
+                        </li>
+                        <!-- Nút "Trang sau" -->
+                        <li th:if="${currentPage < totalPages - 1}">
+                            <a class="Next" th:href="@{/promotions(page=${currentPage + 1})}">Trang sau</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
+
 
         <!-- footer area -->
         <th:block th:replace="~{fragments/footer.html}"></th:block>
