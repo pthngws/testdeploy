@@ -124,6 +124,16 @@ public class PaymentServiceImpl implements IPaymentService {
 
         EmailDetail emailDetail = new EmailDetail();
 
+        String body = "Chào " + order.getCustomer().getName() + ",\n\n" +
+                "Chúng tôi xác nhận rằng bạn đã thanh toán thành công cho đơn hàng (Mã đơn hàng: " + orderId + ").\n" +
+                "Số tiền thanh toán: " + amount + " VND.\n" +
+                "Ngày thanh toán: " + localDateTime + ".\n\n" +
+                "Cảm ơn bạn đã tin tưởng và mua sắm tại cửa hàng của chúng tôi.\n\n" +
+                "Trân trọng,\nYour Company Name";
+        emailDetail.setMsgBody(body);
+        emailDetail.setRecipient(order.getCustomer().getEmail());
+        emailDetail.setSubject("Thông báo thánh toán đơn hàng");
+        emailService.sendEmailConfirmCancelOrder(emailDetail);
         emailService.sendInvoice(emailDetail);
     }
 
