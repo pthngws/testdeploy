@@ -18,8 +18,6 @@ import java.util.stream.Collectors;
 public class SearchController {
     @Autowired
     ProductServiceImpl productServiceImpl = new ProductServiceImpl();
-    
-    
     @GetMapping("/search-products")
     public String listProducts(
             @RequestParam(defaultValue = "0") int page,
@@ -131,5 +129,15 @@ public class SearchController {
         return entities.stream()
                 .map(this::convertToImageItemModel)
                 .collect(Collectors.toList());
+    }
+
+    @GetMapping("/payment")
+    public String showPaymentPage(@RequestParam("orderId") String orderId,
+                                  @RequestParam("amount") String amount,
+                                  Model model) {
+        // Truyền orderId và amount vào model
+        model.addAttribute("orderId", orderId);
+        model.addAttribute("amount", amount);
+        return "payment"; // Trả về template payment.html
     }
 }
