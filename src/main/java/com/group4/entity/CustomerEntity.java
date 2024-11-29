@@ -1,5 +1,6 @@
 package com.group4.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,6 +20,7 @@ public class CustomerEntity extends UserEntity {
     private ShoppingCartEntity shoppingCart;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonBackReference
     private List<OrderEntity> ordersHistory;
 
 }

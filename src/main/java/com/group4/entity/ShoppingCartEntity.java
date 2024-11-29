@@ -2,6 +2,7 @@ package com.group4.entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,8 +27,8 @@ public class ShoppingCartEntity {
             joinColumns = @JoinColumn(name = "cart_id"), // Khóa ngoại trỏ đến ShoppingCartEntity
             inverseJoinColumns = @JoinColumn(name = "product_id"), // Khóa ngoại trỏ đến ProductEntity
             uniqueConstraints = @UniqueConstraint(columnNames = {"cart_id", "product_id"}) // Ràng buộc duy nhất
-
     )
+    @JsonManagedReference
     private List<ProductEntity> products;
 
 

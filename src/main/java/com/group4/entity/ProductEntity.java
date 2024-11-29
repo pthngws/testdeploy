@@ -1,5 +1,6 @@
 package com.group4.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -43,6 +44,7 @@ public class ProductEntity {
     private ProductDetailEntity detail;
 
     @ManyToMany(mappedBy = "products", fetch = FetchType.LAZY)
+    @JsonBackReference
     private List<ShoppingCartEntity> carts;
 
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)

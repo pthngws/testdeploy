@@ -1,5 +1,6 @@
 	package com.group4.entity;
 	
+	import com.fasterxml.jackson.annotation.JsonManagedReference;
 	import jakarta.persistence.*;
 	import lombok.*;
 	
@@ -24,6 +25,7 @@
 	    private String address;
 	
 	    @OneToMany(mappedBy = "manufacturer", cascade = CascadeType.ALL, orphanRemoval = true)
+		@JsonManagedReference
 	    private List<ProductEntity> products;
 	
 	}

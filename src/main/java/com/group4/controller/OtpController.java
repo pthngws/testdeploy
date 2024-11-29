@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 
 public class OtpController {
+    @Autowired
     private final IUserService userService;
+    @Autowired
     private final IEmailService emailSenderService;
 
     @Autowired

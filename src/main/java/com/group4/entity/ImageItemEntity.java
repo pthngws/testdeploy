@@ -1,5 +1,6 @@
 package com.group4.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -27,6 +28,7 @@ public class ImageItemEntity {
     @ManyToOne
     @JoinColumn(name = "product_detail_id", nullable = false)
     @ToString.Exclude // Loại trừ tham chiếu vòng lặp
+    @JsonManagedReference
     private ProductDetailEntity productDetail;
 
 }

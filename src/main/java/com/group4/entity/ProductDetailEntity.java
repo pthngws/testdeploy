@@ -1,5 +1,6 @@
 package com.group4.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -72,5 +73,6 @@ public class ProductDetailEntity {
 
     @OneToMany(mappedBy = "productDetail", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @ToString.Exclude // Loại trừ tham chiếu vòng lặp
+    @JsonBackReference
     private List<ImageItemEntity> images;
 }
