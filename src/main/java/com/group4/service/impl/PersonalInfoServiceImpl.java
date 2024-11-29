@@ -19,34 +19,38 @@ public class PersonalInfoServiceImpl implements IPersonalInfoService {
     private AddressRepository addressRepository;
 
     // Lấy thông tin cá nhân từ cơ sở dữ liệu
-    @Override
     public UserModel fetchPersonalInfo(Long userID) {
-        UserEntity entity = repository.retrieveInfoFormDB(userID); // Gọi repository để lấy thông tin từ DB
-        if (entity != null) {
+        UserEntity userEntity = repository.retrieveInfoFormDB(userID);
+        if (userEntity != null) {
+            // Đã có mối quan hệ OneToOne nên không cần gọi AddressRepository
+            AddressEntity addressEntity = userEntity.getAddress(); // Địa chỉ sẽ được lấy trực tiếp từ userEntity
+            AddressModel addressModel = null;
+            if (addressEntity != null) {
+                addressModel = new AddressModel(
+                        addressEntity.getAddressID(),
+                        addressEntity.getCountry(),
+                        addressEntity.getProvince(),
+                        addressEntity.getDistrict(),
+                        addressEntity.getCommune(),
+                        addressEntity.getOther()
+                );
+            }
             return new UserModel(
-                    entity.getUserID(),
-                    entity.getName(),
-                    entity.getEmail(),
-                    entity.getPassword(),
-                    entity.getGender(),
-                    entity.getPhone(),
-                    entity.getRoleName(),
-                    entity.isActive(),
-                    new AddressModel(
-                            entity.getAddress().getAddressID(),
-                            entity.getAddress().getCountry(),
-                            entity.getAddress().getProvince(),
-                            entity.getAddress().getDistrict(),
-                            entity.getAddress().getCommune(),
-                            entity.getAddress().getOther()
-                    )
+                    userEntity.getUserID(),
+                    userEntity.getName(),
+                    userEntity.getEmail(),
+                    userEntity.getPassword(),
+                    userEntity.getGender(),
+                    userEntity.getPhone(),
+                    userEntity.getRoleName(),
+                    userEntity.isActive(),
+                    addressModel
             );
         }
         return null;
     }
 
     // Lưu thông tin cá nhân vào cơ sở dữ liệu
-    @Override
     public boolean savePersonalInfo(UserModel userModel, Long userID) {
         try {
             if (userID == null) {
@@ -84,32 +88,31 @@ public class PersonalInfoServiceImpl implements IPersonalInfoService {
             }
 
             // Tạo UserEntity từ UserModel
-            UserEntity entity = new UserEntity(
-                    userModel.getUserID(),
+            UserEntity userEntity = new UserEntity(
+                    userID, // Sử dụng userID hiện tại
                     userModel.getName(),
                     userModel.getEmail(),
-                    userModel.getPassword(),
+                    password,
                     userModel.getGender(),
                     userModel.getPhone(),
-                    userModel.getRoleName(),
-                    userModel.isActive(),
-                    new AddressEntity(
-                            userModel.getAddress().getAddressID(),
-                            userModel.getAddress().getCountry(),
-                            userModel.getAddress().getProvince(),
-                            userModel.getAddress().getDistrict(),
-                            userModel.getAddress().getCommune(),
-                            userModel.getAddress().getOther()
-                    )
+                    role,
+                    isActive,
+                    addressEntity // Liên kết địa chỉ mới hoặc giữ nguyên địa chỉ cũ
             );
 
             // Lưu hoặc cập nhật thông tin người dùng
-            repository.saveInfoToDB(entity);
+            repository.saveInfoToDB(userEntity);
 
             return true;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
+    }
+
+    @Override
+    // Tìm kiếm người dùng theo ID
+    public UserEntity findUserById(Long userID) {
+        return repository.findByUserID(userID);
     }
 }

@@ -1,11 +1,13 @@
 package com.group4.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
 
 @Data
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -32,6 +34,8 @@ public class ProductEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "manufacturer_id", nullable = false)
+    @ToString.Exclude
+    @JsonManagedReference
     private ManufacturerEntity manufacturer;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -40,4 +44,22 @@ public class ProductEntity {
 
     @ManyToMany(mappedBy = "products", fetch = FetchType.LAZY)
     private List<ShoppingCartEntity> carts;
+
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    private List<RateEntity> rates;
+
+    // Phương thức tính trung bình đánh giá
+    public double getAverageRating() {
+        if (rates == null || rates.isEmpty()) {
+            return 0.0;  // Nếu không có đánh giá, trả về 0
+        }
+        return rates.stream()
+                .mapToInt(RateEntity::getRate)
+                .average()
+                .orElse(0.0);
+    }
+
+    public int getReviewCount() {
+        return (rates == null) ? 0 : rates.size();
+    }
 }

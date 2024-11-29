@@ -24,7 +24,9 @@ public class ShoppingCartEntity {
     @JoinTable(
             name = "cart_products", // Tên bảng trung gian
             joinColumns = @JoinColumn(name = "cart_id"), // Khóa ngoại trỏ đến ShoppingCartEntity
-            inverseJoinColumns = @JoinColumn(name = "product_id") // Khóa ngoại trỏ đến ProductEntity
+            inverseJoinColumns = @JoinColumn(name = "product_id"), // Khóa ngoại trỏ đến ProductEntity
+            uniqueConstraints = @UniqueConstraint(columnNames = {"cart_id", "product_id"}) // Ràng buộc duy nhất
+
     )
     private List<ProductEntity> products;
 

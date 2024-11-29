@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-        lang="en">
+      lang="en">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script th:src="@{/js/vendor/jquery-3.3.1.min.js}"></script>
     <title>Tạo mới đơn hàng</title>
-    <!-- Linking the uploaded CSS file -->
-    <link th:href="@{/css/style.css}" rel="stylesheet" />
-    <script th:src="@{/js/jquery-1.11.3.min.js}"></script>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -148,16 +146,18 @@
             <!-- Nút thanh toán -->
             <button type="button" id="payButton" class="btn btn-primary">Thanh toán</button>
         </form>
-        <div class="form-group">
-            <!-- Nhập số tiền thanh toán -->
-            <label for="amount">Số tiền</label>
-            <input type="number" id="amount" name="amount" value="10000" required>
-        </div>
         <!-- Hiển thị QR Code -->
         <div id="qrCodeContainer" style="display: none; margin-top: 20px;">
             <h4>Mã QR của bạn:</h4>
             <img id="qrCodeImage" src="" alt="QR Code" style="width: 250px; height: 250px;">
-            <button id="callbackButton" class="btn btn-success" style="margin-top: 20px;">Đã thanh toán</button>
+            <form action="api/payments/qr-callback" method="post">
+                <input hidden="hidden" type="number" id="id" name="orderId" th:value="${orderId}">
+                <input hidden="hidden" type="number" id="requi_amount" name="requi_amount" th:value="${amount}">
+                <label>Số tiền đã thanh toán (demo)</label>
+                <input type="number" id="paid" name="paid_amount">
+                <button id="callbackButton" class="btn btn-success" style="margin-top: 20px;">Đã thanh toán</button>
+            </form>
+
         </div>
 
     </div>
@@ -173,7 +173,7 @@
     // Lấy orderId và amount từ URL
     const orderid = getQueryParam('orderId');
     const amount = getQueryParam('amount');
-    alert(orderid +"     "+ amount)
+    //alert(orderid +"     "+ amount)
 
     // Kiểm tra nếu không có orderId hoặc amount trong URL
     if (!orderid || !amount) {

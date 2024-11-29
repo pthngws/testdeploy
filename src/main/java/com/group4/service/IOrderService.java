@@ -16,5 +16,5 @@ public interface IOrderService {
     public void confirmCancelOrder(Long orderId);
     public void rejectCancelOrder(Long orderId);
     public OrderEntity createOrder(Long userId, List<Long> productIds);
-    public void createOrderFail(Long orderId, String bankName, String accountNumber, String accountName);
+    public void cancelOrder(Long orderId, String accountNumber, String accountName,String bankName);
 }

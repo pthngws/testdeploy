@@ -34,13 +34,34 @@ public class PaymentController {
     //Tạo mã QR thanh toán.
     @PostMapping("/qr")
     public ResponseEntity<Map<String, Object>> generateQRPayment(@RequestBody QRPaymentRequest request) {
-        String qrCode = paymentService.generateQr(request.getAmount(), request.getOrderId());
+        String qrCode = paymentService.generateQr(request.getOrderId(), request.getAmount());
         return ResponseEntity.ok(Map.of("qrCode", qrCode));
     }
 
-    @GetMapping("qr-callback")
-    public void qrPayCallbackHandler(HttpServletRequest request){
-
+    @PostMapping("qr-callback")
+    public void qrPayCallbackHandler(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        Long orderId = Long.parseLong(request.getParameter("orderId"));
+        int requi_amount = Integer.parseInt(request.getParameter("requi_amount"));
+        int paid_amount = Integer.parseInt(request.getParameter("paid_amount"));
+        System.out.println(orderId + " " + requi_amount + " " + paid_amount);
+        // Kiểm tra logic thanh toán
+        if (paid_amount - requi_amount >= 0) {
+            paymentService.handlePayQr(orderId,paid_amount);
+            response.getWriter().write(
+                    "<script>" +
+                            "alert('Đơn hàng đã thanh toán thành công');" +
+                            "window.location.href = '/order-history';"+
+                            "</script>"
+            );
+        } else {
+            response.getWriter().write(
+                    "<script>" +
+                            "alert('Đơn hàng đã thanh toán không thành công');" +
+                            "window.location.href = '/payment?orderId="+orderId+"&amount="+requi_amount+"';"+
+                            "</script>"
+            );
+        }
     }
 
     @GetMapping("/vn-pay")
@@ -75,7 +96,7 @@ public class PaymentController {
             response.getWriter().write(
                     "<script>" +
                          "alert('Thanh toán thất bại. Vui lòng thử lại!');" + // Hiển thị popup lỗi//
-                            "window.location.href = '/payment?orderId="+orderId +"&amount=" + amount +
+                            "window.location.href = '/payment?orderId="+orderId+"&amount="+amount+"';"+
                     "</script>"
             );
         }

@@ -22,8 +22,6 @@ public class PersonalInfoController {
     @Autowired
     private IAddressService addressService;
     @Autowired
-    private HttpSession session;
-    @Autowired
     private IPersonalInfoService personalInfoService;
 
     // Lấy thông tin cá nhân và địa chỉ
@@ -49,6 +47,7 @@ public class PersonalInfoController {
         }
     }
 
+
     @PostMapping("/address")
     public String updateAddress(@ModelAttribute AddressModel addressModel) {
         Long userID = 2L; // Thay đổi theo user hiện tại từ session/token
@@ -62,5 +61,44 @@ public class PersonalInfoController {
         boolean status = addressService.updateAddressForUser(addressModel, addressModel.getAddressID());
         return status ? "redirect:/personal-info?address-success"
                 : "redirect:/personal-info?address-error";
+    }
+
+
+    @PostMapping("/password")
+    public String changePassword(String currentPassword, String newPassword, String confirmNewPassword, Model model) {
+        Long userID = 2L; // ID người dùng hiện tại, thay bằng ID từ session hoặc token
+
+        // Lấy thông tin người dùng từ database
+        UserModel user = personalInfoService.fetchPersonalInfo(userID);
+
+        // Kiểm tra nếu không tìm thấy người dùng
+        if (user == null) {
+            model.addAttribute("error", "Người dùng không tồn tại!");
+            return "personal-info";
+        }
+
+        // Kiểm tra mật khẩu hiện tại
+        if (!currentPassword.equals(user.getPassword())) {
+            model.addAttribute("error", "Mật khẩu hiện tại không đúng!");
+            return "personal-info";
+        }
+
+        // Kiểm tra mật khẩu mới có khớp với xác nhận mật khẩu không
+        if (!newPassword.equals(confirmNewPassword)) {
+            model.addAttribute("error", "Mật khẩu mới và xác nhận mật khẩu không khớp!");
+            return "personal-info";
+        }
+
+        // Cập nhật mật khẩu mới
+        user.setPassword(newPassword);
+        boolean status = personalInfoService.savePersonalInfo(user, user.getUserID());
+
+        if (status) {
+            model.addAttribute("message", "Thay đổi mật khẩu thành công!");
+            return "redirect:/personal-info?success";
+        } else {
+            model.addAttribute("error", "Có lỗi xảy ra khi thay đổi mật khẩu!");
+            return "personal-info";
+        }
     }
 }
