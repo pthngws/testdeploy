@@ -9,19 +9,17 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+
 @Repository
 public interface ChatRepository extends JpaRepository<ChatEntity, Long> {
 
-    @Query("SELECT DISTINCT u.userID, COALESCE(u.name, CAST(u.userID AS string)) " +
+    @Query("SELECT DISTINCT COALESCE(u.userID, c.senderID) as userID, " +
+            "COALESCE(u.name, CAST(c.senderID AS string)) as name " +
             "FROM ChatEntity c " +
-            "JOIN UserEntity u ON c.senderID = u.userID " +
+            "LEFT JOIN UserEntity u ON c.senderID = u.userID " +
             "WHERE c.receiverID = 1")
-    List<Object[]> findDistinctSendersByReceiverId();
+    List<Map<String, Object>> findDistinctSendersByReceiverId();
 
-    @Query("SELECT DISTINCT c.senderID " +
-            "FROM ChatEntity c " +
-            "WHERE c.receiverID = 1 " +
-            "AND NOT EXISTS (SELECT u FROM UserEntity u WHERE u.userID = c.senderID)")
-    List<Long> findDistinctGuestsByReceiverId();
 }
 
