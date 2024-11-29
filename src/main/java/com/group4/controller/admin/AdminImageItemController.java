@@ -1,10 +1,8 @@
-package com.group4.controller;
+package com.group4.controller.admin;
 
 import java.util.List;
 import java.util.Optional;
 
-import com.group4.service.IImageItemService;
-import com.group4.service.IProductDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,18 +13,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.group4.entity.CategoryEntity;
 import com.group4.entity.ImageItemEntity;
 import com.group4.entity.ProductDetailEntity;
+import com.group4.service.impl.ImageItemServiceImpl;
+import com.group4.service.impl.ProductDetailServiceImpl;
 
 @Controller
 @RequestMapping("/admin/product-details/images")
-public class ImageItemController {
+public class AdminImageItemController {
 
 	@Autowired
-	private IImageItemService imageItemService;
-	@Autowired
-	private IProductDetailService productDetailService;
+	private ImageItemServiceImpl imageItemService;
+	private ProductDetailServiceImpl productDetailService;
+
+	public AdminImageItemController(ImageItemServiceImpl imageItemService, ProductDetailServiceImpl productDetailService) {
+		this.imageItemService = imageItemService;
+		this.productDetailService = productDetailService;
+	}
 
 	// Xuất tất cả danh sách ảnh
 	@GetMapping

@@ -4,19 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manufacturer List</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
-        th { background-color: #f4f4f4; }
-        .btn { padding: 5px 10px; border: none; border-radius: 4px; cursor: pointer; margin-right: 5px; }
-        .btn-add { background-color: #28a745; color: white; text-decoration: none; padding: 10px 20px; }
-        .btn-edit { background-color: #007bff; color: white; }
-        .btn-delete { background-color: #dc3545; color: white; }
-        .btn:hover { opacity: 0.8; }
-    </style>
+    <link rel="stylesheet" href="/css/admin/manufacturer-list.css">
 </head>
 <body>
+
+	<div th:replace="fragments/header :: header"></div>
+	
     <h1>Manufacturer List</h1>
 
     <!-- Button to Add Manufacturer -->
@@ -27,9 +20,9 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Name</th>
-                <th>Address</th>
-                <th>Products</th>
+                <th>Tên</th>
+                <th>Địa Chỉ</th>
+                <th>Sản Phẩm</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -54,5 +47,7 @@
             </tr>
         </tbody>
     </table>
+    
+    <div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>

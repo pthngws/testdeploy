@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add Product</title>
+<link
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+	rel="stylesheet">
+<link rel="stylesheet" href="/css/admin/admin-product-add.css">
+<script src="/js/admin/images_uri_pop_up.js"></script>
+</head>
+<body>
+
+	<div th:replace="fragments/header :: header"></div>
+
+	<div class="container mt-5">
+		<h1 class="center">Add Product</h1>
+		<form id="add-product-form" class="card p-4"
+			th:action="@{/admin/products/add}" method="post">
+			<!-- Product Information -->
+			<div class="form-group">
+				<label for="name">Product Name:</label> <input type="text" id="name"
+					name="name" placeholder="Enter product name" class="form-control"
+					required>
+			</div>
+			<div class="form-group">
+				<label for="price">Price:</label> <input type="number" id="price"
+					name="price" placeholder="Enter price" class="form-control"
+					required>
+			</div>
+			<div class="form-group">
+				<label for="status">Status:</label> <select id="status"
+					name="status" class="form-control" required>
+					<option value="1"
+						th:selected="${product != null and product.status == 1}">Active</option>
+					<option value="0"
+						th:selected="${product != null and product.status == 0}">Inactive</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label for="category">Category:</label> <select id="category"
+					name="category" class="form-control" required>
+					<option th:each="category : ${categories}"
+						th:value="${category.categoryID}" th:text="${category.name}"></option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label for="manufacturer">Manufacturer:</label> <select
+					id="manufacturer" name="manufacturer" class="form-control" required>
+					<option th:each="manufacturer : ${manufacturers}"
+						th:value="${manufacturer.id}" th:text="${manufacturer.name}"></option>
+				</select>
+			</div>
+
+			<!-- Product Detail Information -->
+			<h3>Product Details</h3>
+			<div class="form-group">
+				<label for="ram">RAM:</label> <input type="text" id="ram" name="ram"
+					placeholder="Enter RAM" class="form-control">
+			</div>
+			<div class="form-group">
+				<label for="cpu">CPU:</label> <input type="text" id="cpu" name="cpu"
+					placeholder="Enter CPU" class="form-control">
+			</div>
+			<div class="form-group">
+				<label for="gpu">GPU:</label> <input type="text" id="gpu" name="gpu"
+					placeholder="Enter GPU" class="form-control">
+			</div>
+			<div class="form-group">
+				<label for="lan">LAN:</label> <input type="text" id="lan" name="lan"
+					placeholder="Enter LAN" class="form-control">
+			</div>
+			<div class="form-group">
+				<label for="wifi">WIFI:</label> <input type="text" id="wifi"
+					name="wifi" placeholder="Enter WIFI" class="form-control">
+			</div>
+			<div class="form-group">
+				<label for="monitor">Monitor:</label> <input type="text"
+					id="monitor" name="monitor" placeholder="Enter monitor"
+					class="form-control">
+			</div>
+			<div class="form-group">
+				<label for="audio">Audio:</label> <input type="text"
+					id="audio" name="audio" placeholder="Enter audio"
+					class="form-control">
+			</div>
+			<div class="form-group">
+				<label for="bluetooth">Bluetooth:</label> <input type="text"
+					id="bluetooth" name="bluetooth" placeholder="Enter bluetooth"
+					class="form-control">
+			</div>
+			<div class="form-group">
+				<label for="charger">Charger:</label> <input type="text"
+					id="charger" name="charger" placeholder="Enter charger"
+					class="form-control">
+			</div>
+			<div class="form-group">
+				<label for="connect">Connect:</label> <input type="text"
+					id="connect" name="connect" placeholder="Enter connect"
+					class="form-control">
+			</div>
+			<div class="form-group">
+				<label for="disk">Disk:</label> <input type="text"
+					id="disk" name="disk" placeholder="Enter disk"
+					class="form-control">
+			</div>
+			<div class="form-group">
+				<label for="size">Size:</label> <input type="text"
+					id="size" name="size" placeholder="Enter size"
+					class="form-control">
+			</div>
+			<div class="form-group">
+				<label for="webcam">Webcam:</label> <input type="text"
+					id="webcam" name="webcam" placeholder="Enter webcam"
+					class="form-control">
+			</div>
+			<div class="form-group">
+				<label for="weight">Weight:</label> <input type="text"
+					id="weight" name="weight" placeholder="Enter weight"
+					class="form-control">
+			</div>
+			<div class="form-group">
+				<label for="color">Color:</label> <input type="text" id="color"
+					name="color" placeholder="Enter color" class="form-control">
+			</div>
+			<div class="form-group">
+				<label for="operationSystem">Operating System:</label> <input
+					type="text" id="operationSystem" name="operationSystem"
+					placeholder="Enter operating system" class="form-control">
+			</div>
+			
+			<div class="form-group">
+				<label for="description">Description:</label>
+				<textarea id="description" name="description" rows="4"
+					placeholder="Enter description" class="form-control"></textarea>
+			</div>
+
+
+			<div id="image-uri-container">
+                <div class="form-group">
+                    <label for="imageName">Image Name:</label>
+                    <input type="text" name="imageName[]" placeholder="Enter image name" class="form-control">
+                    <label for="imageURI">Image URI:</label>
+                    <input type="text" name="imageURI[]" placeholder="Enter image URI" class="form-control">
+                </div>
+            </div>
+            <button type="button" class="btn btn-info" onclick="addImageInput()">Add More Image</button>
+
+			<!-- Submit -->
+			<div class="center">
+				<button type="submit" class="btn btn-primary">Add Product</button>
+			</div>
+		
+		<!-- Button to show image URI form 
+		<div class="center">
+			<button class="btn btn-secondary" onclick="toggleImageForm()">Add
+				Product Images</button>
+		</div>
+			-->
+
+
+		
+
+
+
+	</div>
+
+
+	<div th:replace="fragments/footer :: footer"></div>
+	
+	<!-- Bootstrap JS and dependencies -->
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<script src="/js/admin/admin-product-add.js"></script>
+</body>
+</html>

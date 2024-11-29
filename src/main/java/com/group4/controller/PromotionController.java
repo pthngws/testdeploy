@@ -3,6 +3,9 @@ package com.group4.controller;
 import com.group4.entity.PromotionEntity;
 import com.group4.service.IPromotionService;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -15,14 +18,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 @Controller
 @RequestMapping("/promotions")
 public class PromotionController {
-
 
     @Autowired
     private IPromotionService promotionService;
@@ -36,9 +37,15 @@ public class PromotionController {
     }
     // Lấy danh sách tất cả các khuyến mãi
     @GetMapping()
-    public String showPromotions(Model model) {
-        List<PromotionModel> promotions = promotionService.fetchPromotionList();
-        model.addAttribute("promotions", promotions);
+    public String showPromotions(@RequestParam(defaultValue = "0") int page,
+                                 @RequestParam(defaultValue = "10") int size,
+                                 Model model) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<PromotionEntity> promotionPage = promotionService.fetchPromotionList(pageable);
+
+        model.addAttribute("promotions", promotionPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", promotionPage.getTotalPages());
         return "promotion";
     }
 
@@ -94,51 +101,15 @@ public class PromotionController {
     }
 
     // Xóa khuyến mãi
-    @DeleteMapping("/promotions/delete/{id}")
-    public String deletePromotion(@PathVariable Long id) {
-        promotionService.deletePromotion(id);
-        return "redirect:/promotions"; // Chuyển hướng sau khi xóa thành công
-    }
-  @PostMapping("/api/promotions/apply")
-    public ResponseEntity<?> applyPromotion(@RequestBody Map<String, Object> request) {
-        String promotionCode = (String) request.get("promotionCode");
-        double totalAmount = Double.parseDouble(request.get("totalAmount").toString());
-        double shippingAmount = Double.parseDouble(request.get("shippingAmount").toString());
+    @PostMapping("/delete/{id}")
+    public String deletePromotion(@PathVariable("id") Long promotionID, Model model) {
+        boolean status = promotionService.deletePromotion(promotionID);
 
-        // Lấy thông tin mã giảm giá từ database
-        Optional<PromotionEntity> promotionOpt = promotionService.findByPromotionCode(promotionCode);
-        if (!promotionOpt.isPresent()) {
-            return ResponseEntity.badRequest().body(Map.of("error", "Promotion code is invalid!"));
+        if (status) {
+            return "redirect:/promotions?delete-success";
+        } else {
+            return "redirect:/promotions?delete-error";
         }
-
-        PromotionEntity promotion = promotionOpt.get();
-        if (promotion.getValidTo().before(new Date())) {
-            return ResponseEntity.badRequest().body(Map.of("error", "Promotion code has expired!"));
-        }
-
-        // Tính toán giá mới
-        double discountAmount = promotion.getDiscountAmount();
-        double updatedAmount = Math.max(0, totalAmount - discountAmount - shippingAmount);
-
-        return ResponseEntity.ok(Map.of("updatedAmount", updatedAmount));
-    }
-
-    @PostMapping("/api/orders/checkout")
-    public ResponseEntity<?> checkout(@RequestBody Map<String, Object> request) {
-        String promotionCode = (String) request.get("promotionCode");
-        double totalAmount = Double.parseDouble(request.get("totalAmount").toString());
-
-        // Xử lý thanh toán
-        if (promotionCode != null && !promotionCode.isEmpty()) {
-            Optional<PromotionEntity> promotionOpt = promotionService.findByPromotionCode(promotionCode);
-            if (promotionOpt.isPresent()) {
-                PromotionEntity promotion = promotionOpt.get();
-                promotion.setRemainingUses(promotion.getRemainingUses() - 1); // Giảm số lượt sử dụng
-                promotionService.save(promotion);
-            }
-        }
-
-        // Trả về phản hồi
-        return ResponseEntity.ok(Map.of("message", "Checkout successful!"));
     }
 }
+

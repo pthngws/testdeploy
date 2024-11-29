@@ -28,13 +28,19 @@
             <div class="row">
               <div class="col-lg-3 col-md-4">
                 <div class="myaccount-tab-menu nav" role="tablist">
-                  <a th:href="@{#info-edit}" data-toggle="tab"><i class="fa fa-user"></i> Personal Information</a>
-                  <a th:href="@{#address-edit}" data-toggle="tab"><i class="fa fa-map-marker"></i> Address</a>
+                  <a th:href="@{#info-edit}" data-toggle="tab"><i class="fa fa-user"></i> Thông tin cá
+                    nhân</a>
+                  <a th:href="@{#address-edit}" data-toggle="tab"><i class="fa fa-map-marker"></i> Địa
+                    chỉ</a>
+                  <a th:href="@{#change-password}" data-toggle="tab"><i class="fa fa-eyedropper"></i>
+                    Đổi mật khẩu</a>
                 </div>
               </div>
               <!-- My Account Tab Menu End -->
 
               <!-- My Account Tab Content Start -->
+              <!-- Thông báo trạng thái -->
+
               <div class="col-lg-9 col-md-8">
                 <div class="tab-content" id="myaccountContent">
                   <!-- Personal Information Tab Start -->
@@ -46,15 +52,19 @@
                           <div class="col-lg-6">
                             <div class="single-input-item">
                               <label for="name" class="required">Họ và tên</label>
-                              <input type="text" id="name" name="name" class="form-control"
-                                     th:value="${user.name}" placeholder="Nhập họ và tên của bạn" />
+                              <input type="text" id="name" name="name"
+                                     class="form-control"
+                                     th:value="${user.name}"
+                                     placeholder="Nhập họ và tên của bạn"/>
                             </div>
                           </div>
                           <div class="col-lg-6">
                             <div class="single-input-item">
                               <label for="email" class="required">Email</label>
-                              <input type="email" id="email" name="email" class="form-control"
-                                     th:value="${user.email}" placeholder="Nhập email của bạn" />
+                              <input type="email" id="email" name="email"
+                                     class="form-control"
+                                     th:value="${user.email}"
+                                     placeholder="Nhập email của bạn"/>
                             </div>
                           </div>
                         </div>
@@ -63,17 +73,25 @@
                             <div class="single-input-item">
                               <label for="gender" class="required">Giới tính</label>
                               <select id="gender" name="gender" class="form-control">
-                                <option value="Male" th:selected="${user.gender == 'Nam'}">Nam</option>
-                                <option value="Female" th:selected="${user.gender == 'Nữ'}">Nữ</option>
-                                <option value="Other" th:selected="${user.gender == 'Khác'}">Khác</option>
+                                <option value="Male"
+                                        th:selected="${user.gender == 'Nam'}">Nam
+                                </option>
+                                <option value="Female"
+                                        th:selected="${user.gender == 'Nữ'}">Nữ
+                                </option>
+                                <option value="Other"
+                                        th:selected="${user.gender == 'Khác'}">Khác
+                                </option>
                               </select>
                             </div>
                           </div>
                           <div class="col-lg-6">
                             <div class="single-input-item">
                               <label for="phone" class="required">Số điện thoại</label>
-                              <input type="text" id="phone" name="phone" class="form-control"
-                                     th:value="${user.phone}" placeholder="Nhập số điện thoại của bạn" />
+                              <input type="text" id="phone" name="phone"
+                                     class="form-control"
+                                     th:value="${user.phone}"
+                                     placeholder="Nhập số điện thoại của bạn"/>
                             </div>
                           </div>
                         </div>
@@ -95,60 +113,140 @@
                           <div class="col-lg-6">
                             <div class="single-input-item">
                               <label for="country" class="required">Country</label>
-                              <input type="text" id="country" name="country" class="form-control"
-                                     th:value="${user.address.country}" placeholder="Enter your country" />
+                              <input type="text" id="country" name="country"
+                                     class="form-control"
+                                     th:value="${user.address.country}"
+                                     placeholder="Enter your country"/>
                             </div>
                           </div>
                           <div class="col-lg-6">
                             <div class="single-input-item">
                               <label for="province" class="required">Province/City</label>
-                              <input type="text" id="province" name="province" class="form-control"
-                                     th:value="${user.address.province}" placeholder="Enter your province" />
+                              <select id="province" name="province" class="form-control"
+                                      onchange="updateDistricts()">
+                                <option class="form-control"
+                                        th:value="${user.address.province}"
+                                        th:text="${user.address.province != null ? user.address.province : 'Select Province/City'}"></option>
+                              </select>
                             </div>
                           </div>
                         </div>
-
                         <div class="row">
                           <div class="col-lg-6">
                             <div class="single-input-item">
                               <label for="district" class="required">District</label>
-                              <input type="text" id="district" name="district" class="form-control"
-                                     th:value="${user.address.district}" placeholder="Enter your district" />
+                              <select id="district" name="district"
+                                      class="form-control">
+                                <option class="form-control"
+                                        th:value="${user.address.district}"
+                                        th:text="${user.address.district != null ? user.address.district : 'Select District'}"></option>
+                              </select>
                             </div>
                           </div>
+                          <script th:src="@{/assets/js/password.js}"></script>
                           <div class="col-lg-6">
                             <div class="single-input-item">
                               <label for="commune" class="required">Commune</label>
-                              <input type="text" id="commune" name="commune" class="form-control"
-                                     th:value="${user.address.commune}" placeholder="Enter your commune" />
+                              <input type="text" id="commune" name="commune"
+                                     class="form-control"
+                                     th:value="${user.address.commune}"
+                                     placeholder="Enter your commune"/>
                             </div>
                           </div>
                         </div>
-
                         <div class="row">
-                          <div class="col-lg-6">
+                          <div class="col-lg-12">
                             <div class="single-input-item">
                               <label for="other" class="required">Other Details</label>
-                              <input type="text" id="other" name="other" class="form-control"
-                                     th:value="${user.address.other}" placeholder="Enter your other details" />
-                            </div>
-                          </div>
-                          <!-- Empty column to maintain layout structure -->
-                          <div class="col-lg-6">
-                            <div class="single-input-item">
-                              <!-- Empty space if not needed -->
+                              <input type="text" id="other" name="other"
+                                     class="form-control"
+                                     th:value="${user.address.other}"
+                                     placeholder="Enter your other details"/>
                             </div>
                           </div>
                         </div>
 
                         <div class="single-input-item">
-                          <button type="submit" class="check-btn sqr-btn">Save Address</button>
+                          <button type="submit" class="check-btn sqr-btn">Save Address
+                          </button>
                         </div>
                       </form>
                     </div>
                   </div>
-
                   <!-- Address Details Tab End -->
+
+                  <!-- Change password Tab Start -->
+                  <div class="tab-pane fade" id="change-password" role="tabpanel">
+                    <div class="myaccount-content">
+                      <h3>Đổi mật khẩu</h3>
+                      <form th:action="@{/personal-info/password}" method="post">
+                        <div class="row">
+                          <div class="col-lg-6">
+                            <div class="single-input-item">
+                              <label for="currentPassword" class="required">Nhập Mật Khẩu
+                                Hiện
+                                Tại</label>
+                              <div class="input-group">
+                                <input type="password" id="currentPassword"
+                                       name="currentPassword" class="form-control"
+                                       placeholder="Nhập mật khẩu hiện tại" required/>
+                                <div class="input-group-append">
+                                                                  <span class="input-group-text" id="eyeIcon1"
+                                                                        onclick="togglePasswordVisibility('currentPassword', 'eyeIcon1')">
+                                                                      <i class="fa fa-eye"></i>
+                                                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-lg-6">
+                            <div class="single-input-item">
+                              <label for="newPassword" class="required">Nhập Mật Khẩu
+                                Mới</label>
+                              <div class="input-group">
+                                <input type="password" id="newPassword"
+                                       name="newPassword"
+                                       class="form-control"
+                                       placeholder="Nhập mật khẩu mới" required/>
+                                <div class="input-group-append">
+                                                                  <span class="input-group-text" id="eyeIcon2"
+                                                                        onclick="togglePasswordVisibility('newPassword', 'eyeIcon2')">
+                                                                      <i class="fa fa-eye"></i>
+                                                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-lg-6">
+                            <div class="single-input-item">
+                              <label for="confirmNewPassword" class="required">Nhập Lại
+                                Mật Khẩu Mới</label>
+                              <div class="input-group">
+                                <input type="password" id="confirmNewPassword"
+                                       name="confirmNewPassword" class="form-control"
+                                       placeholder="Nhập lại mật khẩu mới" required/>
+                                <div class="input-group-append">
+                                                                  <span class="input-group-text" id="eyeIcon3"
+                                                                        onclick="togglePasswordVisibility('confirmNewPassword', 'eyeIcon3')">
+                                                                      <i class="fa fa-eye"></i>
+                                                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="single-input-item">
+                          <button type="submit" class="btn btn-danger">Thay đổi</button>
+                        </div>
+                      </form>
+                      <script th:src="@{/assets/js/password.js}"></script>
+                    </div>
+                  </div>
+
+                  <!-- Change password Tab End -->
                 </div>
               </div>
               <!-- My Account Tab Content End -->
@@ -180,5 +278,3 @@
 <script th:src="@{/assets/js/address.js}"></script>
 </body>
 </html>
-
-

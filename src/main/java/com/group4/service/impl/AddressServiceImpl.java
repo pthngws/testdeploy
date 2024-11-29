@@ -20,7 +20,6 @@ public class AddressServiceImpl implements IAddressService {
     @Autowired
     private PersonalInfoRepository personalInfoRepository;
     // Đọc file Address.json và ánh xạ vào AddressModel
-    @Override
     public AddressModel loadAddressFromJson() {
         try {
             // Đọc dữ liệu từ file Address.json
@@ -37,7 +36,6 @@ public class AddressServiceImpl implements IAddressService {
         }
     }
 
-    @Override
     public boolean updateAddressForUser(AddressModel addressModel, Long addressID) {
         try {
             // Tìm AddressEntity trong database theo AddressID
@@ -60,9 +58,4 @@ public class AddressServiceImpl implements IAddressService {
             return false; // Cập nhật thất bại
         }
     }
-
-    // Lấy địa chỉ theo ID
-//    public AddressEntity getAddressById(Long addressID) {
-//        return addressRepository.findById(addressID).orElse(null);
-//    }
 }

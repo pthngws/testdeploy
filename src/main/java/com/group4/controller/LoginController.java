@@ -23,6 +23,7 @@ public class LoginController {
         UserEntity user = userService.findByEmail(username).get();
         if (isValidCredentials) {
             session.setAttribute("username", username);
+            session.setAttribute("fullName", user.getName());
             session.setAttribute("user", user);
             return "redirect:/home";
         } else {

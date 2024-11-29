@@ -1,9 +1,7 @@
-package com.group4.controller;
+package com.group4.controller.admin;
 
 import java.util.List;
 
-import com.group4.service.IManufacturersService;
-import com.group4.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,58 +9,59 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.group4.entity.ManufacturerEntity;
 import com.group4.entity.ProductEntity;
+import com.group4.service.impl.ManufacturersServiceImpl;
+import com.group4.service.impl.ProductServiceImpl;
 
 @Controller
-public class ManufacturerController {
-
+@RequestMapping("/admin/manufacturers")
+public class AdminManufacturerController{
+	
+	
 	@Autowired
-	private IManufacturersService manufacturersService;
-
-	@Autowired
-	private IProductService productService;
-
-
-	@GetMapping("/admin/manufacturers")
-	public String getAll(Model model) {
-		model.addAttribute("manufacturers", manufacturersService.findAll());
-		return "manufacturer-list";
+	private ManufacturersServiceImpl manufacturersService;
+	
+	
+	public AdminManufacturerController(ManufacturersServiceImpl manufacturersService) {
+		this.manufacturersService = manufacturersService;
 	}
 
 
-	@GetMapping("/admin/manufacturers/add")
+	@GetMapping
+	public String getAll(Model model) {
+		model.addAttribute("manufacturers", manufacturersService.findAll());
+		return "admin/manufacturer-list";
+	}
+
+
+	@GetMapping("/add")
 	public String addCategoryForm(Model model) {
 	    // Thêm đối tượng ManufacturerEntity vào model
 	    model.addAttribute("manufacturer", new ManufacturerEntity());
 
-	    // Lấy danh sách các sản phẩm từ service (giả sử bạn có productService)
-	    List<ProductEntity> products = productService.findAll();  
-	    // Thêm danh sách sản phẩm vào model
-	    model.addAttribute("products", products);
-
-	    // Trả về view mà bạn muốn sử dụng, ví dụ: "manufacturer-add"
-	    return "manufacturer-add";
+	    return "admin/manufacturer-add";
 	}
 	
 	
-	@PostMapping("/admin/manufacturers/add")
+	@PostMapping("/add")
 	public String addCategory(@ModelAttribute("manufacturer") ManufacturerEntity manufacturer) {
 		manufacturersService.save(manufacturer);
 		return "redirect:/admin/manufacturers";
 	}
 
 	// Edit category
-	@GetMapping("/admin/manufacturers/edit/{id}")
+	@GetMapping("/edit/{id}")
 	public String editManufacturerForm(@PathVariable Long id, Model model) {
 		ManufacturerEntity manufacturer = manufacturersService.findById(id)
 	            .orElseThrow(() -> new IllegalArgumentException("Invalid manufacturer ID: " + id));
 		model.addAttribute("manufacturer", manufacturer);
-		return "manufacturer-edit";
+		return "admin/manufacturer-edit";
 	}
 
-	@PostMapping("/admin/manufacturers/edit/{id}")
+	@PostMapping("edit/{id}")
 	public String editCategory(@PathVariable Long id, @ModelAttribute("manufacturer") ManufacturerEntity manufacturer) {
 		manufacturer.setId(id);
 		manufacturersService.save(manufacturer);
@@ -70,10 +69,9 @@ public class ManufacturerController {
 	}
 
 	// Delete category
-	@GetMapping("/admin/manufacturers/delete/{id}")
+	@GetMapping("/delete/{id}")
 	public String deleteCategory(@PathVariable Long id) {
 		manufacturersService.deleteById(id);
 		return "redirect:/admin/manufacturers";
 	}
-
 }

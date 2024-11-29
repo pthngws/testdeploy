@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html class="no-js" lang="en">
+<html class="no-js" lang="en"
+	xmlns:th="http://www.thymeleaf.org">
 
 
 
@@ -139,7 +140,7 @@
                                         </li>
                                         <th:block th:if="${session.username}">
                                             <li>
-                                                <span>Xin chào, <span th:text="${session.username}"></span></span>
+                                                <span>Xin chào, <span th:text="${session.fullName}"></span></span>
                                                 <a href="/logout">Logout</a>
                                             </li>
                                         </th:block>
@@ -494,9 +495,14 @@
                                                     <li><a href="blog-details-image.html">blog details image</a></li>
                                                 </ul>
                                             </li>
-                                            <li><a href="contact-us.html">Contact us</a></li>
-                                            
-                                            <li><a href="contact-us.html">Manage Product</a></li>
+                                            <li><a href="contact-us.html">Liên Hệ</a></li>
+                                            <li th:if="${session.user.role_name == 'manager'}">
+                                            	<a href="/admin/products">Quản Lý Sản Phẩm</a>
+                                            	<ul class="dropdown">                       
+                                                    <li><a href="/admin/manufacturers">Nhà Sản Xuất</a></li>
+                                                    <li><a href="/admin/categories">Thể Loại</a></li>
+                                                </ul>
+                                              </li>
                                         </ul>
                                     </nav>
                                 </div>

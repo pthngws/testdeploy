@@ -489,7 +489,13 @@
                                         <input type="text" th:field="*{name}" placeholder="Họ tên đầy đủ" required />
                                     </div>
                                     <div class="single-input-item">
-                                        <input type="email" th:field="*{email}" placeholder="Email" required />
+                                        <input type="email"
+                                               placeholder="Email"
+                                               th:field="*{email}"
+                                               name="username"
+                                               required
+                                               pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+                                               title="Nhập đúng định dạng email!" />
                                     </div>
 
                                     <script>

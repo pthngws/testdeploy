@@ -1,68 +1,76 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Quản lý khách hàng</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-<div class="container mt-5">
-    <!-- Tiêu đề -->
-    <h1 class="text-center">Danh sách khách hàng</h1>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<section class="row" layout:fragment="content">
+    <head>
+        <meta charset="UTF-8">
+        <title>Quản lý khách hàng</title>
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    </head>
 
-    <!-- Tìm kiếm khách hàng -->
-    <div class="row mt-4 mb-3">
-        <div class="col-md-6 offset-md-3">
-            <form th:action="@{/customers/search}" method="get" class="d-flex">
-                <input type="text" name="keyword" class="form-control me-2" placeholder="Tìm kiếm khách hàng theo tên hoặc email" />
-                <button type="submit" class="btn btn-primary" style="white-space: nowrap;">Tìm kiếm</button>
-            </form>
+    <body>
+    <div class="container mt-5">
+        <!-- Tiêu đề -->
+        <h1 class="text-center">Danh sách khách hàng</h1>
+
+        <!-- Tìm kiếm khách hàng -->
+        <div class="row mt-4 mb-3">
+            <div class="col-md-6 offset-md-3">
+                <form th:action="@{/customers/search}" method="get" class="d-flex">
+                    <input type="text" name="keyword" class="form-control me-2"
+                           placeholder="Tìm kiếm khách hàng theo tên hoặc email"/>
+                    <button type="submit" class="btn btn-primary" style="white-space: nowrap;">Tìm kiếm</button>
+                </form>
+            </div>
         </div>
+
+        <!-- Bảng thông tin khách hàng -->
+        <table class="table table-bordered table-hover">
+            <thead class="table-dark">
+            <tr>
+                <th style="text-align: center; vertical-align: middle;" scope="col">STT</th>
+                <th style="text-align: center; vertical-align: middle;" scope="col">Tên</th>
+                <th style="text-align: center; vertical-align: middle;" scope="col">Email</th>
+                <th style="text-align: center; vertical-align: middle;" scope="col">Giới tính</th>
+                <th style="text-align: center; vertical-align: middle;" scope="col">Số điện thoại</th>
+                <th style="text-align: center; vertical-align: middle;" scope="col">Địa chỉ</th>
+                <th style="text-align: center; vertical-align: middle;" scope="col">Thông tin chi tiết</th>
+                <th style="text-align: center; vertical-align: middle;" scope="col">Trạng thái</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Sử dụng Thymeleaf để duyệt danh sách khách hàng -->
+            <tr th:each="customer, iterStat : ${customers}">
+                <td th:text="${iterStat.count}">1</td>
+                <td th:text="${customer.name}">Nguyễn Văn A</td>
+                <td th:text="${customer.email}">example@gmail.com</td>
+                <td th:text="${customer.gender}">Nam</td>
+                <td th:text="${customer.phone}">0123456789</td>
+                <td th:text="${customer.address.other} + ' ' + ${customer.address.commune} + ', ' +${customer.address.district} + ', ' +${customer.address.province} + ', ' +${customer.address.country}"></td>
+
+                <td style="text-align: center; vertical-align: middle;">
+                    <a th:href="@{/customers/{id}(id=${customer.userID})}" class="btn btn-info btn-sm text-white">Chi
+                        tiết</a>
+                </td>
+
+                <td style="text-align: center; vertical-align: middle;">
+                    <input type="checkbox" disabled th:checked="${customer.active}"/>
+                </td>
+
+            </tr>
+            <!-- Hiển thị thông báo nếu không có khách hàng nào -->
+            <tr th:if="${#lists.isEmpty(customers)}">
+                <td colspan="8" class="text-center">Không có khách hàng nào!</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 
-    <!-- Bảng thông tin khách hàng -->
-    <table class="table table-bordered table-hover">
-        <thead class="table-dark">
-        <tr>
-            <th style="text-align: center; vertical-align: middle;" scope="col">STT</th>
-            <th style="text-align: center; vertical-align: middle;" scope="col">Tên</th>
-            <th style="text-align: center; vertical-align: middle;" scope="col">Email</th>
-            <th style="text-align: center; vertical-align: middle;" scope="col">Giới tính</th>
-            <th style="text-align: center; vertical-align: middle;" scope="col">Số điện thoại</th>
-            <th style="text-align: center; vertical-align: middle;" scope="col">Địa chỉ</th>
-            <th style="text-align: center; vertical-align: middle;" scope="col">Thông tin chi tiết</th>
-            <th style="text-align: center; vertical-align: middle;" scope="col">Trạng thái</th>
-        </tr>
-        </thead>
-        <tbody>
-        <!-- Sử dụng Thymeleaf để duyệt danh sách khách hàng -->
-        <tr th:each="customer, iterStat : ${customers}">
-            <td th:text="${iterStat.count}">1</td>
-            <td th:text="${customer.name}">Nguyễn Văn A</td>
-            <td th:text="${customer.email}">example@gmail.com</td>
-            <td th:text="${customer.gender}">Nam</td>
-            <td th:text="${customer.phone}">0123456789</td>
-            <td th:text="${customer.address.other} + ' ' + ${customer.address.commune} + ', ' +${customer.address.district} + ', ' +${customer.address.province} + ', ' +${customer.address.country}"></td>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
 
-            <td style="text-align: center; vertical-align: middle;">
-                <a th:href="@{/customers/{id}(id=${customer.userID})}" class="btn btn-info btn-sm text-white">Chi tiết</a>
-            </td>
-
-            <td style="text-align: center; vertical-align: middle;">
-                <input type="checkbox" disabled th:checked="${customer.active}" />
-            </td>
-
-        </tr>
-        <!-- Hiển thị thông báo nếu không có khách hàng nào -->
-        <tr th:if="${#lists.isEmpty(customers)}">
-            <td colspan="8" class="text-center">Không có khách hàng nào!</td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+</section>
 </html>

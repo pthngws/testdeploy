@@ -486,7 +486,14 @@
                                 <h2>Đăng nhập</h2>
                                 <form action="#" th:action="@{/login}" method="post" id="myForm">
                                     <div class="single-input-item">
-                                        <input type="email" placeholder="Email" name="username" required />
+                                        <!-- Email field with pattern for stricter validation -->
+                                        <input
+                                                type="email"
+                                                placeholder="Email"
+                                                name="username"
+                                                required
+                                                pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+                                                title="Nhập đúng định dạng email!" />
                                     </div>
                                     <div class="single-input-item">
                                         <input type="password" placeholder="Mật khẩu" name="password" required />
@@ -507,6 +514,7 @@
                                         <button type="submit" class="sqr-btn">Đăng nhập</button>
                                     </div>
                                 </form>
+
                             </div>
                         </div>
                         <!-- Login Content End -->

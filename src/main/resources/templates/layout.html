@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,18 +9,18 @@
     <!-- Site title -->
     <title>Galio - Mega Shop Responsive Bootstrap 4 Template</title>
     <!-- Favicon -->
-    <link rel="shortcut icon" href="assets/img/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" th:href="@{/assets/img/favicon.ico}" type="image/x-icon" />
     <!-- Bootstrap CSS -->
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/assets/css/bootstrap.min.css}" rel="stylesheet">
     <!-- Font-Awesome CSS -->
-    <link href="assets/css/font-awesome.min.css" rel="stylesheet">
+    <link th:href="@{/assets/css/font-awesome.min.css}" rel="stylesheet">
     <!-- helper class css -->
-    <link href="assets/css/helper.min.css" rel="stylesheet">
+    <link th:href="@{/assets/css/helper.min.css}" rel="stylesheet">
     <!-- Plugins CSS -->
-    <link href="assets/css/plugins.css" rel="stylesheet">
+    <link th:href="@{/assets/css/plugins.css}" rel="stylesheet">
     <!-- Main Style CSS -->
-    <link href="assets/css/style.css" rel="stylesheet">
-    <link href="assets/css/skin-default.css" rel="stylesheet" id="galio-skin">
+    <link th:href="@{/assets/css/style.css}" rel="stylesheet">
+    <link th:href="@{/assets/css/skin-default.css}" rel="stylesheet" id="galio-skin">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.0/sockjs.min.js"></script>
@@ -32,32 +32,36 @@
 <body>
 
 <!-- Include Header -->
-<div th:replace="~{../fragments/header :: header}"></div>
+<div th:replace="~{/fragments/header :: header}"></div>
 
 <!-- Content chính sẽ được thay thế ở đây -->
-<div th:fragment="content">
-    <!-- Nội dung động của từng trang sẽ nằm ở đây -->
-</div>
+<main class="container">
+    <!-- Content Section -->
+
+            <div layout:fragment="content"></div>
+
+
+</main>
 
 <!-- Include Footer -->
-<div th:replace="~{../fragments/footer :: footer}"></div>
+<div th:replace="~{/fragments/footer :: footer}"></div>
 
 </body>
 <!--All jQuery, Third Party Plugins & Activation (main.js) Files-->
-<script src="assets/js/vendor/modernizr-3.6.0.min.js"></script>
+<script th:src="@{/assets/js/vendor/modernizr-3.6.0.min.js}"></script>
 <!-- Jquery Min Js -->
-<script src="assets/js/vendor/jquery-3.3.1.min.js"></script>
+<script th:src="@{/assets/js/vendor/jquery-3.3.1.min.js}"></script>
 <!-- Popper Min Js -->
-<script src="assets/js/vendor/popper.min.js"></script>
+<script th:src="@{/assets/js/vendor/popper.min.js}"></script>
 <!-- Bootstrap Min Js -->
-<script src="assets/js/vendor/bootstrap.min.js"></script>
+<script th:src="@{/assets/js/vendor/bootstrap.min.js}"></script>
 <!-- Plugins Js-->
-<script src="assets/js/plugins.js"></script>
+<script th:src="@{/assets/js/plugins.js}"></script>
 <!-- Ajax Mail Js -->
-<script src="assets/js/ajax-mail.js"></script>
+<script th:src="@{/assets/js/ajax-mail.js}"></script>
 <!-- Active Js -->
-<script src="assets/js/main.js"></script>
+<script th:src="@{/assets/js/main.js}"></script>
 <!-- Switcher JS [Please Remove this when Choose your Final Projct] -->
-<script src="assets/js/switcher.js"></script>
+<script th:src="@{/assets/js/switcher.js}"></script>
 
 </html>
