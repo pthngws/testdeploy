@@ -4,8 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Manufacturer</title>
+    <link rel="stylesheet" href="/css/admin/manufacturer-edit.css">
 </head>
 <body>
+
+	<div th:replace="fragments/header :: header"></div>
+	
     <h1>Edit Manufacturer</h1>
 
     <form th:action="@{'/admin/manufacturers/edit/' + ${manufacturer.id}}" th:object="${manufacturer}" method="post">
@@ -17,17 +21,11 @@
         <input type="text" id="address" th:field="*{address}" />
         <br />
 
-        <!-- Product list section -->
-        <h3>Products:</h3>
-        <ul>
-            <li th:each="product : ${manufacturer.products}">
-                <span th:text="${product.name}"></span>
-                <a th:href="@{'/admin/products/edit/' + ${product.id}}">Edit</a>
-            </li>
-        </ul>
-
         <button type="submit">Update</button>
         <a href="/admin/manufacturers/">Cancel</a>
     </form>
+    
+    <div th:replace="fragments/footer :: footer"></div>
+    
 </body>
 </html>

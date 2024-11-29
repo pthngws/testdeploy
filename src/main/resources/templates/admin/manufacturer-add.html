@@ -4,8 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Add Manufacturer</title>
+<link rel="stylesheet" href="/css/admin/manufacturer-edit.css">
 </head>
 <body>
+
+	<div th:replace="fragments/header :: header"></div>
+	
 	<h1>Add Manufacturer</h1>
 	<form th:action="@{/admin/manufacturers/add}"
 		th:object="${manufacturer}" method="post">
@@ -16,17 +20,15 @@
 
 		<!-- Địa chỉ nhà sản xuất -->
 		<label for="address">Address:</label> <input type="text" id="address"
-			th:field="*{address}" /> <br /> <label for="products">Products:</label>
-		<select id="products" th:field="*{products}" multiple="multiple"
-			size="5">
-			<option th:each="product : ${products}"
-				th:value="${product.productID}" th:text="${product.name}"></option>
-		</select> <br />
-
+			th:field="*{address}" /> <br /> 
 		<!-- Nút lưu -->
 		<button type="submit">Save</button>
 		<!-- Nút hủy -->
 		<a href="/admin/manufacturers/">Cancel</a>
 	</form>
+	
+	<div th:replace="fragments/footer :: footer"></div>
+	
+	
 </body>
 </html>

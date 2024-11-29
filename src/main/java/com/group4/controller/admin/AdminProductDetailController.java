@@ -1,4 +1,4 @@
-package com.group4.controller;
+package com.group4.controller.admin;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,13 +18,23 @@ import com.group4.entity.ProductDetailEntity;
 
 @Controller
 @RequestMapping("/admin/product/product-details")
-public class ProductDetailController {
+public class AdminProductDetailController {
 
 	@Autowired
 	private IProductDetailService productDetailService;
 
 	@Autowired
 	private IImageItemService imageItemService;
+
+	
+	public AdminProductDetailController(IProductDetailService productDetailService,
+			IImageItemService imageItemService) {
+		super();
+		this.productDetailService = productDetailService;
+		this.imageItemService = imageItemService;
+	}
+
+
 
 	@GetMapping
 	public String getAllProductDetail(Model model) {

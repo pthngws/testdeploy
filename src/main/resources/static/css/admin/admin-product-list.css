@@ -1,0 +1,122 @@
+/* Cấu trúc chung của body */
+.btn-red {
+	background-color: #e74c3c; /* Màu đỏ sáng */
+	color: white; /* Màu chữ trắng */
+	border: none;
+	padding: 15px 30px; /* Làm nút to hơn */
+	font-size: 18px; /* Font chữ to hơn */
+	font-weight: bold; /* Chữ đậm */
+	text-align: center;
+	border-radius: 8px; /* Bo tròn góc */
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Thêm bóng mờ cho nút */
+	cursor: pointer;
+	transition: background-color 0.3s, box-shadow 0.3s, transform 0.3s;
+}
+
+.btn-red:hover {
+	background-color: #c0392b; /* Đổi màu khi hover sang đỏ đậm */
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+	/* Bóng mờ đậm hơn khi hover */
+	transform: scale(1.05); /* Phóng to nút khi hover */
+}
+
+.center {
+	text-align: center;
+	margin-top: 20px;
+}
+
+body {
+	font-family: Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+	background-color: #ffffff; /* Nền trắng */
+	color: #333; /* Chữ màu xám tối */
+}
+
+h1 {
+	text-align: center;
+	margin-top: 20px;
+	font-size: 36px;
+	color: #e74c3c; /* Đỏ */
+}
+
+/* Cấu trúc bảng */
+table {
+	width: 90%;
+	margin: 20px auto;
+	border-collapse: collapse;
+	background-color: white; /* Nền trắng cho bảng */
+	border-radius: 8px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+	padding: 12px;
+	text-align: left;
+	border-bottom: 1px solid #7f8c8d; /* Màu xám nhạt */
+}
+
+/* Cấu trúc header của bảng */
+th {
+	background-color: #e74c3c; /* Đỏ */
+	color: white;
+	font-weight: bold;
+}
+
+/* Cấu trúc hàng bảng */
+tr:nth-child(even) {
+	background-color: #f2f2f2; /* Màu xám nhạt */
+}
+
+tr:nth-child(odd) {
+	background-color: #ffffff; /* Nền trắng cho hàng lẻ */
+}
+
+/* Liên kết hành động */
+a {
+	color: #e74c3c; /* Đỏ */
+	text-decoration: none;
+	margin: 0 10px;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+/* Điều khiển phân trang */
+div {
+	text-align: center;
+	margin: 20px 0;
+}
+
+button {
+	background-color: #e74c3c; /* Đỏ */
+	color: white;
+	border: none;
+	padding: 10px 20px;
+	font-size: 16px;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+button:hover {
+	background-color: #c0392b; /* Đỏ đậm */
+}
+
+span a {
+	padding: 8px 12px;
+	margin: 0 5px;
+	border-radius: 5px;
+	background-color: #ecf0f1; /* Xám sáng */
+	text-decoration: none;
+	color: #333;
+}
+
+span a.active {
+	background-color: #e74c3c; /* Đỏ */
+	color: white;
+}
+
+span a:hover {
+	background-color: #bdc3c7; /* Xám nhạt */
+}

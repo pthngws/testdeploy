@@ -1,0 +1,161 @@
+/* Chỉnh sửa cho toàn bộ trang */
+body {
+    background-color: #ffffff;  /* Nền trang màu trắng */
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333;  /* Màu chữ chung */
+}
+
+/* Tạo hiệu ứng đổ bóng cho phần header */
+h1, h3 {
+    text-align: center;
+    color: #e50914;  /* Màu đỏ cho header */
+    margin-bottom: 20px;
+}
+
+/* Tạo hiệu ứng box-shadow cho các thẻ card */
+.card {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+    background-color: #fff;  /* Nền trắng cho các thẻ card */
+}
+
+/* Các trường input và select */
+input, select, textarea {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 8px;
+    width: 100%;
+    margin-bottom: 10px;
+    font-size: 14px;
+    background-color: #f8f9fa;  /* Nền input màu sáng */
+}
+
+/* Nút button */
+button {
+    font-size: 14px;
+    border-radius: 4px;
+    padding: 10px 15px;
+}
+
+/* Nút button - Add Product */
+button[type="submit"] {
+    font-size: 14px;
+    border-radius: 4px;
+    padding: 10px 15px;
+    margin-top: 40px;
+    margin-bottom: 20px;  /* Thêm khoảng cách dưới nút Add Product */
+}
+
+/* Nút thêm ảnh - Add More Image */
+#image-uri-container button[type="button"] {
+    font-size: 14px;
+    border-radius: 4px;
+    padding: 10px 15px;
+    margin-top: 40px;  /* Thêm khoảng cách trên nút Add More Image */
+}
+
+/* Nút thêm ảnh */
+#image-form {
+    display: none;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+/* Giới hạn chiều rộng cho form */
+#add-product-form {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Tạo tông màu đỏ và đen */
+.btn-primary {
+    background-color: #e50914;
+    border-color: #e50914;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #b4060f;
+    border-color: #b4060f;
+}
+
+.btn-secondary {
+    background-color: #333;  /* Màu đen cho nút phụ */
+    border-color: #333;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #444;
+    border-color: #444;
+}
+
+.btn-info {
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+}
+
+.btn-info:hover {
+    background-color: #138496;
+    border-color: #117a8b;
+}
+
+/* Định dạng table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background-color: #e50914;  /* Màu đỏ cho header của table */
+    color: white;
+}
+
+td {
+    background-color: #ffffff;  /* Màu trắng cho ô dữ liệu */
+}
+
+tr:hover td {
+    background-color: #f1f1f1;  /* Chỉnh màu nền khi hover vào các dòng */
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination a {
+    margin: 0 5px;
+    padding: 8px 12px;
+    text-decoration: none;
+    border-radius: 4px;
+    background-color: #e50914;  /* Màu đỏ cho các trang */
+    color: white;
+}
+
+.pagination a:hover {
+    background-color: #b4060f;
+}
+
+.pagination a.active {
+    background-color: #b4060f;
+}
+
+/* Trung tâm cho các nút */
+.center {
+    text-align: center;
+}

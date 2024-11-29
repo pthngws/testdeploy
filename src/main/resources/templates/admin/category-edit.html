@@ -4,8 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Category</title>
+    <link rel="stylesheet" href="/css/admin/category-edit.css">
 </head>
 <body>
+
+	<div th:replace="fragments/header :: header"></div>
+	
     <h1>Edit Category</h1>
     <form th:action="@{'/admin/categories/edit/' + ${category.categoryID}}" th:object="${category}" method="post">
         <label for="name">Name:</label>
@@ -17,5 +21,7 @@
         <button type="submit">Update</button>
         <a href="/admin/categories/">Cancel</a>
     </form>
+    
+    <div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>
