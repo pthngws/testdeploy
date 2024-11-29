@@ -20,6 +20,6 @@ public class CategoryEntity {
     @Column(columnDefinition = "nvarchar(250) not null")
     private String name;
 
-    @Column(columnDefinition = "nvarchar(250)")
+    @Column(columnDefinition = "text")
     private String description;
 }
