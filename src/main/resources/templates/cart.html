@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang = "en"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout.html}">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,11 +19,64 @@
     <!-- Main Style CSS -->
     <link href="/assets/css/style.css" rel="stylesheet">
     <link href="/assets/css/skin-default.css" rel="stylesheet" id="galio-skin">
-</head>
+    <style>
+        .quantity {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-<!-- Gọi fragment header -->
-<!--<div th:replace="fragments/header :: header"></div>-->
+        .qty-btn {
+            border: none; /* Loại bỏ đường viền */
+            background: none; /* Loại bỏ nền */
+            font-size: 18px; /* Kích thước chữ */
+            padding: 0 10px; /* Khoảng cách chữ */
+            cursor: pointer;
+            color: #333; /* Màu chữ */
+        }
+
+        .qty-btn:focus {
+            outline: none; /* Loại bỏ viền khi nhấn nút */
+        }
+
+        .qty-btn:hover {
+            color: #e60000; /* Màu đỏ khi di chuột vào */
+        }
+
+        .quantity-input {
+            width: 50px;
+            height: 30px;
+            text-align: center;
+            border: 1px solid #ccc; /* Viền của ô nhập */
+            margin: 0 5px; /* Khoảng cách hai bên */
+        }
+
+
+    </style>
+</head>
 <body>
+<div th:replace="fragments/header :: header"></div>
+
+<!-- breadcrumb area start -->
+<div class="breadcrumb-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb-wrap">
+                    <nav aria-label="breadcrumb">
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="@{/index.html}">Home</a></li>
+                            <li class="breadcrumb-item"><a href="shop-grid-left-sidebar.html">shop</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">cart</li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- breadcrumb area end -->
+
 <!-- cart main wrapper start -->
 <div class="cart-main-wrapper">
     <div class="container">
@@ -48,7 +99,7 @@
                         <!-- Lặp qua danh sách sản phẩm trong giỏ hàng -->
                         <tr th:each="product : ${products}">
                             <td class="pro-thumbnail">
-                                <a href="#"><img class="img-fluid" th:src="${product.detail.getImages()}" alt="Product"/></a>
+                                <a href="#"><img class="img-fluid" th:src="${product.detail.images[0]?.imageUrl}" alt="Product"/></a>
                             </td>
                             <td class="pro-title">
                                 <a th:href="@{/product/{id}(id=${product.getProductID()})}" th:text="${product.getName()}">Product Name</a>
@@ -56,9 +107,11 @@
                             <td class="pro-price">
                                 <span th:text="${product.getPrice()} + '$'">Price</span>
                             </td>
-                            <td class="pro-quantity">
-                                <div class="pro-qty">
-                                    <input type="text" th:value="1"/>
+                            <td>
+                                <div class="quantity">
+                                    <button class="qty-btn minus">-</button>
+                                    <input type="text" value="1" min="1" class="quantity-input" readonly>
+                                    <button class="qty-btn plus">+</button>
                                 </div>
                             </td>
                             <td class="pro-subtotal">
@@ -119,8 +172,32 @@
     </div>
 </div>
 <!-- cart main wrapper end -->
-
+<div th:replace="fragments/footer :: footer"></div>
 </body>
-<!-- Gọi fragment footer -->
-<!--<div th:replace="fragments/footer :: footer"></div>-->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Lấy tất cả các ô nhập số lượng
+        const quantityInputs = document.querySelectorAll(".quantity-input");
+
+        quantityInputs.forEach(input => {
+            // Lấy nút tăng và giảm
+            const minusBtn = input.previousElementSibling;
+            const plusBtn = input.nextElementSibling;
+
+            // Giảm số lượng
+            minusBtn.addEventListener("click", function () {
+                let currentValue = parseInt(input.value);
+                if (currentValue > 1) {
+                    input.value = currentValue - 1;
+                }
+            });
+
+            // Tăng số lượng
+            plusBtn.addEventListener("click", function () {
+                let currentValue = parseInt(input.value);
+                input.value = currentValue + 1;
+            });
+        });
+    });
+</script>
 </html>

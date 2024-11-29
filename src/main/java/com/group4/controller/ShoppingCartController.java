@@ -25,9 +25,6 @@ public class ShoppingCartController {
         List<ProductEntity> products = shoppingCartService.findProductsByCustomerId(customerId);
         model.addAttribute("products", products);
         System.out.println(products);
-        return "testcart";
+        return "cart";
     }
-//    public List<ProductEntity> getProductsByCustomerId(@PathVariable("customerId") Long customerId) {
-//        return shoppingCartService.findProductsByCustomerId(customerId);
-//    }
 }
