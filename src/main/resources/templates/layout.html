@@ -19,6 +19,7 @@
     <!-- Plugins CSS -->
     <link th:href="@{/assets/css/plugins.css}" rel="stylesheet">
     <!-- Main Style CSS -->
+    <link th:href="@{/assets/css/chat.css}" rel="stylesheet">
     <link th:href="@{/assets/css/style.css}" rel="stylesheet">
     <link th:href="@{/assets/css/skin-default.css}" rel="stylesheet" id="galio-skin">
 
@@ -33,14 +34,12 @@
 
 <!-- Include Header -->
 <div th:replace="~{/fragments/header :: header}"></div>
-
+<div th:replace="~{/fragments/chat :: div}"></div>
 <!-- Content chính sẽ được thay thế ở đây -->
-<main class="container">
-    <!-- Content Section -->
-
-            <div layout:fragment="content"></div>
-
-
+<main>
+    <div layout:fragment="content">
+        <!-- Nội dung sẽ được thay thế tại đây -->
+    </div>
 </main>
 
 <!-- Include Footer -->
@@ -59,6 +58,8 @@
 <script th:src="@{/assets/js/plugins.js}"></script>
 <!-- Ajax Mail Js -->
 <script th:src="@{/assets/js/ajax-mail.js}"></script>
+
+<script th:src="@{/assets/js/chat.js}"></script>
 <!-- Active Js -->
 <script th:src="@{/assets/js/main.js}"></script>
 <!-- Switcher JS [Please Remove this when Choose your Final Projct] -->

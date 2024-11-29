@@ -54,19 +54,4 @@ public class ProductEntity {
     @JsonManagedReference
     @ToString.Exclude
     private List<RateEntity> rates;
-
-    // Phương thức tính trung bình đánh giá
-    public double getAverageRating() {
-        if (rates == null || rates.isEmpty()) {
-            return 0.0;  // Nếu không có đánh giá, trả về 0
-        }
-        return rates.stream()
-                .mapToInt(RateEntity::getRate)
-                .average()
-                .orElse(0.0);
-    }
-
-    public int getReviewCount() {
-        return (rates == null) ? 0 : rates.size();
-    }
 }

@@ -1,4 +1,4 @@
-package com.group4.controller;
+package com.group4.controller.admin;
 
 import com.group4.entity.RateEntity;
 import com.group4.service.impl.RateServiceImpl;

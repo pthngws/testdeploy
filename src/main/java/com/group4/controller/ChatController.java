@@ -31,11 +31,9 @@ public class ChatController {
     public String homePage(HttpSession session, Model model) {
         // Kiểm tra xem khách đã có ID tạm trong session chưa
         String guestId = (String) session.getAttribute("GID");
-        System.out.println("AAAAAAAA" + guestId);
         // Nếu chưa có ID, tạo ID tạm và lưu vào session
         if (guestId == null) {
             guestId = generateRandomNumberString(10);
-            System.out.println("BBBBBBBB" + guestId);
             session.setAttribute("GID", guestId);
         }
 
@@ -54,15 +52,9 @@ public class ChatController {
     }
 
     @GetMapping("/getCustomerList")
-    public ResponseEntity<List<Object[]>> getCustomerList() {
-        try {
-            // Truy vấn các senderId đã nhắn tin cho receiverId được truyền vào
-            List<Object[]> customerList = chatService.findDistinctSendersByReceiverId();
-            return ResponseEntity.ok(customerList);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error fetching customer list", e);
-        }
+    public ResponseEntity<List<Map<String, Object>>> getCustomerList() {
+        List<Map<String, Object>> customers = chatService.findDistinctSendersByReceiverId(); // receiverID = 1 (cố định hoặc từ token)
+        return ResponseEntity.ok(customers);
     }
 
     @MessageMapping("/sendMessage")

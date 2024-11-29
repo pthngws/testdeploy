@@ -34,4 +34,8 @@ public interface IProductService {
     
 
     void deleteById(Long id);
+
+    public double calculateAverageRating(ProductEntity product);
+
+    public int getReviewCount(ProductEntity product);
 }
