@@ -1,6 +1,7 @@
 package com.group4.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -31,12 +32,14 @@ public class ProductEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false)
+    @JsonIgnore
+    @ToString.Exclude
     private CategoryEntity category;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "manufacturer_id", nullable = false)
     @ToString.Exclude
-    @JsonManagedReference
+    @JsonBackReference
     private ManufacturerEntity manufacturer;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -48,6 +51,8 @@ public class ProductEntity {
     private List<ShoppingCartEntity> carts;
 
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    @JsonManagedReference
+    @ToString.Exclude
     private List<RateEntity> rates;
 
     // Phương thức tính trung bình đánh giá

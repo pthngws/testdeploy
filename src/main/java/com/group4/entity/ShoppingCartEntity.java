@@ -19,6 +19,8 @@ public class ShoppingCartEntity {
 
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+    @JsonManagedReference
+    @ToString.Exclude
     private CustomerEntity customer;
 
     @ManyToMany
@@ -29,6 +31,7 @@ public class ShoppingCartEntity {
             uniqueConstraints = @UniqueConstraint(columnNames = {"cart_id", "product_id"}) // Ràng buộc duy nhất
     )
     @JsonManagedReference
+    @ToString.Exclude
     private List<ProductEntity> products;
 
 

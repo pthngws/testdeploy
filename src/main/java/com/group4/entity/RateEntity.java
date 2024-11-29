@@ -1,5 +1,7 @@
 package com.group4.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,6 +22,7 @@ public class RateEntity {
 
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
+    @JsonBackReference
     private ProductEntity product;
 
     @Column(columnDefinition = "MEDIUMTEXT", nullable = false)

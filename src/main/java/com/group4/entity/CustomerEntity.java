@@ -17,6 +17,7 @@ import java.util.List;
 @PrimaryKeyJoinColumn(name = "user_id") // Ánh xạ với cột user_id từ UserEntity
 public class CustomerEntity extends UserEntity {
     @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonBackReference
     private ShoppingCartEntity shoppingCart;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)

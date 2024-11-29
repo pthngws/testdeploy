@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Map;
@@ -22,7 +23,11 @@ public class ShoppingCartController {
     @GetMapping("/customer/{customerId}")
     public String getProductsByCustomerId(@PathVariable Long customerId, Model model) {
         List<ProductEntity> products = shoppingCartService.findProductsByCustomerId(customerId);
-        //model.addAttribute("products", products);
-        return "cart";
+        model.addAttribute("products", products);
+        System.out.println(products);
+        return "testcart";
     }
+//    public List<ProductEntity> getProductsByCustomerId(@PathVariable("customerId") Long customerId) {
+//        return shoppingCartService.findProductsByCustomerId(customerId);
+//    }
 }

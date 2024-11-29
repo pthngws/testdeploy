@@ -14,6 +14,6 @@ import java.util.Optional;
 @Repository
 public interface ShoppingCartRepository extends JpaRepository<ShoppingCartEntity,Long> {
     Optional<ShoppingCartEntity> findByCustomer(UserEntity userEntity);
-    @Query("SELECT p FROM ShoppingCartEntity sc JOIN sc.products p WHERE sc.customer.userID = :customerID")
-    List<ProductEntity> findProductsByCustomerId(@Param("customerID") Long customerId);
+    @Query("SELECT sc.products FROM ShoppingCartEntity sc WHERE sc.customer.userID = :customerId")
+    List<ProductEntity> findProductsByCustomerId(@Param("customerId") Long customerId);
 }
