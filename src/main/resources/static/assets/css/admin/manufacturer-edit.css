@@ -82,3 +82,11 @@ a:hover {
         font-size: 14px;
     }
 }
+
+/* Đặt section là flex container */
+section.row {
+    display: flex;
+    flex-direction: column; /* Dọc theo chiều dọc */
+    align-items: center; /* Căn giữa tất cả phần tử trong section */
+    
+}

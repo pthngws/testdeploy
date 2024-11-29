@@ -243,9 +243,31 @@ public class AdminProductController {
 
 	// Delete product
 	@GetMapping("/products/delete{id}")
-	public String deleteProduct(@PathVariable Long id) {
-		productServiceImpl.deleteById(id);
-		return "redirect:/admin/products";
+	public String deleteProduct(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+		// Tìm sản phẩm theo id
+	    Optional<ProductEntity> optionalProduct = productServiceImpl.findById(id);
+
+	    // Kiểm tra nếu sản phẩm không tồn tại
+	    if (!optionalProduct.isPresent()) {
+	        redirectAttributes.addFlashAttribute("errorMessage", "Sản phẩm không tồn tại");
+	        return "redirect:/admin/products";
+	    }
+
+	    // Lấy sản phẩm từ Optional
+	    ProductEntity product = optionalProduct.get();
+
+	    // Kiểm tra trạng thái sản phẩm
+	    if (product.getStatus() == 0) {
+	        redirectAttributes.addFlashAttribute("infoMessage", "Sản phẩm đã được xóa");
+	    } else {
+	        // Cập nhật trạng thái sản phẩm thành 0 (xóa)
+	        product.setStatus(0);
+	        productServiceImpl.save(product);  // Lưu lại thay đổi
+	        redirectAttributes.addFlashAttribute("successMessage", "Xóa Sản Phẩm Thành Công");
+	    }
+
+	    // Quay lại trang quản lý sản phẩm
+	    return "redirect:/admin/products";
 	}
 
 	@GetMapping("/products/details/{id}")

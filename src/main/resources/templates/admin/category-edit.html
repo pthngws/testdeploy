@@ -1,14 +1,16 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout.html}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Category</title>
-    <link rel="stylesheet" href="/css/admin/category-edit.css">
+    <link rel="stylesheet" href="/assets/css/admin/category-edit.css">
 </head>
 <body>
 
-	<div th:replace="fragments/header :: header"></div>
+	<section class="row" layout:fragment="content">
 	
     <h1>Edit Category</h1>
     <form th:action="@{'/admin/categories/edit/' + ${category.categoryID}}" th:object="${category}" method="post">
@@ -19,9 +21,9 @@
         <input type="text" id="description" th:field="*{description}" />
         <br />
         <button type="submit">Update</button>
-        <a href="/admin/categories/">Cancel</a>
+        <a href="/admin/categories">Cancel</a>
     </form>
     
-    <div th:replace="fragments/footer :: footer"></div>
+    </section>
 </body>
 </html>

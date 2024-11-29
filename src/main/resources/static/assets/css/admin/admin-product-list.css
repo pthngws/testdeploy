@@ -1,122 +1,123 @@
-/* Cấu trúc chung của body */
-.btn-red {
-	background-color: #e74c3c; /* Màu đỏ sáng */
-	color: white; /* Màu chữ trắng */
-	border: none;
-	padding: 15px 30px; /* Làm nút to hơn */
-	font-size: 18px; /* Font chữ to hơn */
-	font-weight: bold; /* Chữ đậm */
-	text-align: center;
-	border-radius: 8px; /* Bo tròn góc */
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Thêm bóng mờ cho nút */
-	cursor: pointer;
-	transition: background-color 0.3s, box-shadow 0.3s, transform 0.3s;
-}
-
-.btn-red:hover {
-	background-color: #c0392b; /* Đổi màu khi hover sang đỏ đậm */
-	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-	/* Bóng mờ đậm hơn khi hover */
-	transform: scale(1.05); /* Phóng to nút khi hover */
-}
-
-.center {
-	text-align: center;
-	margin-top: 20px;
-}
-
+/* Đặt nền trắng cho body và font chữ cơ bản */
 body {
-	font-family: Arial, sans-serif;
-	margin: 0;
-	padding: 0;
-	background-color: #ffffff; /* Nền trắng */
-	color: #333; /* Chữ màu xám tối */
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff; /* Nền trắng */
+    color: #333; /* Chữ màu xám đậm */
 }
 
-h1 {
-	text-align: center;
-	margin-top: 20px;
-	font-size: 36px;
-	color: #e74c3c; /* Đỏ */
+/* Tiêu đề căn giữa với màu đỏ */
+section.row h1 {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 36px;
+    color: #e74c3c; /* Màu đỏ chủ đạo */
 }
 
-/* Cấu trúc bảng */
-table {
-	width: 90%;
-	margin: 20px auto;
-	border-collapse: collapse;
-	background-color: white; /* Nền trắng cho bảng */
-	border-radius: 8px;
-	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+/* Bảng hiển thị sản phẩm */
+section.row table {
+    width: 100%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background-color: #ffffff; /* Nền trắng */
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Bóng mờ nhẹ */
 }
 
-th, td {
-	padding: 12px;
-	text-align: left;
-	border-bottom: 1px solid #7f8c8d; /* Màu xám nhạt */
+section.row th, section.row td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #dcdcdc; /* Đường viền nhạt */
 }
 
-/* Cấu trúc header của bảng */
-th {
-	background-color: #e74c3c; /* Đỏ */
-	color: white;
-	font-weight: bold;
+section.row th {
+    background-color: #e74c3c; /* Màu đỏ */
+    color: white;
+    font-weight: bold;
 }
 
-/* Cấu trúc hàng bảng */
-tr:nth-child(even) {
-	background-color: #f2f2f2; /* Màu xám nhạt */
+section.row tr:nth-child(even) {
+    background-color: #f9f9f9; /* Màu nền nhạt cho hàng chẵn */
 }
 
-tr:nth-child(odd) {
-	background-color: #ffffff; /* Nền trắng cho hàng lẻ */
+section.row tr:nth-child(odd) {
+    background-color: #ffffff; /* Nền trắng cho hàng lẻ */
 }
 
-/* Liên kết hành động */
-a {
-	color: #e74c3c; /* Đỏ */
-	text-decoration: none;
-	margin: 0 10px;
+/* Các nút hành động */
+section.row a {
+    color: #e74c3c; /* Màu đỏ */
+    text-decoration: none;
+    margin: 0 10px;
+    font-weight: bold;
 }
 
-a:hover {
-	text-decoration: underline;
+section.row a:hover {
+    text-decoration: underline;
+    color: #c0392b; /* Đỏ đậm khi hover */
 }
 
-/* Điều khiển phân trang */
-div {
-	text-align: center;
-	margin: 20px 0;
+/* Canh giữa phân trang */
+section.row div span {
+    text-align: center;
+    margin: 20px 0;
+    display: inline-block;
 }
 
-button {
-	background-color: #e74c3c; /* Đỏ */
-	color: white;
-	border: none;
-	padding: 10px 20px;
-	font-size: 16px;
-	border-radius: 5px;
-	cursor: pointer;
+section.row span a {
+    padding: 8px 12px;
+    margin: 0 5px;
+    border-radius: 5px;
+    background-color: #ecf0f1; /* Xám sáng */
+    text-decoration: none;
+    color: #333;
 }
 
-button:hover {
-	background-color: #c0392b; /* Đỏ đậm */
+section.row span a.active {
+    background-color: #e74c3c; /* Đỏ */
+    color: white;
 }
 
-span a {
-	padding: 8px 12px;
-	margin: 0 5px;
-	border-radius: 5px;
-	background-color: #ecf0f1; /* Xám sáng */
-	text-decoration: none;
-	color: #333;
+section.row span a:hover {
+    background-color: #bdc3c7; /* Xám nhạt */
 }
 
-span a.active {
-	background-color: #e74c3c; /* Đỏ */
-	color: white;
+/* Nút Add Product */
+section.row .btn-red {
+    background-color: #e74c3c; /* Đỏ */
+    color: white;
+    border: none;
+    padding: 15px 30px; /* Kích thước nút lớn */
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 8px; /* Bo tròn góc */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Bóng mờ */
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    margin: 50px ; /* Tạo khoảng cách và căn giữa */
+   	display: block; /* Đặt nút thành block để căn giữa */
 }
 
-span a:hover {
-	background-color: #bdc3c7; /* Xám nhạt */
+section.row .btn-red:hover {
+    background-color: #c0392b; /* Đỏ đậm khi hover */
+    transform: scale(1.05); /* Phóng to nhẹ khi hover */
+}
+
+/* Đảm bảo phân trang và nội dung căn giữa */
+section.row div.pagination {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Đặt khoảng cách giữa các phần tử */
+section.row {
+    padding: 20px;
+}
+
+
+/* Tạo không gian giữa phân trang và nút */
+section.row div.pagination + .btn-red {
+    margin-top: 10px; /* Khoảng cách giữa phân trang và nút */
 }
