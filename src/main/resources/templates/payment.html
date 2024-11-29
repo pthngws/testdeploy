@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      lang="en">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<section class="row" layout:fragment="content">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,15 +10,14 @@
     <script th:src="@{/js/vendor/jquery-3.3.1.min.js}"></script>
     <title>Tạo mới đơn hàng</title>
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
+        .payment-body {
             background-color: #f9f9f9; /* Nền sáng nhẹ */
             color: #333;
             margin: 0;
             padding: 0;
         }
 
-        .container {
+        .payment-container {
             max-width: 600px;
             margin: 50px auto;
             background: #fff;
@@ -25,34 +26,34 @@
             padding: 25px 20px;
         }
 
-        h4 {
+        .payment-title {
             font-size: 20px;
             font-weight: bold;
             margin-bottom: 20px;
             color: #d8373e; /* Tiêu đề chính sử dụng màu đỏ chính */
         }
 
-        .table-responsive {
+        .payment-table-responsive {
             padding: 15px 0;
         }
 
-        .form-group {
+        .payment-form-group {
             margin-bottom: 20px;
         }
 
-        label {
+        .payment-label {
             font-size: 16px;
             margin-left: 8px;
             color: #444;
             cursor: pointer;
         }
 
-        input[type="radio"] {
+        .payment-input-radio {
             margin-right: 10px;
             accent-color: #d8373e; /* Màu chọn của radio */
         }
 
-        input[type="number"] {
+        .payment-input-number {
             width: 100%;
             padding: 12px;
             border: 1px solid #ddd;
@@ -63,12 +64,12 @@
             transition: border 0.3s ease;
         }
 
-        input[type="number"]:focus {
+        .payment-input-number:focus {
             border: 1px solid #d8373e;
             outline: none;
         }
 
-        #payButton {
+        .payment-button {
             display: block;
             width: 100%;
             padding: 12px;
@@ -82,16 +83,16 @@
             transition: background-color 0.3s ease;
         }
 
-        #payButton:hover {
+        .payment-button:hover {
             background-color: #c02f35; /* Màu tối hơn khi hover */
         }
 
-        #qrCodeContainer {
+        .payment-qr-container {
             text-align: center;
             margin-top: 20px;
         }
 
-        #qrCodeImage {
+        .payment-qr-image {
             display: block;
             margin: 20px auto;
             border: 1px solid #eee;
@@ -102,7 +103,7 @@
             height: 250px;
         }
 
-        #callbackButton {
+        .payment-callback-button {
             display: block;
             width: 100%;
             padding: 12px;
@@ -117,11 +118,11 @@
             transition: background-color 0.3s ease;
         }
 
-        #callbackButton:hover {
+        .payment-callback-button:hover {
             background-color: #27ae60;
         }
 
-        button:disabled {
+        .payment-button:disabled {
             background-color: #bbb;
             cursor: not-allowed;
         }
@@ -129,39 +130,37 @@
     </style>
 </head>
 
-<body>
-<div class="container">
-    <div class="table-responsive">
-        <form id="frmCreateOrder" method="post">
-            <h4>Chọn phương thức thanh toán</h4>
-            <div class="form-group">
-                <!-- Chọn các phương thức thanh toán -->
-                <input type="radio" id="qrMethod" name="bankCode" value="QR">
-                <label for="qrMethod">Quét mã QR</label><br>
-                <input type="radio" id="atmMethod" name="bankCode" value="VNBANK">
-                <label for="atmMethod">Thẻ ATM/Tài khoản nội địa</label><br>
-                <input type="radio" id="intCardMethod" name="bankCode" value="INTCARD">
-                <label for="intCardMethod">Thẻ quốc tế</label><br>
-            </div>
-            <!-- Nút thanh toán -->
-            <button type="button" id="payButton" class="btn btn-primary">Thanh toán</button>
-        </form>
-        <!-- Hiển thị QR Code -->
-        <div id="qrCodeContainer" style="display: none; margin-top: 20px;">
-            <h4>Mã QR của bạn:</h4>
-            <img id="qrCodeImage" src="" alt="QR Code" style="width: 250px; height: 250px;">
-            <form action="api/payments/qr-callback" method="post">
-                <input hidden="hidden" type="number" id="id" name="orderId" th:value="${orderId}">
-                <input hidden="hidden" type="number" id="requi_amount" name="requi_amount" th:value="${amount}">
-                <label>Số tiền đã thanh toán (demo)</label>
-                <input type="number" id="paid" name="paid_amount">
-                <button id="callbackButton" class="btn btn-success" style="margin-top: 20px;">Đã thanh toán</button>
+    <body class="payment-body">
+    <div class="payment-container">
+        <div class="payment-table-responsive">
+            <form id="frmCreateOrder" method="post">
+                <h4 class="payment-title">Chọn phương thức thanh toán</h4>
+                <div class="payment-form-group">
+                    <!-- Chọn các phương thức thanh toán -->
+                    <input type="radio" id="qrMethod" name="bankCode" value="QR" class="payment-input-radio">
+                    <label for="qrMethod" class="payment-label">Quét mã QR</label><br>
+                    <input type="radio" id="atmMethod" name="bankCode" value="VNBANK" class="payment-input-radio">
+                    <label for="atmMethod" class="payment-label">Thẻ ATM/Tài khoản nội địa</label><br>
+                    <input type="radio" id="intCardMethod" name="bankCode" value="INTCARD" class="payment-input-radio">
+                    <label for="intCardMethod" class="payment-label">Thẻ quốc tế</label><br>
+                </div>
+                <!-- Nút thanh toán -->
+                <button type="button" id="payButton" class="payment-button">Thanh toán</button>
             </form>
-
+            <!-- Hiển thị QR Code -->
+            <div id="qrCodeContainer" class="payment-qr-container" style="display: none; margin-top: 20px;">
+                <h4 class="payment-title">Mã QR của bạn:</h4>
+                <img id="qrCodeImage" src="" alt="QR Code" class="payment-qr-image">
+                <form action="api/payments/qr-callback" method="post">
+                    <input hidden="hidden" type="number" id="id" name="orderId" th:value="${orderId}">
+                    <input hidden="hidden" type="number" id="requi_amount" name="requi_amount" th:value="${amount}">
+                    <label class="payment-label">Số tiền đã thanh toán (demo)</label>
+                    <input type="number" id="paid" name="paid_amount" class="payment-input-number">
+                    <button id="callbackButton" class="payment-callback-button">Đã thanh toán</button>
+                </form>
+            </div>
         </div>
-
     </div>
-</div>
 <script src="https://pay.vnpay.vn/lib/vnpay/vnpay.min.js"></script>
 <script type="text/javascript">
     // Hàm lấy tham số từ URL
