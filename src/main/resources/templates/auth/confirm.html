@@ -37,7 +37,9 @@
 
                             <div class="form-group mb-3">
                                 <label for="emailaddress">Địa chỉ email.</label>
-                                <input class="form-control" type="email" id="emailaddress" name="emailaddress" required placeholder="john@deo.com">
+                                <input
+                                       pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+                                       title="Nhập đúng định dạng email!" class="form-control" type="email" id="emailaddress" name="emailaddress" required placeholder="john@deo.com">
                             </div>
 
                             <div class="form-group mb-0 text-center">
