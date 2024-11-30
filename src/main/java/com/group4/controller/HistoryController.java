@@ -3,6 +3,7 @@ package com.group4.controller;
 
 import com.group4.entity.OrderEntity;
 import com.group4.entity.UserEntity;
+import com.group4.service.IHistoryService;
 import jakarta.servlet.http.HttpSession;
 import com.group4.service.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ import java.util.List;
 public class HistoryController {
 
     @Autowired
-    private IOrderService orderService;
+    private IHistoryService historyService;
 
     @GetMapping
     public String viewOrderHistory(HttpSession session, Model model) {
@@ -33,7 +34,7 @@ public class HistoryController {
 
         // Gọi service để lấy danh sách đơn hàng của user
         Long userID = user.getUserID();
-        List<OrderEntity> orders = orderService.getOrdersByUserId(userID);
+        List<OrderEntity> orders = historyService.getPurchaseHistory(userID);
         if (orders.isEmpty()) {
             model.addAttribute("message", "Bạn chưa mua đơn hàng nào.");
         } else {

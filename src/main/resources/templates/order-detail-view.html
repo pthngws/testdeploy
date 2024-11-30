@@ -66,7 +66,7 @@
         <tfoot>
         <tr>
           <td colspan="3" class="text-end"><strong>Sub Total</strong></td>
-          <td th:text="${order.getTotalAmount()}"></td>
+          <td th:text="${order.getTotalOrderValue()}"></td>
         </tr>
 <!--        <tr>-->
 <!--          <td colspan="3" class="text-end"><strong>Shipping Fee</strong></td>-->
@@ -74,7 +74,7 @@
 <!--        </tr>-->
         <tr>
           <td colspan="3" class="text-end"><strong>Total Amount</strong></td>
-          <td th:text="${order.getTotalAmount()}"></td>
+          <td th:text="${order.getTotalOrderValue()}"></td>
         </tr>
         </tfoot>
       </table>
@@ -85,7 +85,7 @@
   <!-- Back Button -->
   <div class="row">
     <div class="col-12 text-center">
-      <a href="/history?userID=${user.id}" class="btn btn-primary">Back to Order History</a>
+      <a href="/history" class="btn btn-primary">Back to Order History</a>
     </div>
   </div>
 </div>
