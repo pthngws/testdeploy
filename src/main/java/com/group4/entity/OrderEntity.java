@@ -62,7 +62,7 @@ public class OrderEntity {
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @ToString.Exclude
-    @JsonManagedReference
+    @JsonBackReference
     private List<LineItemEntity> listLineItems;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -70,12 +70,6 @@ public class OrderEntity {
     @ToString.Exclude
     @JsonManagedReference
     private PaymentEntity payment;
-
-    public int getTotalOrderValue() {
-        return listLineItems.stream()
-                .mapToInt(lineItem -> lineItem.getProduct().getPrice() * lineItem.getQuantity())
-                .sum();
-    }
 
     // Phương thức tiện ích để lấy phương thức thanh toán
     public String getPaymentMethod() {

@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -24,4 +25,9 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
     List<OrderEntity> findByStatus(@Param("status") String status);
     @Query("SELECT o FROM OrderEntity o WHERE o.customer.userID = :userID")
     List<OrderEntity> findOrdersByUserID(Long userID);
+
+    @Query("SELECT o FROM OrderEntity o WHERE o.shippingStatus = 'true' AND o.payment.paymentDate BETWEEN :startDate AND :endDate")
+    List<OrderEntity> findOrdersWithShippingStatusAndReceiveDate(
+            @Param("startDate") LocalDateTime startDate,
+            @Param("endDate") LocalDateTime endDate);
 }

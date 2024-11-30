@@ -1,96 +1,215 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
-    <title>Revenue Dashboard</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}" />
-    <link rel="stylesheet" th:href="'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css'" />
-    <script th:src="'https://cdn.jsdelivr.net/npm/chart.js'"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý doanh thu</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/assets/img/favicon.ico" type="image/x-icon" />
+    <!-- Bootstrap CSS -->
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font-Awesome CSS -->
+    <link href="/assets/css/font-awesome.min.css" rel="stylesheet">
+    <!-- helper class css -->
+    <link href="/assets/css/helper.min.css" rel="stylesheet">
+    <!-- Plugins CSS -->
+    <link href="/assets/css/plugins.css" rel="stylesheet">
+    <!-- Main Style CSS -->
+    <link href="/assets/css/style.css" rel="stylesheet">
+    <link href="/assets/css/skin-default.css" rel="stylesheet" id="galio-skin">
+    <style>
+        body {
+            background-color: #f8f9fa; /* Màu nền sáng */
+            font-family: Arial, sans-serif; /* Font chữ đơn giản */
+        }
+
+        /* Card */
+        .card {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-title {
+            color: #007bff; /* Màu xanh nhấn mạnh */
+        }
+
+        .card-body {
+            font-size: 16px;
+            color: #333;
+        }
+
+        /* Biểu đồ */
+        canvas {
+            margin-top: 20px;
+        }
+
+        /* Chỉnh màu cho button, link */
+        a, .btn {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        a:hover, .btn:hover {
+            color: #0056b3;
+        }
+
+        /* Phần Text Center */
+        .text-center {
+            color: #495057;
+            font-weight: 500;
+        }
+
+        /* Padding cho khoảng cách */
+        .mt-5 {
+            margin-top: 3rem !important;
+        }
+
+
+        .card-body {
+            padding: 10px; /* Giảm khoảng cách bên trong card */
+        }
+
+        .card-title {
+            font-size: 16px; /* Giảm kích thước chữ tiêu đề */
+        }
+
+        #todayRevenue, #monthlyRevenue, #annualRevenue {
+            font-size: 24px; /* Làm nhỏ số liệu hiển thị */
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-<div class="container my-5">
-    <h1 class="text-center">Revenue Dashboard</h1>
-    <div class="row">
-
-        <div class="col-md-6">
-            <div class="card p-3">
-                <h5>Doanh thu hôm nay</h5>
-                <p class="display-4 text-success"><strong th:text="${todayRevenue} + ' USD'"></strong></p>
-                <p>Tăng trưởng hôm nay: <span class="text-success" th:text="${todayGrowth} + '%'"></span> so với hôm qua</p>
-            </div>
-        </div>
-
-
-        <!-- Sales -->
-        <div class="col-md-6">
-            <div class="card p-3">
-                <h5>Sales</h5>
-                <p><strong th:text="${sales}"></strong> Sales Over Time</p>
-                <canvas id="salesChart"></canvas>
-                <p class="text-success">⬆ 33.1% Since last month</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="row mt-4">
-        <!-- Products -->
-        <div class="col-md-6">
-            <div class="card p-3">
-                <h5>Products</h5>
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>Product</th>
-                        <th>Price</th>
-                        <th>Sales</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="product : ${products}">
-                        <td th:text="${product.name}"></td>
-                        <td th:text="${product.price} + ' USD'"></td>
-                        <td th:text="${product.sales}"></td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Online Store Overview -->
-        <div class="col-md-6">
-            <div class="card p-3">
-                <h5>Online Store Overview</h5>
-                <ul class="list-unstyled">
-                    <li>Conversion Rate: <span class="text-success" th:text="${conversionRate} + '%'"></span></li>
-                    <li>Sales Rate: <span class="text-success" th:text="${salesRate} + '%'"></span></li>
-                    <li>Registration Rate: <span class="text-danger" th:text="${registrationRate} + '%'"></span></li>
-                </ul>
+<div th:replace="fragments/header :: header"></div>
+<!-- breadcrumb area start -->
+<div class="breadcrumb-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb-wrap">
+                    <nav aria-label="breadcrumb">
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="@{/index.html}">Home</a></li>
+                            <li class="breadcrumb-item"><a href="shop-grid-left-sidebar.html">shop</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Doanh Thu</li>
+                        </ul>
+                    </nav>
+                </div>
             </div>
         </div>
     </div>
 </div>
+<!-- breadcrumb area end -->
+<div class="container mt-5">
+    <!--    <h2 class="text-center mb-4">Quản lý doanh thu</h2>-->
 
+    <!-- Thông tin doanh thu -->
+    <div class="row mb-4">
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Doanh thu hôm nay</h5>
+                    <p id="todayRevenue" class="display-6">0 VND</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Doanh thu trong tháng</h5>
+                    <p id="monthlyRevenue" class="display-6">0 VND</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Doanh thu trong năm</h5>
+                    <p id="annualRevenue" class="display-6">0 VND</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Biểu đồ doanh thu 12 tháng -->
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Biểu đồ doanh thu 12 tháng</h5>
+            <canvas id="monthlyRevenueChart"></canvas>
+            <!--            <canvas id="monthlyRevenueChart" style="max-width: 600px; height: 300px; margin: 0 auto;"></canvas>-->
+
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Custom JS -->
 <script>
-    // Example JavaScript for Charts
-    const visitorsData = [100, 120, 140, 160, 180, 200];
-    const salesData = [1000, 2000, 2500, 3000, 3500, 4000];
+    // Gọi API lấy dữ liệu doanh thu từ server
+    fetch('/api/revenue/today')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('todayRevenue').textContent = new Intl.NumberFormat().format(data.revenue) + " VND";
+        })
+        .catch(error => console.error('Có lỗi khi lấy dữ liệu doanh thu hôm nay:', error));
 
-    new Chart(document.getElementById('visitorsChart'), {
-        type: 'line',
-        data: {
-            labels: ['18th', '20th', '22nd', '24th', '26th', '28th', '30th'],
-            datasets: [{ data: visitorsData, label: 'Visitors', borderColor: '#3e95cd', fill: false }]
-        }
-    });
+    fetch('/api/revenue/monthly')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('monthlyRevenue').textContent = new Intl.NumberFormat().format(data.revenue) + " VND";
+        })
+        .catch(error => console.error('Có lỗi khi lấy dữ liệu doanh thu tháng:', error));
 
-    new Chart(document.getElementById('salesChart'), {
-        type: 'bar',
-        data: {
-            labels: ['Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-            datasets: [{ data: salesData, label: 'Sales', backgroundColor: '#3e95cd' }]
-        }
-    });
+    fetch('/api/revenue/annual')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('annualRevenue').textContent = new Intl.NumberFormat().format(data.revenue) + " VND";
+        })
+        .catch(error => console.error('Có lỗi khi lấy dữ liệu doanh thu năm:', error));
 
-    
+    // Gọi API lấy dữ liệu doanh thu hàng tháng từ server
+    fetch('/api/revenue/annual-data')
+        .then(response => response.json())
+        .then(data => {
+            // Vẽ biểu đồ
+            const ctx = document.getElementById('monthlyRevenueChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: [
+                        "Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6",
+                        "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"
+                    ],
+                    datasets: [{
+                        label: 'Doanh thu (VND)',
+                        data: data.monthlyRevenue, // Dữ liệu doanh thu tháng
+                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        })
+        .catch(error => {
+            console.error('Có lỗi khi lấy dữ liệu doanh thu 12 tháng:', error);
+        });
 </script>
+
+<div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>

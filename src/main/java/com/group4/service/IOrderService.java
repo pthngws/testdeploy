@@ -1,6 +1,8 @@
 package com.group4.service;
 
 import com.group4.entity.OrderEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,4 +19,5 @@ public interface IOrderService {
     public void rejectCancelOrder(Long orderId);
     public OrderEntity createOrder(Long userId, List<Long> productIds);
     public void cancelOrder(Long orderId, String accountNumber, String accountName,String bankName);
+    public int getTotalOrderValue(OrderEntity order);
 }
