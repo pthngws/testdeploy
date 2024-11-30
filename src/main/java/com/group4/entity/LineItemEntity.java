@@ -29,4 +29,8 @@ public class LineItemEntity {
     @ToString.Exclude // Loại trừ khỏi toString()
     @JsonManagedReference
     private OrderEntity order;//
+
+    public double getTotal() {
+        return product.getPrice() * quantity;
+    }
 }
