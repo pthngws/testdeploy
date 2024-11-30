@@ -1,12 +1,26 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      	layout:decorate="~{layout.html}">
 <head>
     <title>Admin - Products</title>
-    <link rel="stylesheet" href="/css/admin/admin-product-list.css">
+   <link rel="stylesheet" href="/assets/css/admin/admin-product-list.css"> 
 </head>
 <body>
+	<section class="row" layout:fragment="content">
+	
+	<!-- Hiển thị thông báo lỗi, thông báo thành công, hoặc thông báo thông tin -->
+    <div th:if="${errorMessage}" class="alert alert-danger">
+           <p th:text="${errorMessage}"></p>
+    </div>
 
-	<div th:replace="fragments/header :: header"></div>
+    <div th:if="${infoMessage}" class="alert alert-info">
+        <p th:text="${infoMessage}"></p>
+    </div>
+
+    <div th:if="${successMessage}" class="alert alert-success">
+        <p th:text="${successMessage}"></p>
+    </div>
 
     <h1>Admin - Products</h1>
     <table border="1">
@@ -61,9 +75,9 @@
         <button class="btn-red" onclick="window.location.href='/admin/products/add'">Add Product</button>
     </div>
     
-    <div th:replace="fragments/footer :: footer"></div>
     
     <!-- Liên kết tới JS -->
-    <script src="/js/admin/admin-product-list.js"></script>
+    <script src="/assets/js/admin/admin-product-list.js"></script>
+   	</section>
 </body>
 </html>

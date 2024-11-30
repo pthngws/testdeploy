@@ -1,67 +1,104 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout.html}">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Detail</title>
-    <!--  <link rel="stylesheet" href="/css/styles.css"> -->
-    <link rel="stylesheet" href="/css/admin/admin-product-details.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product Detail</title>
+<!--  <link rel="stylesheet" href="/css/styles.css"> -->
+<link rel="stylesheet"
+	href="/assets/css/admin/admin-product-details.css">
 </head>
 <body>
-	
-	<div th:replace="fragments/header :: header"></div>
-	
-    <div class="container">
-        <h2>Product Details</h2>
+	<section class="row" layout:fragment="content">
 
-        <!-- Hiển thị thông báo lỗi nếu có -->
-        <div th:if="${errorMessage}" class="alert alert-danger">
-            <p th:text="${errorMessage}"></p>
-        </div>
+		<div class="container">
+			<h2>Product Details</h2>
 
-        <div th:if="${product}">
-            <h3 th:text="${product.name}"></h3>
-            <p><strong>Price:</strong> $<span th:text="${product.price}"></span></p>
-            <p><strong>Status:</strong> <span th:text="${product.status == 1 ? 'Available' : 'Unavailable'}"></span></p>
+			<!-- Hiển thị thông báo lỗi nếu có -->
+			<div th:if="${errorMessage}" class="alert alert-danger">
+				<p th:text="${errorMessage}"></p>
+			</div>
 
-            <h4>Category: <span th:text="${product.category.name}"></span></h4>
-            <h4>Manufacturer: <span th:text="${product.manufacturer.name}"></span></h4>
+			<div th:if="${product}">
+				<h3 th:text="${product.name}"></h3>
+				<p>
+					<strong>Price:</strong> $<span th:text="${product.price}"></span>
+				</p>
+				<p>
+					<strong>Status:</strong> <span
+						th:text="${product.status == 1 ? 'Available' : 'Unavailable'}"></span>
+				</p>
 
-            <h4>Product Details:</h4>
-            <ul>
-                <li><strong>RAM:</strong> <span th:text="${product.detail.RAM}"></span></li>
-                <li><strong>CPU:</strong> <span th:text="${product.detail.CPU}"></span></li>
-                <li><strong>GPU:</strong> <span th:text="${product.detail.GPU}"></span></li>
-                <li><strong>Monitor:</strong> <span th:text="${product.detail.monitor}"></span></li>
-                <li><strong>Charger:</strong> <span th:text="${product.detail.charger}"></span></li>
-                <li><strong>Disk:</strong> <span th:text="${product.detail.disk}"></span></li>
-                <li><strong>LAN:</strong> <span th:text="${product.detail.LAN}"></span></li>
-                <li><strong>WIFI:</strong> <span th:text="${product.detail.WIFI}"></span></li>
-                <li><strong>Bluetooth:</strong> <span th:text="${product.detail.bluetooth}"></span></li>
-                <li><strong>Audio:</strong> <span th:text="${product.detail.audio}"></span></li>
-                <li><strong>Webcam:</strong> <span th:text="${product.detail.webcam}"></span></li>
-                <li><strong>Operation System:</strong> <span th:text="${product.detail.operationSystem}"></span></li>
-                <li><strong>Weight:</strong> <span th:text="${product.detail.weight}"></span></li>
-                <li><strong>Color:</strong> <span th:text="${product.detail.color}"></span></li>
-                <li><strong>Size:</strong> <span th:text="${product.detail.size}"></span></li>
-                <li><strong>Description:</strong> <span th:text="${product.detail.description}"></span></li>
-            </ul>
+				<h4>
+					Category: <span th:text="${product.category.name}"></span>
+				</h4>
+				<h4>
+					Manufacturer: <span th:text="${product.manufacturer.name}"></span>
+				</h4>
 
-            <h4>Images:</h4>
-            <ul>
-                <li th:each="image : ${product.detail.images}">
-                    <img th:src="@{${image.imageUrl}}" alt="Product Image" width="150" height="150">
-                </li>
-            </ul>
-        </div>
+				<h4>Product Details:</h4>
+				<ul>
+					<li><strong>RAM:</strong> <span
+						th:text="${product.detail.RAM}"></span></li>
+					<li><strong>CPU:</strong> <span
+						th:text="${product.detail.CPU}"></span></li>
+					<li><strong>GPU:</strong> <span
+						th:text="${product.detail.GPU}"></span></li>
+					<li><strong>Monitor:</strong> <span
+						th:text="${product.detail.monitor}"></span></li>
+					<li><strong>Charger:</strong> <span
+						th:text="${product.detail.charger}"></span></li>
+					<li><strong>Disk:</strong> <span
+						th:text="${product.detail.disk}"></span></li>
+					<li><strong>LAN:</strong> <span
+						th:text="${product.detail.LAN}"></span></li>
+					<li><strong>WIFI:</strong> <span
+						th:text="${product.detail.WIFI}"></span></li>
+					<li><strong>Bluetooth:</strong> <span
+						th:text="${product.detail.bluetooth}"></span></li>
+					<li><strong>Audio:</strong> <span
+						th:text="${product.detail.audio}"></span></li>
+					<li><strong>Webcam:</strong> <span
+						th:text="${product.detail.webcam}"></span></li>
+					<li><strong>Operation System:</strong> <span
+						th:text="${product.detail.operationSystem}"></span></li>
+					<li><strong>Weight:</strong> <span
+						th:text="${product.detail.weight}"></span></li>
+					<li><strong>Color:</strong> <span
+						th:text="${product.detail.color}"></span></li>
+					<li><strong>Size:</strong> <span
+						th:text="${product.detail.size}"></span></li>
+					<li><strong>Description:</strong> <span
+						th:text="${product.detail.description}"></span></li>
+				</ul>
 
-        <a href="/admin/products" class="btn btn-secondary">Back to Products</a>
-    </div>
+				<h4>Images:</h4>
+				<ul>
+					<!-- Kiểm tra nếu danh sách ảnh tồn tại và không rỗng -->
+					<li
+						th:if="${product.detail.images != null and !product.detail.images.isEmpty()}">
+						<span th:each="image : ${product.detail.images}"> <img
+							th:src="@{${image.imageUrl}}" alt="Product Image" width="150"
+							height="150">
+					</span>
+					</li>
+					<!-- Hiển thị thông báo nếu không có ảnh -->
+					<li
+						th:if="${product.detail.images == null or product.detail.images.isEmpty()}">
+						Không có ảnh</li>
+				</ul>
+			</div>
+
+			<a href="/admin/products" class="btn btn-secondary">Back to
+				Products</a>
+		</div>
 
 
-	<div th:replace="fragments/footer :: footer"></div>
-	
-	
-	<script src="/js/admin/admin-product-details.js"></script>
+
+
+		<script src="/assets/js/admin/admin-product-details.js"></script>
+	</section>
 </body>
 </html>

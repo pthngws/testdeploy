@@ -56,7 +56,7 @@ public class AdminManufacturerController{
 	@GetMapping("/edit/{id}")
 	public String editManufacturerForm(@PathVariable Long id, Model model) {
 		ManufacturerEntity manufacturer = manufacturersService.findById(id)
-	            .orElseThrow(() -> new IllegalArgumentException("Invalid manufacturer ID: " + id));
+	            .orElseThrow(() -> new IllegalArgumentException("Mã Nhà Sản Xuất Không Hợp Lệ: " + id));
 		model.addAttribute("manufacturer", manufacturer);
 		return "admin/manufacturer-edit";
 	}

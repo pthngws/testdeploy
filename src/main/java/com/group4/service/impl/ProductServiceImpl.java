@@ -2,6 +2,7 @@ package com.group4.service.impl;
 
 import com.group4.entity.CategoryEntity;
 import com.group4.entity.ProductEntity;
+import com.group4.entity.RateEntity;
 import com.group4.model.CategoryModel;
 import com.group4.repository.CategoryRepository;
 import com.group4.repository.ProductRepository;
@@ -111,6 +112,21 @@ public class ProductServiceImpl implements IProductService {
         productRepository.deleteById(id);
     }
 
-	
+    @Override
+    public double calculateAverageRating(ProductEntity product) {
+        if (product.getRates() == null || product.getRates().isEmpty()) {
+            return 0.0;
+        }
+        return product.getRates().stream()
+                .mapToInt(RateEntity::getRate)
+                .average()
+                .orElse(0.0);
+    }
+
+    @Override
+    public int getReviewCount(ProductEntity product) {
+        return (product.getRates() == null) ? 0 : product.getRates().size();
+    }
+
 
 }
