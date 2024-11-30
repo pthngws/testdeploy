@@ -5,7 +5,7 @@ import com.group4.entity.LineItemEntity;
 import com.group4.entity.OrderEntity;
 import com.group4.entity.UserEntity;
 import com.group4.model.*;
-import com.group4.repository.PurchasedProductsRepository;
+import com.group4.repository.OrderHistoryRepository;
 import com.group4.service.IOrderHistoryService;
 import com.group4.service.IPersonalInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class OrderHistoryServiceImpl implements IOrderHistoryService {
     private IPersonalInfoService personalInfoService;
 
     @Autowired
-    private PurchasedProductsRepository purchasedProductsRepository;
+    private OrderHistoryRepository orderHistoryRepository;
 
     private OrderModel convertToModel(OrderEntity orderEntity) {
         OrderModel orderModel = new OrderModel();
@@ -49,7 +49,7 @@ public class OrderHistoryServiceImpl implements IOrderHistoryService {
     @Override
     public List<OrderModel> getPurchasedProducts(Long userId) {
         // Lấy danh sách OrderEntity từ repository
-        List<OrderEntity> orderEntities = purchasedProductsRepository.findPurchasedProductsByUserId(userId);
+        List<OrderEntity> orderEntities = orderHistoryRepository.findPurchasedProductsByUserId(userId);
 
         // Chuyển đổi OrderEntity sang OrderModel
         return orderEntities.stream()

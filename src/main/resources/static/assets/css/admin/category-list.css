@@ -1,0 +1,79 @@
+body {
+	font-family: Arial, sans-serif;
+	margin: 20px;
+	background-color: #fff; /* Màu nền trắng */
+	color: #333; /* Màu chữ tối */
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-top: 20px;
+}
+
+th, td {
+	border: 1px solid #ddd;
+	padding: 10px;
+	text-align: left;
+}
+
+th {
+	background-color: #f8d7da; /* Nền header màu nhạt đỏ */
+	color: #721c24; /* Màu chữ đỏ đậm cho header */
+}
+
+.btn {
+	padding: 5px 10px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	margin-right: 5px;
+}
+
+.btn-add {
+	background-color: #dc3545; /* Nút thêm màu đỏ */
+	color: white;
+	text-decoration: none;
+	padding: 10px 20px;
+	margin-bottom: 20px; /* Tạo khoảng cách dưới nút */
+	align-self: flex-end; /* Đưa nút về bên phải */
+}
+
+.btn-edit {
+	background-color: #ff5733; /* Nút chỉnh sửa màu đỏ cam */
+	color: white;
+}
+
+.btn-delete {
+	background-color: #c82333; /* Nút xóa màu đỏ đậm */
+	color: white;
+}
+
+.btn:hover {
+	opacity: 0.8;
+}
+
+.btn-add:hover {
+	background-color: #c82333;
+	/* Nút thêm khi hover sẽ chuyển thành đỏ đậm */
+}
+
+.btn-edit:hover {
+	background-color: #e74c3c; /* Nút chỉnh sửa khi hover sẽ sáng hơn */
+}
+
+.btn-delete:hover {
+	background-color: #9a1d20; /* Nút xóa khi hover sẽ tối màu hơn */
+}
+
+h1 {
+    text-align: center; /* Căn giữa tiêu đề */
+    width: 100%; /* Đảm bảo rằng h1 chiếm toàn bộ chiều rộng của section */
+}
+/* Đặt section là flex container */
+section.row {
+    display: flex;
+    flex-direction: column; /* Dọc theo chiều dọc */
+    align-items: center; /* Căn giữa tất cả phần tử trong section */
+    
+}

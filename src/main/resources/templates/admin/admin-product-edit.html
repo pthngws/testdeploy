@@ -1,14 +1,16 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      	layout:decorate="~{layout.html}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Product</title>
-    <link rel="stylesheet" href="/css/admin/admin-product-edit.css">
+    <link rel="stylesheet" href="/assets/css/admin/admin-product-edit.css">
 </head>
 <body>
+	<section class="row" layout:fragment="content">
 	
-	<div th:replace="fragments/header :: header"></div>
 	
     <div class="container">
         <h2>Edit Product</h2>
@@ -151,8 +153,8 @@
         <a href="/admin/products" class="btn btn-secondary">Back to Products</a>
     </div>
 
-	<div th:replace="fragments/footer :: footer"></div>
-	
-    <script src="/js/admin/admin-product-edit.js"></script>
+
+    <script src="/assets/js/admin/admin-product-edit.js"></script>
+    </section>
 </body>
 </html>

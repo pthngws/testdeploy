@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ChatServiceImpl implements IChatService {
@@ -16,7 +17,7 @@ public class ChatServiceImpl implements IChatService {
     private ChatRepository chatRepository;
 
     @Override
-    public List<Object[]> findDistinctSendersByReceiverId() {
+    public List<Map<String, Object>> findDistinctSendersByReceiverId() {
         return chatRepository.findDistinctSendersByReceiverId();
     }
 

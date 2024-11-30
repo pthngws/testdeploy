@@ -1,0 +1,33 @@
+<div>
+    <div id="chat-popup">
+        <div id="chat-popup-header">
+            <span id="page-title">Chat Room</span>
+            <button onclick="toggleChatPopup()">&times;</button>
+        </div>
+
+        <div id="customer-list" style="display: none;">
+            <ul id="customer-list-items"></ul>
+        </div>
+
+        <!-- Chat Room -->
+        <div id="chat-room" style="display: none;">
+            <div id="chat-box"></div>
+            <form id="message-form">
+                <input id="message-input" type="text" placeholder="Enter message">
+                <div class="input-group-append">
+                    <button type="button" onclick="sendMessage()">&#10148;</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div th:if="${session.user != null}" style="display: none;">
+        <span id="userId" th:text="${session.user.getUserID()}"></span>
+    </div>
+    <div th:if="${session.user == null}" style="display: none;">
+        <span id="userId" th:text="${session.GID}"></span>
+    </div>
+
+
+    <!-- Nút Open Chat -->
+    <div> <button class="chat-btn btn-light" onclick="toggleChatPopup()"><i class="fas fa-comment"></i></button></div>
+</div>

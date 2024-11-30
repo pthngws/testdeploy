@@ -1,14 +1,16 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout.html}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Manufacturer</title>
-    <link rel="stylesheet" href="/css/admin/manufacturer-edit.css">
+    <link rel="stylesheet" href="/assets/css/admin/manufacturer-edit.css">
 </head>
 <body>
 
-	<div th:replace="fragments/header :: header"></div>
+	<section class="row" layout:fragment="content">
 	
     <h1>Edit Manufacturer</h1>
 
@@ -22,10 +24,10 @@
         <br />
 
         <button type="submit">Update</button>
-        <a href="/admin/manufacturers/">Cancel</a>
+        <a href="/admin/manufacturers">Cancel</a>
     </form>
     
-    <div th:replace="fragments/footer :: footer"></div>
-    
+
+    </section>
 </body>
 </html>

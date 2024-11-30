@@ -1,0 +1,81 @@
+body {
+	font-family: Arial, sans-serif;
+	margin: 20px;
+	background-color: #ffffff; /* Nền trắng */
+	color: #333; /* Màu chữ mặc định */
+}
+
+h1 {
+	text-align: center;
+	color: #ff0000; /* Màu đỏ */
+	margin-bottom: 20px;
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-top: 20px;
+	background-color: #fff; /* Nền bảng trắng */
+}
+
+th, td {
+	border: 1px solid #ddd;
+	padding: 10px;
+	text-align: left;
+}
+
+th {
+	background-color: #ffe6e6; /* Màu nền tiêu đề bảng nhạt hơn */
+	color: #ff0000; /* Màu chữ tiêu đề đỏ */
+}
+
+.btn {
+	padding: 5px 10px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	margin-right: 5px;
+}
+
+.btn-add {
+	background-color: #ff0000; /* Màu đỏ */
+	color: white;
+	text-decoration: none;
+	padding: 10px 20px;
+}
+
+.btn-edit {
+	background-color: #ff0000; /* Màu đỏ */
+	color: white;
+}
+
+.btn-delete {
+	background-color: #ff0000; /* Màu đỏ */
+	color: white;
+}
+
+.btn:hover {
+	opacity: 0.8; /* Hiệu ứng mờ khi hover */
+}
+
+ul {
+	list-style-type: disc;
+	margin: 0;
+	padding-left: 20px;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+/* Đặt section là flex container */
+section.row {
+    display: flex;
+    flex-direction: column; /* Dọc theo chiều dọc */
+    align-items: center; /* Căn giữa tất cả phần tử trong section */
+    
+}

@@ -1,0 +1,117 @@
+/* Tổng quan về nội dung của trang */
+section.row {
+    font-family: Arial, sans-serif;
+    background-color: white;
+    margin: 0;
+    padding: 0;
+}
+
+section.row a {
+    text-decoration: none;
+    color: white;
+    background-color: #d32f2f;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    
+}
+
+section.row a:hover {
+    background-color: #c62828; /* Màu đỏ đậm khi hover */
+}
+
+/* Khung nội dung */
+section.row .container {
+    padding: 30px;
+    margin: 20px auto;
+    width: 90%;
+    max-width: 1200px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Các nhóm form */
+section.row .form-group {
+    margin-bottom: 15px;
+}
+
+section.row label {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+section.row input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* Các nút */
+section.row button {
+    background-color: #d32f2f; /* Màu đỏ */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+section.row button:hover {
+    background-color: #c62828; /* Màu đỏ đậm khi hover */
+}
+
+/* Cảnh báo lỗi */
+section.row .alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+section.row .alert-danger p {
+    margin: 0;
+}
+
+
+/* Cài đặt font chữ cho toàn bộ container */
+.container {
+    font-family: Arial, sans-serif; /* Font chữ chính */
+    font-size: 20px; /* Kích thước font chữ (tuỳ chỉnh theo ý thích) */
+    line-height: 1.5; /* Dãn dòng để dễ đọc */
+    color: #333; /* Màu chữ */
+}
+
+/* Đặt font chữ cho <p> */
+.container p {
+    font-size: inherit; /* Sử dụng kích thước đã đặt cho container */
+    margin-bottom: 10px; /* Khoảng cách giữa các đoạn */
+}
+
+/* Đặt font chữ cho <h4> */
+.container h4 {
+    font-size: inherit; /* Sử dụng cùng kích thước với container */
+    font-weight: bold; /* Làm nổi bật các tiêu đề */
+    margin-bottom: 10px; /* Khoảng cách dưới */
+}
+
+/* Tùy chỉnh các thẻ khác trong container */
+.container ul li {
+    font-size: inherit; /* Sử dụng kích thước từ container */
+}
+
+/* Tùy chọn bổ sung cho liên kết */
+.container a {
+    font-size: inherit; /* Đảm bảo đồng bộ kích thước */
+    color: #d32f2f; /* Màu chữ đỏ */
+    text-decoration: none;
+}
+
+.container a:hover {
+    color: #c62828; /* Màu đỏ đậm khi hover */
+}

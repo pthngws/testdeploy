@@ -1,0 +1,123 @@
+/* Đặt nền trắng cho body và font chữ cơ bản */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff; /* Nền trắng */
+    color: #333; /* Chữ màu xám đậm */
+}
+
+/* Tiêu đề căn giữa với màu đỏ */
+section.row h1 {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 36px;
+    color: #e74c3c; /* Màu đỏ chủ đạo */
+}
+
+/* Bảng hiển thị sản phẩm */
+section.row table {
+    width: 100%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background-color: #ffffff; /* Nền trắng */
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Bóng mờ nhẹ */
+}
+
+section.row th, section.row td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #dcdcdc; /* Đường viền nhạt */
+}
+
+section.row th {
+    background-color: #e74c3c; /* Màu đỏ */
+    color: white;
+    font-weight: bold;
+}
+
+section.row tr:nth-child(even) {
+    background-color: #f9f9f9; /* Màu nền nhạt cho hàng chẵn */
+}
+
+section.row tr:nth-child(odd) {
+    background-color: #ffffff; /* Nền trắng cho hàng lẻ */
+}
+
+/* Các nút hành động */
+section.row a {
+    color: #e74c3c; /* Màu đỏ */
+    text-decoration: none;
+    margin: 0 10px;
+    font-weight: bold;
+}
+
+section.row a:hover {
+    text-decoration: underline;
+    color: #c0392b; /* Đỏ đậm khi hover */
+}
+
+/* Canh giữa phân trang */
+section.row div span {
+    text-align: center;
+    margin: 20px 0;
+    display: inline-block;
+}
+
+section.row span a {
+    padding: 8px 12px;
+    margin: 0 5px;
+    border-radius: 5px;
+    background-color: #ecf0f1; /* Xám sáng */
+    text-decoration: none;
+    color: #333;
+}
+
+section.row span a.active {
+    background-color: #e74c3c; /* Đỏ */
+    color: white;
+}
+
+section.row span a:hover {
+    background-color: #bdc3c7; /* Xám nhạt */
+}
+
+/* Nút Add Product */
+section.row .btn-red {
+    background-color: #e74c3c; /* Đỏ */
+    color: white;
+    border: none;
+    padding: 15px 30px; /* Kích thước nút lớn */
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 8px; /* Bo tròn góc */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Bóng mờ */
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    margin: 50px ; /* Tạo khoảng cách và căn giữa */
+   	display: block; /* Đặt nút thành block để căn giữa */
+}
+
+section.row .btn-red:hover {
+    background-color: #c0392b; /* Đỏ đậm khi hover */
+    transform: scale(1.05); /* Phóng to nhẹ khi hover */
+}
+
+/* Đảm bảo phân trang và nội dung căn giữa */
+section.row div.pagination {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Đặt khoảng cách giữa các phần tử */
+section.row {
+    padding: 20px;
+}
+
+
+/* Tạo không gian giữa phân trang và nút */
+section.row div.pagination + .btn-red {
+    margin-top: 10px; /* Khoảng cách giữa phân trang và nút */
+}
