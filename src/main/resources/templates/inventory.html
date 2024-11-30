@@ -44,17 +44,17 @@
 
         // Fetch stats by product name
         function getStatsByName() {
-            fetchStats('/admin/api/product/stats-by-name', 'Tên Sản Phẩm');
+            fetchStats('/admin/api/product/stats-by-name', 'product');
         }
 
         // Fetch stats by category
         function getStatsByCategory() {
-            fetchStats('/admin/api/product/stats-by-category', 'Loại Sản Phẩm');
+            fetchStats('/admin/api/product/stats-by-category', 'category');
         }
 
         // Fetch stats by manufacturer
         function getStatsByManufacturer() {
-            fetchStats('/admin/api/product/stats-by-manufacturer', 'Hãng Sản Xuất');
+            fetchStats('/admin/api/product/stats-by-manufacturer', 'manufacturer');
         }
 
         // Display results in a table with pagination
@@ -62,37 +62,45 @@
             const resultDiv = document.getElementById('statsResult');
             resultDiv.innerHTML = '';
 
+            // Mapping type to display title
+            const typeTitleMap = {
+                product: 'Tên Sản Phẩm',
+                category: 'Loại Sản Phẩm',
+                manufacturer: 'Hãng Sản Xuất'
+            };
+
             let table = `
-                <table class="table table-hover table-bordered align-middle">
-                    <thead class="table-danger text-center">
-                        <tr>
-                            <th>${type}</th>
-                            <th>Số Lượng</th>
-                        </tr>
-                    </thead>
-                    <tbody>`;
+        <table class="table table-hover table-bordered align-middle">
+            <thead class="table-danger text-center">
+                <tr>
+                    <th>${typeTitleMap[type]}</th>
+                    <th>Số Lượng</th>
+                </tr>
+            </thead>
+            <tbody>`;
 
             data.forEach(item => {
                 table += `
-                    <tr>
-                        <td class="text-center">${item[`${type.toLowerCase().replace(/\s/g, '')}Name`]}</td>
-                        <td class="text-center">${item.count}</td>
-                    </tr>`;
+            <tr>
+                <td class="text-center">${item[`${type.toLowerCase()}Name`]}</td>
+                <td class="text-center">${item.count}</td>
+            </tr>`;
             });
 
             table += `
-                    </tbody>
-                </table>`;
+            </tbody>
+        </table>`;
             resultDiv.innerHTML = table;
 
             // Add pagination
             const pagination = `
-                <div class="d-flex justify-content-center mt-3">
-                    <button class="btn btn-outline-secondary" ${currentPage === 0 ? 'disabled' : ''} onclick="prevPage()">Previous</button>
-                    <button class="btn btn-outline-secondary ms-2" onclick="nextPage()">Next</button>
-                </div>`;
+        <div class="d-flex justify-content-center mt-3">
+            <button class="btn btn-outline-secondary" ${currentPage === 0 ? 'disabled' : ''} onclick="prevPage()">Previous</button>
+            <button class="btn btn-outline-secondary ms-2" onclick="nextPage()">Next</button>
+        </div>`;
             resultDiv.innerHTML += pagination;
         }
+
 
         function prevPage() {
             if (currentPage > 0) {
