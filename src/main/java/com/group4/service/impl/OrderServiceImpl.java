@@ -9,6 +9,8 @@ import com.group4.repository.ProductRepository;
 import com.group4.service.IEmailService;
 import com.group4.service.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -189,4 +191,15 @@ public class OrderServiceImpl implements IOrderService {
         emailDetail.setSubject("Thông báo hủy đơn hàng");
         emailService.sendEmailConfirmCancelOrder(emailDetail);
     }
+
+    @Override
+    public int getTotalOrderValue(OrderEntity order) {
+        if (order == null || order.getListLineItems() == null) {
+            return 0;
+        }
+        return order.getListLineItems().stream()
+                .mapToInt(lineItem -> lineItem.getProduct().getPrice() * lineItem.getQuantity())
+                .sum();
+    }
+
 }

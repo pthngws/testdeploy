@@ -17,7 +17,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/admin/customers")
-public class CustomerController {
+public class AdminCustomerController {
 
     @Autowired
     private ICustomerService customerService;
@@ -30,7 +30,7 @@ public class CustomerController {
     public String listCustomers(Model model) {
         List<CustomerEntity> customers = customerService.getAllCustomers();
         model.addAttribute("customers", customers);
-        return "TamaCustomerList";
+        return "customer-list";
     }
 
     // Tìm kiếm khách hàng
@@ -38,7 +38,7 @@ public class CustomerController {
     public String searchCustomers(@RequestParam("keyword") String keyword, Model model) {
         List<CustomerEntity> customers = customerService.searchCustomers(keyword); // Cần cài đặt phương thức search
         model.addAttribute("customers", customers);
-        return "TamaCustomerList";
+        return "customer-list";
     }
 
     @GetMapping("/{id}")
@@ -52,7 +52,7 @@ public class CustomerController {
         List<OrderEntity> orders = orderService.getOrdersByCustomerId(id);
         model.addAttribute("orders", orders);
 
-        return "TamaCustomerDetail";
+        return "customer-details";
     }
 
     // khóa tài khoản

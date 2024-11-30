@@ -9,11 +9,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
-@RequestMapping("/orders")
-public class OrderController {
+@RequestMapping("/admin/orders")
+public class AdminOrderController {
 
     @Autowired
     private IOrderService orderService;
@@ -23,7 +25,21 @@ public class OrderController {
     public String listOrders(Model model) {
         List<OrderEntity> orders = orderService.getAllOrders();
         model.addAttribute("orders", orders);
-        return "TamaOrderList";
+
+        // Tạo Map để lưu tổng giá trị của từng đơn hàng
+        Map<Long, Integer> orderTotalValues = new HashMap<>();
+
+        // Tính tổng giá trị cho từng đơn hàng
+        for (OrderEntity order : orders) {
+            int totalValue = orderService.getTotalOrderValue(order);
+            orderTotalValues.put(order.getOrderId(), totalValue);
+        }
+
+        // Thêm danh sách đơn hàng và tổng giá trị vào model
+        model.addAttribute("orders", orders);
+        model.addAttribute("orderTotalValues", orderTotalValues);
+
+        return "order-list";
     }
 
     // Tìm kếm đơn hàng
@@ -36,8 +52,9 @@ public class OrderController {
         model.addAttribute("searchKeyword", keyword);
         model.addAttribute("status", status);
 
-        return "TamaOrderList";
+        return "order-list";
     }
+
 
     // Chi tiết đơn hàng
     @GetMapping("/{id}")
@@ -48,10 +65,15 @@ public class OrderController {
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy đơn hàng"));
         model.addAttribute("order", order);
 
-        int totalvalue = order.getTotalOrderValue();
-        model.addAttribute("totalvalue", totalvalue);
+//        int totalvalue = order.getTotalOrderValue();
+//        model.addAttribute("totalvalue", totalvalue);
 
-        return "TamaOrderDetail";
+        if (order != null) {
+            int totalvalue = orderService.getTotalOrderValue(order); // Gọi Service để tính toán
+            model.addAttribute("totalvalue", totalvalue);
+        }
+
+        return "order-details";
     }
 
     @PostMapping("/{id}/confirm")

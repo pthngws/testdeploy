@@ -2,15 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout.html}">
-<section class="row" layout:fragment="content">
-    <head>
-        <meta charset="UTF-8">
-        <title>Quản lý khách hàng</title>
-        <!-- Bootstrap CSS -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý khách hàng</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
 
-    <body>
+<body>
+<section class="row" layout:fragment="content">
     <div class="container mt-5">
         <!-- Tiêu đề -->
         <h1 class="text-center">Danh sách khách hàng</h1>
@@ -18,7 +18,7 @@
         <!-- Tìm kiếm khách hàng -->
         <div class="row mt-4 mb-3">
             <div class="col-md-6 offset-md-3">
-                <form th:action="@{/customers/search}" method="get" class="d-flex">
+                <form th:action="@{/admin/customers/search}" method="get" class="d-flex">
                     <input type="text" name="keyword" class="form-control me-2"
                            placeholder="Tìm kiếm khách hàng theo tên hoặc email"/>
                     <button type="submit" class="btn btn-primary" style="white-space: nowrap;">Tìm kiếm</button>
@@ -51,7 +51,7 @@
                 <td th:text="${customer.address.other} + ' ' + ${customer.address.commune} + ', ' +${customer.address.district} + ', ' +${customer.address.province} + ', ' +${customer.address.country}"></td>
 
                 <td style="text-align: center; vertical-align: middle;">
-                    <a th:href="@{/customers/{id}(id=${customer.userID})}" class="btn btn-info btn-sm text-white">Chi
+                    <a th:href="@{/admin/customers/{id}(id=${customer.userID})}" class="btn btn-info btn-sm text-white">Chi
                         tiết</a>
                 </td>
 
@@ -70,7 +70,6 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    </body>
-
 </section>
+</body>
 </html>

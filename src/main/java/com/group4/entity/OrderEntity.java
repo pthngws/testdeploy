@@ -71,12 +71,6 @@ public class OrderEntity {
     @JsonManagedReference
     private PaymentEntity payment;
 
-    public int getTotalOrderValue() {
-        return listLineItems.stream()
-                .mapToInt(lineItem -> lineItem.getProduct().getPrice() * lineItem.getQuantity())
-                .sum();
-    }
-
     // Phương thức tiện ích để lấy phương thức thanh toán
     public String getPaymentMethod() {
         return payment != null ? payment.getPaymentMethod() : "Chưa xác định";
