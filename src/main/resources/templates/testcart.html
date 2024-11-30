@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giỏ hàng</title>
+    <!-- Site title -->
+    <title>Galio - Mega Shop Responsive Bootstrap 4 Template</title>
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/assets/img/favicon.ico" type="image/x-icon" />
+    <!-- Bootstrap CSS -->
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font-Awesome CSS -->
+    <link href="/assets/css/font-awesome.min.css" rel="stylesheet">
+    <!-- helper class css -->
+    <link href="/assets/css/helper.min.css" rel="stylesheet">
+    <!-- Plugins CSS -->
+    <link href="/assets/css/plugins.css" rel="stylesheet">
+    <!-- Main Style CSS -->
+    <link href="/assets/css/style.css" rel="stylesheet">
+    <link href="/assets/css/skin-default.css" rel="stylesheet" id="galio-skin">
+    <style>
+        .quantity {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .qty-btn {
+            border: none; /* Loại bỏ đường viền */
+            background: none; /* Loại bỏ nền */
+            font-size: 18px; /* Kích thước chữ */
+            padding: 0 10px; /* Khoảng cách chữ */
+            cursor: pointer;
+            color: #333; /* Màu chữ */
+        }
+
+        .qty-btn:focus {
+            outline: none; /* Loại bỏ viền khi nhấn nút */
+        }
+
+        .qty-btn:hover {
+            color: #e60000; /* Màu đỏ khi di chuột vào */
+        }
+
+        .quantity-input {
+            width: 50px;
+            height: 30px;
+            text-align: center;
+            border: 1px solid #ccc; /* Viền của ô nhập */
+            margin: 0 5px; /* Khoảng cách hai bên */
+        }
+
+
+    </style>
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+<!-- breadcrumb area start -->
+<div class="breadcrumb-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb-wrap">
+                    <nav aria-label="breadcrumb">
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="@{/index.html}">Home</a></li>
+                            <li class="breadcrumb-item"><a href="shop-grid-left-sidebar.html">shop</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">cart</li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- breadcrumb area end -->
+
+<!-- cart main wrapper start -->
+<div class="cart-main-wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <!-- Cart Table Area -->
+                <div class="cart-table table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th class="pro-thumbnail">Thumbnail</th>
+                            <th class="pro-title">Product</th>
+                            <th class="pro-price">Price</th>
+                            <th class="pro-quantity">Quantity</th>
+                            <th class="pro-subtotal">Total</th>
+                            <th class="pro-remove">Remove</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!-- Lặp qua danh sách sản phẩm trong giỏ hàng -->
+                        <tr th:each="product : ${products}">
+                            <td class="pro-thumbnail">
+                                <a href="#"><img class="img-fluid" th:src="${product.detail.images[0]?.imageUrl}" alt="Product"/></a>
+                            </td>
+                            <td class="pro-title">
+                                <a th:href="@{/product/{id}(id=${product.getProductID()})}" th:text="${product.getName()}">Product Name</a>
+                            </td>
+                            <td class="pro-price">
+                                <span th:text="${product.getPrice()} + '$'">Price</span>
+                            </td>
+                            <td>
+                                <div class="quantity">
+                                    <button class="qty-btn minus">-</button>
+                                    <input type="text" value="1" min="1" class="quantity-input" readonly>
+                                    <button class="qty-btn plus">+</button>
+                                </div>
+                            </td>
+                            <td class="pro-subtotal">
+                                <span th:text="${product.getPrice() * 1} + '$'">Total</span>
+                            </td>
+                            <td class="pro-remove">
+                                <a th:href="@{/cart/remove/{id}(id=${product.getProductID()})}">
+                                    <i class="fa fa-trash-o"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Cart Update Option -->
+                <div class="cart-update-option d-block d-md-flex justify-content-between">
+                    <div class="apply-coupon-wrapper">
+                        <form action="#" method="post" class=" d-block d-md-flex">
+                            <input type="text" placeholder="Enter Your Coupon Code" required />
+                            <button class="sqr-btn">Apply Coupon</button>
+                        </form>
+                    </div>
+                    <div class="cart-update mt-sm-16">
+                        <a href="#" class="sqr-btn">Update Cart</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--        <div class="row">-->
+        <!--            <div class="col-lg-5 ml-auto">-->
+        <!--                &lt;!&ndash; Cart Calculation Area &ndash;&gt;-->
+        <!--                <div class="cart-calculator-wrapper">-->
+        <!--                    <div class="cart-calculate-items">-->
+        <!--                        <h3>Cart Totals</h3>-->
+        <!--                        <div class="table-responsive">-->
+        <!--                            <table class="table">-->
+        <!--                                <tr>-->
+        <!--                                    <td>Sub Total</td>-->
+        <!--                                    <td th:text="${subTotal} + '$'">Sub Total</td>-->
+        <!--                                </tr>-->
+        <!--                                <tr>-->
+        <!--                                    <td>Shipping</td>-->
+        <!--                                    <td th:text="${shippingFee} + '$'">Shipping</td>-->
+        <!--                                </tr>-->
+        <!--                                <tr class="total">-->
+        <!--                                    <td>Total</td>-->
+        <!--                                    <td class="total-amount" th:text="${total} + '$'">Total</td>-->
+        <!--                                </tr>-->
+        <!--                            </table>-->
+        <!--                        </div>-->
+        <!--                    </div>-->
+        <!--                    <a href="/checkout" class="sqr-btn d-block">Proceed To Checkout</a>-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--        </div>-->
+    </div>
+</div>
+<!-- cart main wrapper end -->
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Lấy tất cả các ô nhập số lượng
+        const quantityInputs = document.querySelectorAll(".quantity-input");
+
+        quantityInputs.forEach(input => {
+            // Lấy nút tăng và giảm
+            const minusBtn = input.previousElementSibling;
+            const plusBtn = input.nextElementSibling;
+
+            // Giảm số lượng
+            minusBtn.addEventListener("click", function () {
+                let currentValue = parseInt(input.value);
+                if (currentValue > 1) {
+                    input.value = currentValue - 1;
+                }
+            });
+
+            // Tăng số lượng
+            plusBtn.addEventListener("click", function () {
+                let currentValue = parseInt(input.value);
+                input.value = currentValue + 1;
+            });
+        });
+    });
+</script>
+</html>
