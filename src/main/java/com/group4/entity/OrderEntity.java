@@ -62,7 +62,7 @@ public class OrderEntity {
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @ToString.Exclude
-    @JsonManagedReference
+    @JsonBackReference
     private List<LineItemEntity> listLineItems;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
