@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/promotions")
+@RequestMapping("/admin/promotions")
 public class PromotionController {
 
     @Autowired

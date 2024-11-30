@@ -6,32 +6,124 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inventory</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        /* Body Styling */
+
+        /* Button Group */
+
+
+        .btn-outline-danger {
+            border-color: #d8373e;
+            color: #d8373e;
+        }
+
+        .btn-outline-danger:hover {
+            background-color: #d8373e;
+            color: #fff;
+        }
+
+        .btn-outline-success {
+            border-color: #28a745;
+            color: #28a745;
+        }
+
+        .btn-outline-success:hover {
+            background-color: #28a745;
+            color: #fff;
+        }
+
+        .btn-outline-info {
+            border-color: #17a2b8;
+            color: #17a2b8;
+        }
+
+        .btn-outline-info:hover {
+            background-color: #17a2b8;
+            color: #fff;
+        }
+
+        /* Table Styling */
+        .table {
+            margin-top: 20px;
+        }
+
+        .table thead {
+            background-color: #d8373e;
+            color: #fff;
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: #ffecec; /* Nhẹ nhàng hơn khi hover */
+        }
+
+        /* Pagination Controls */
+        .btn-secondary {
+            font-size: 14px;
+            border-radius: 25px;
+            padding: 8px 16px;
+            margin: 0 5px;
+        }
+
+        .btn-secondary:hover {
+            background-color: #d8373e;
+            border-color: #d8373e;
+            color: #fff;
+        }
+
+        .d-flex .btn[disabled] {
+            background-color: #e9ecef;
+            border-color: #ddd;
+            cursor: not-allowed;
+        }
+
+    </style>
 </head>
 <body>
 <div layout:fragment="content">
-    <div class="container mt-5">
-        <!-- Title -->
-        <h1 class="text-center text-uppercase text-danger mb-4">Kho Hàng</h1>
+    <div class="container">
+        <h1 class="text-center mb-4">KHO HÀNG</h1>
 
-        <!-- Button Group -->
-        <div class="btn-group d-flex justify-content-center mb-4" role="group">
-            <button id="statsByName" class="btn btn-outline-danger">Kiểm tra theo tên</button>
-            <button id="statsByCategory" class="btn btn-outline-success">Kiểm tra theo loại</button>
-            <button id="statsByManufacturer" class="btn btn-outline-info">Kiểm tra theo hãng</button>
-        </div>
+        <!-- Button Group to switch between different stats -->
+        <label class="btn btn-custom">
+            <input type="radio" name="stats" id="statsByName" class="btn-check" autocomplete="off" checked> Sản Phẩm
+        </label>
+        <label class="btn btn-custom">
+            <input type="radio" name="stats" id="statsByCategory" class="btn-check" autocomplete="off"> Loại
+        </label>
+        <label class="btn btn-custom">
+            <input type="radio" name="stats" id="statsByManufacturer" class="btn-check" autocomplete="off"> Hãng
+        </label>
 
-        <!-- Table for Results -->
+        <!-- Table to display results -->
         <div id="statsResult" class="results table-responsive">
-            <!-- Dynamic table will be rendered here -->
+            <!-- Table will be populated here -->
         </div>
     </div>
 
     <script>
-        let currentPage = 0; // Current page
-        const pageSize = 10; // Items per page
+        // Function to fetch statistics by Product Name
+        let currentPage = 0; // Trang hiện tại
+        let pageSize = 10; // Số lượng sản phẩm mỗi trang
+        document.addEventListener('DOMContentLoaded', function() {
+            // Lắng nghe sự kiện thay đổi của các radio button
+            document.querySelectorAll('input[name="stats"]').forEach(function(radio) {
+                radio.addEventListener('change', function() {
+                    // Khi chọn radio nào thì sẽ gọi hàm tương ứng
+                    if (radio.id === 'statsByName') {
+                        getStatsByName();
+                    } else if (radio.id === 'statsByCategory') {
+                        getStatsByCategory();
+                    } else if (radio.id === 'statsByManufacturer') {
+                        getStatsByManufacturer();
+                    }
+                });
+            });
 
-        // Fetch statistics with pagination
+            // Gọi hàm cho radio mặc định (statsByName) khi trang được tải
+            document.getElementById('statsByName').checked = true; // Đảm bảo rằng radio này được chọn
+            getStatsByName(); // Gọi hàm tương ứng khi radio mặc định được chọn
+        });
+        // Function to fetch statistics with pagination
         async function fetchStats(url, type) {
             try {
                 const response = await fetch(`${url}?page=${currentPage}&size=${pageSize}`);
@@ -42,55 +134,51 @@
             }
         }
 
-        // Fetch stats by product name
+        // Function to fetch statistics by Product Name
         function getStatsByName() {
-            fetchStats('/admin/api/product/stats-by-name', 'Tên Sản Phẩm');
+            fetchStats('/admin/api/product/stats-by-name', 'Product');
         }
 
-        // Fetch stats by category
+        // Function to fetch statistics by Category Name
         function getStatsByCategory() {
-            fetchStats('/admin/api/product/stats-by-category', 'Loại Sản Phẩm');
+            fetchStats('/admin/api/product/stats-by-category', 'Category');
         }
 
-        // Fetch stats by manufacturer
+        // Function to fetch statistics by Manufacturer Name
         function getStatsByManufacturer() {
-            fetchStats('/admin/api/product/stats-by-manufacturer', 'Hãng Sản Xuất');
+            fetchStats('/admin/api/product/stats-by-manufacturer', 'Manufacturer');
         }
 
-        // Display results in a table with pagination
+        // Function to display results with pagination
         function displayResults(data, type) {
             const resultDiv = document.getElementById('statsResult');
             resultDiv.innerHTML = '';
 
-            let table = `
-                <table class="table table-hover table-bordered align-middle">
-                    <thead class="table-danger text-center">
+            let table = `<table class="table table-bordered table-striped table-hover">
+                    <thead>
                         <tr>
                             <th>${type}</th>
-                            <th>Số Lượng</th>
+                            <th>Số lượng</th>
                         </tr>
                     </thead>
                     <tbody>`;
 
             data.forEach(item => {
-                table += `
-                    <tr>
-                        <td class="text-center">${item[`${type.toLowerCase().replace(/\s/g, '')}Name`]}</td>
-                        <td class="text-center">${item.count}</td>
-                    </tr>`;
+                table += `<tr>
+                      <td>${item[`${type.toLowerCase()}Name`]}</td>
+                      <td>${item.count}</td>
+                  </tr>`;
             });
 
-            table += `
-                    </tbody>
-                </table>`;
+            table += `</tbody></table>`;
             resultDiv.innerHTML = table;
 
-            // Add pagination
+            // Add pagination controls
             const pagination = `
-                <div class="d-flex justify-content-center mt-3">
-                    <button class="btn btn-outline-secondary" ${currentPage === 0 ? 'disabled' : ''} onclick="prevPage()">Previous</button>
-                    <button class="btn btn-outline-secondary ms-2" onclick="nextPage()">Next</button>
-                </div>`;
+        <div class="d-flex justify-content-center mt-3">
+            <button class="btn btn-secondary mr-2" ${currentPage === 0 ? 'disabled' : ''} onclick="prevPage()">Previous</button>
+            <button class="btn btn-secondary" onclick="nextPage()">Next</button>
+        </div>`;
             resultDiv.innerHTML += pagination;
         }
 
@@ -107,13 +195,14 @@
         }
 
         function reloadCurrentStats() {
-            const activeButton = document.querySelector('.btn-group .active');
+            // Reload stats based on the active button
+            const activeButton = document.querySelector('.btn-group .btn-primary, .btn-group .btn-success, .btn-group .btn-info');
             if (activeButton.id === 'statsByName') getStatsByName();
             if (activeButton.id === 'statsByCategory') getStatsByCategory();
             if (activeButton.id === 'statsByManufacturer') getStatsByManufacturer();
         }
 
-        // Event Listeners
+        // Event listeners
         document.getElementById('statsByName').addEventListener('click', () => {
             currentPage = 0;
             getStatsByName();

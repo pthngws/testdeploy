@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-        layout:decorate="~{layout.html}">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -60,75 +60,76 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
     </style>
 </head>
 <body>
-<body>
-  <div class="wrapper box-layout" th:replace="layout :: content">
-<div class="tab-pane fade" id="address-edit" role="tabpanel">
-    <div class="myaccount-content">
-        <h3>Address Details</h3>
-        <form th:action="@{/user/update}" method="post">
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="single-input-item">
-                        <label for="country" class="required">Country</label>
-                        <input type="text" id="country" name="country" class="form-control"
-                               th:value="${user.address.country}" placeholder="Enter your country" />
+<div class="wrapper box-layout" th:replace="layout :: content">
+    <div class="tab-pane fade" id="address-edit" role="tabpanel">
+        <div class="myaccount-content">
+            <h3>Address Details</h3>
+            <form th:action="@{/user/update}" method="post">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="single-input-item">
+                            <label for="country" class="required">Country</label>
+                            <input type="text" id="country" name="country" class="form-control"
+                                   th:value="${user.address.country}" placeholder="Enter your country"/>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="single-input-item">
+                            <label for="province" class="required">Province/City</label>
+                            <select id="province" name="province" class="form-control" onchange="updateDistricts()">
+                                <option value="" disabled selected>Select Province/City</option>
+                                <th:block th:each="entry : ${provincesAndDistricts}">
+                                    <option th:value="${entry.key}" th:text="${entry.key}"
+                                            th:selected="${entry.key == user.address.province}"></option>
+                                </th:block>
+                            </select>
+                        </div>
                     </div>
                 </div>
-                <div class="col-lg-6">
-                    <div class="single-input-item">
-                        <label for="province" class="required">Province/City</label>
-                        <select id="province" name="province" class="form-control" onchange="updateDistricts()">
-                            <option value="" disabled selected>Select Province/City</option>
-                            <th:block th:each="entry : ${provincesAndDistricts}">
-                                <option th:value="${entry.key}" th:text="${entry.key}" th:selected="${entry.key == user.address.province}"></option>
-                            </th:block>
-                        </select>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="single-input-item">
+                            <label for="district" class="required">District</label>
+                            <select id="district" name="district" class="form-control">
+                                <option value="" disabled selected>Select District</option>
+                                <th:block th:each="district : ${provincesAndDistricts[address.province]}">
+                                    <option th:value="${district}" th:text="${district}"
+                                            th:selected="${district == user.address.district}"></option>
+                                </th:block>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="single-input-item">
+                            <label for="commune" class="required">Commune</label>
+                            <input type="text" id="commune" name="commune" class="form-control"
+                                   th:value="${user.address.commune}" placeholder="Enter your commune"/>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="single-input-item">
-                        <label for="district" class="required">District</label>
-                        <select id="district" name="district" class="form-control">
-                            <option value="" disabled selected>Select District</option>
-                            <th:block th:each="district : ${provincesAndDistricts[address.province]}">
-                                <option th:value="${district}" th:text="${district}" th:selected="${district == user.address.district}"></option>
-                            </th:block>
-                        </select>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="single-input-item">
+                            <label for="other" class="required">Other Details</label>
+                            <input type="text" id="other" name="other" class="form-control"
+                                   th:value="${user.address.other}" placeholder="Enter other details"/>
+                        </div>
                     </div>
                 </div>
-                <div class="col-lg-6">
-                    <div class="single-input-item">
-                        <label for="commune" class="required">Commune</label>
-                        <input type="text" id="commune" name="commune" class="form-control"
-                               th:value="${user.address.commune}" placeholder="Enter your commune" />
-                    </div>
+                <div class="single-input-item">
+                    <button type="submit" class="check-btn sqr-btn">Save Address</button>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="single-input-item">
-                        <label for="other" class="required">Other Details</label>
-                        <input type="text" id="other" name="other" class="form-control"
-                               th:value="${user.address.other}" placeholder="Enter other details" />
-                    </div>
-                </div>
-            </div>
-            <div class="single-input-item">
-                <button type="submit" class="check-btn sqr-btn">Save Address</button>
-            </div>
-        </form>
+            </form>
+        </div>
+    </div>
+    <!-- Scroll to Top End -->
+    <div th:if="${session.username != null}">
+        <p>Chào mừng, <span th:text="${session.username}"></span>!</p>
+        <a href="/logout">Đăng xuất</a>
+    </div>
+    <div th:if="${session.username == null}">
+        <p>Bạn chưa đăng nhập. Vui lòng <a href="/login">đăng nhập</a>.</p>
     </div>
 </div>
-<!-- Scroll to Top End -->
-<div th:if="${session.username != null}">
-    <p>Chào mừng, <span th:text="${session.username}"></span>!</p>
-    <a href="/logout">Đăng xuất</a>
-</div>
-<div th:if="${session.username == null}">
-    <p>Bạn chưa đăng nhập. Vui lòng <a href="/login">đăng nhập</a>.</p>
-</div>
-
 </body>
 </html>
