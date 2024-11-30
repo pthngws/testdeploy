@@ -79,10 +79,8 @@
     </style>
 </head>
 <body>
-<div layout:fragment="content">
+<section class="row" layout:fragment="content">
     <div class="container">
-        <h1 class="text-center mb-4">KHO HÀNG</h1>
-
         <!-- Button Group to switch between different stats -->
         <label class="btn btn-custom">
             <input type="radio" name="stats" id="statsByName" class="btn-check" autocomplete="off" checked> Sản Phẩm
@@ -150,24 +148,25 @@
         }
 
         // Function to display results with pagination
+        // Function to display results with pagination
         function displayResults(data, type) {
             const resultDiv = document.getElementById('statsResult');
             resultDiv.innerHTML = '';
 
             let table = `<table class="table table-bordered table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th>${type}</th>
-                            <th>Số lượng</th>
-                        </tr>
-                    </thead>
-                    <tbody>`;
+            <thead>
+                <tr>
+                    <th>${type === 'Product' ? 'Sản phẩm' : type === 'Category' ? 'Loại' : 'Hãng'}</th>
+                    <th>Số lượng</th>
+                </tr>
+            </thead>
+            <tbody>`;
 
             data.forEach(item => {
                 table += `<tr>
-                      <td>${item[`${type.toLowerCase()}Name`]}</td>
-                      <td>${item.count}</td>
-                  </tr>`;
+              <td>${item[`${type.toLowerCase()}Name`]}</td>
+              <td>${item.count}</td>
+          </tr>`;
             });
 
             table += `</tbody></table>`;
@@ -175,12 +174,13 @@
 
             // Add pagination controls
             const pagination = `
-        <div class="d-flex justify-content-center mt-3">
-            <button class="btn btn-secondary mr-2" ${currentPage === 0 ? 'disabled' : ''} onclick="prevPage()">Previous</button>
-            <button class="btn btn-secondary" onclick="nextPage()">Next</button>
-        </div>`;
+    <div class="d-flex justify-content-center mt-3">
+        <button class="btn btn-secondary mr-2" ${currentPage === 0 ? 'disabled' : ''} onclick="prevPage()">Previous</button>
+        <button class="btn btn-secondary" onclick="nextPage()">Next</button>
+    </div>`;
             resultDiv.innerHTML += pagination;
         }
+
 
         function prevPage() {
             if (currentPage > 0) {
@@ -216,6 +216,6 @@
             getStatsByManufacturer();
         });
     </script>
-</div>
+</section>
 </body>
 </html>
