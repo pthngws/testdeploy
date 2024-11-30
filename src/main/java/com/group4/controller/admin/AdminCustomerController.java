@@ -60,7 +60,7 @@ public class AdminCustomerController {
     public String lockCustomer(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         customerService.updateActiveStatus(id, false); // Khóa tài khoản
         redirectAttributes.addFlashAttribute("message", "Khóa tài khoản thành công!");
-        return "redirect:/customers"; // Quay lại danh sách khách hàng
+        return "redirect:/admin/customers"; // Quay lại danh sách khách hàng
     }
 
     // mở khóa tài khoản
@@ -68,7 +68,7 @@ public class AdminCustomerController {
     public String unlockCustomer(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         customerService.updateActiveStatus(id, true); // Mở khóa tài khoản
         redirectAttributes.addFlashAttribute("message", "Mở khóa tài khoản thành công!");
-        return "redirect:/customers"; // Quay lại danh sách khách hàng
+        return "redirect:/admin/customers"; // Quay lại danh sách khách hàng
     }
 
     // Xóa tài khoản
@@ -80,6 +80,6 @@ public class AdminCustomerController {
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Không thể xóa tài khoản: " + e.getMessage());
         }
-        return "redirect:/customers";
+        return "redirect:/admin/customers";
     }
 }

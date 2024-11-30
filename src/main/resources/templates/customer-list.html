@@ -20,16 +20,23 @@
         <div class="row mt-4 mb-3">
             <div class="col-md-6 offset-md-3">
                 <form th:action="@{/admin/customers/search}" method="get" class="d-flex">
-                    <input type="text" name="keyword" class="form-control me-2"
-                           placeholder="Tìm kiếm khách hàng theo tên hoặc email"/>
-                    <button type="submit" class="btn btn-primary" style="white-space: nowrap;">Tìm kiếm</button>
+                    <input type="text" name="keyword" class="form-control me-0"
+                           placeholder="Tìm kiếm khách hàng theo tên hoặc email"
+                           style="border: 2px solid #444444; border-radius: 0; height: 40px"/>
+
+                    <button type="submit" class="search-btn"
+                            style="background-color: #444444; color: white; border: none; padding: 10px; cursor: pointer; width: 40px; height: 40px; border-radius: 0;"
+                            onmouseover="this.style.backgroundColor='#d8373e';"
+                            onmouseout="this.style.backgroundColor='#444444';">
+                        <i class="fa fa-search"></i>
+                    </button>
                 </form>
             </div>
         </div>
 
         <!-- Bảng thông tin khách hàng -->
-        <table class="table table-bordered table-hover">
-            <thead class="table-dark">
+        <table class="table table-bordered table-striped text-center">
+            <thead class="table-custom-header">
             <tr>
                 <th style="text-align: center; vertical-align: middle;" scope="col">STT</th>
                 <th style="text-align: center; vertical-align: middle;" scope="col">Tên</th>

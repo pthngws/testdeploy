@@ -48,9 +48,21 @@ public class AdminOrderController {
                                @RequestParam(value = "status", required = false) String status,
                                Model model) {
         List<OrderEntity> orders = orderService.searchOrders(keyword, status);
+
+        // Tạo Map để lưu tổng giá trị của từng đơn hàng
+        Map<Long, Integer> orderTotalValues = new HashMap<>();
+
+        // Tính tổng giá trị cho từng đơn hàng
+        for (OrderEntity order : orders) {
+            int totalValue = orderService.getTotalOrderValue(order);
+            orderTotalValues.put(order.getOrderId(), totalValue);
+        }
+
         model.addAttribute("orders", orders);
         model.addAttribute("searchKeyword", keyword);
         model.addAttribute("status", status);
+        model.addAttribute("orderTotalValues", orderTotalValues);
+
 
         return "order-list";
     }
@@ -83,9 +95,9 @@ public class AdminOrderController {
                     .orElseThrow(() -> new RuntimeException("Không tìm thấy đơn hàng"));
 
             // Chỉ xử lý nếu trạng thái là "Yêu cầu hủy"
-            if (!"Yêu cầu hủy".equals(order.getShippingStatus())) {
+            if (!"Yêu cầu huỷ".equals(order.getShippingStatus())) {
                 redirectAttributes.addFlashAttribute("errorMessage", "Chỉ có thể xác nhận hủy khi đơn hàng ở trạng thái 'Yêu cầu hủy'.");
-                return "redirect:/orders";
+                return "redirect:/admin/orders";
             }
 
             orderService.confirmCancelOrder(id);
@@ -93,7 +105,7 @@ public class AdminOrderController {
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Có lỗi xảy ra khi xác nhận hủy đơn hàng.");
         }
-        return "redirect:/orders";
+        return "redirect:/admin/orders";
     }
 
     @PostMapping("/{id}/cancel")
@@ -103,9 +115,9 @@ public class AdminOrderController {
                     .orElseThrow(() -> new RuntimeException("Không tìm thấy đơn hàng"));
 
             // Chỉ xử lý nếu trạng thái là "Yêu cầu hủy"
-            if (!"Yêu cầu hủy".equals(order.getShippingStatus())) {
+            if (!"Yêu cầu huỷ".equals(order.getShippingStatus())) {
                 redirectAttributes.addFlashAttribute("errorMessage", "Chỉ có thể từ chối hủy khi đơn hàng ở trạng thái 'Yêu cầu hủy'.");
-                return "redirect:/orders";
+                return "redirect:/admin/orders";
             }
 
             orderService.rejectCancelOrder(id);
@@ -113,7 +125,7 @@ public class AdminOrderController {
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Có lỗi xảy ra khi từ chối hủy đơn hàng.");
         }
-        return "redirect:/orders";
+        return "redirect:/admin/orders";
     }
     @GetMapping("/order-details")
     public String showOrderDetails(

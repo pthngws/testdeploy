@@ -16,7 +16,12 @@
         <!-- Nút quay lại và tiêu đề -->
         <div class="d-flex align-items-center justify-content-between mb-4">
             <!-- Nút quay lại -->
-            <a th:href="@{/admin/orders}" class="btn btn-secondary">Quay lại</a>
+            <a th:href="@{/admin/orders}" class="btn btn-secondary"
+               style="display: inline-block; background-color: #444444; color: white; padding: 10px; text-align: center; width: 40px; height: 40px; border-radius: 0; text-decoration: none; cursor: pointer;"
+               onmouseover="this.style.backgroundColor='#d8373e';"
+               onmouseout="this.style.backgroundColor='#444444';">
+                <i class="fa fa-arrow-left" style="font-size: 20px;"></i>
+            </a>
             <!-- Tiêu đề -->
             <h1 class="text-center flex-grow-1">Chi tiết đơn hàng</h1>
         </div>
@@ -63,7 +68,7 @@
             </div>
             <div class="card-body">
                 <table class="table table-bordered table-striped text-center">
-                    <thead class="table-dark">
+                    <thead class="group-product-table">
                     <tr>
                         <th scope="col">STT</th>
                         <th scope="col">Ảnh sản phẩm</th>
@@ -98,7 +103,7 @@
 
         <div class="mt-3">
             <!-- Hiển thị nút xác nhận hủy và từ chối hủy nếu trạng thái là "Yêu cầu hủy" -->
-            <div th:if="${order.shippingStatus == 'Yêu cầu hủy'}">
+            <div th:if="${order.shippingStatus == 'Yêu cầu huỷ'}">
                 <form th:action="@{/admin/orders/{id}/confirm(id=${order.orderId})}" method="post" class="d-inline">
                     <button type="submit" class="btn btn-success"
                             onclick="return confirm('Bạn có chắc chắn muốn xác nhận hủy đơn hàng này?');">
