@@ -67,6 +67,7 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
     @Query("SELECT p.manufacturer.name, COUNT(p) FROM ProductEntity p GROUP BY p.manufacturer.name")
     Page<Object[]> countProductsGroupedByManufacturerName(Pageable pageable);
 
+
     
     
     @Query("SELECT p FROM ProductEntity p WHERE p.name = :productName")
@@ -76,4 +77,8 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
     // Truy vấn để lấy sản phẩm đầu tiên với mỗi tên (không trùng lặp tên)
     @Query("SELECT p FROM ProductEntity p WHERE p.name IN (SELECT DISTINCT p1.name FROM ProductEntity p1)")
     Page<ProductEntity> findAllDistinctByName(Pageable pageable);
+
+    Page<ProductEntity> findAll(Pageable pageable);
+
+
 }

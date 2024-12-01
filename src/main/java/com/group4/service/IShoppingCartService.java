@@ -11,4 +11,5 @@ public interface IShoppingCartService {
 
     ShoppingCartEntity addProductToCart(CustomerEntity customer, ProductEntity product);
     List<ProductEntity> findProductsByCustomerId(Long customerID);
+    void removeProductFromCart(Long customerId, Long productId);
 }

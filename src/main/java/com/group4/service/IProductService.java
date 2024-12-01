@@ -21,11 +21,6 @@ public interface IProductService {
 
     public List<CategoryModel> getAllCategories();
 
-    public List<Map<String, Object>> countProductsByName(int page, int size);
-
-    public List<Map<String, Object>> countProductsByCategoryName(int page, int size);
-
-    public List<Map<String, Object>> countProductsByManufacturerName(int page, int size);
     List<ProductEntity> findAll();
 
     Optional<ProductEntity> findById(Long id);
@@ -41,4 +36,6 @@ public interface IProductService {
     public double calculateAverageRating(ProductEntity product);
 
     public int getReviewCount(ProductEntity product);
+
+    public Page<ProductEntity> getProducts(int page, int size);
 }

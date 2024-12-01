@@ -20,11 +20,17 @@ public class ShoppingCartController {
     @Autowired
     IShoppingCartService shoppingCartService = new ShoppingCartServiceImpl();
 
-    @GetMapping("/customer/{customerId}")
+    @GetMapping("/{customerId}")
     public String getProductsByCustomerId(@PathVariable Long customerId, Model model) {
         List<ProductEntity> products = shoppingCartService.findProductsByCustomerId(customerId);
         model.addAttribute("products", products);
+        model.addAttribute("customerId", customerId);
         System.out.println(products);
         return "cart";
+    }
+    @GetMapping("/remove/{productId}/{customerId}")
+    public String removeProductFromCart(@PathVariable Long productId, @PathVariable Long customerId) {
+        shoppingCartService.removeProductFromCart(customerId, productId);
+        return "redirect:/cart/" + customerId;
     }
 }

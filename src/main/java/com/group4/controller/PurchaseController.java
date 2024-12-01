@@ -84,7 +84,7 @@ public class PurchaseController {
             lineItem.setProduct(product);
             lineItem.setQuantity(1); // Mặc định là 1 sản phẩm
             lineItems.add(lineItem);
-            total += lineItem.getTotal();
+//            total += lineItem.getTotal();
         }
 
         // Gán danh sách line items và tổng giá trị cho đơn hàng

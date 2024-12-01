@@ -7,215 +7,209 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inventory</title>
     <style>
-        /* Body Styling */
-
-        /* Button Group */
-
-
-        .btn-outline-danger {
-            border-color: #d8373e;
-            color: #d8373e;
+        /* Search Bar Styling */
+        #search {
+            width: 300px; /* Làm ô search nhỏ lại */
+            margin-bottom: 20px;
         }
 
-        .btn-outline-danger:hover {
-            background-color: #d8373e;
-            color: #fff;
-        }
-
-        .btn-outline-success {
-            border-color: #28a745;
-            color: #28a745;
-        }
-
-        .btn-outline-success:hover {
-            background-color: #28a745;
-            color: #fff;
-        }
-
-        .btn-outline-info {
-            border-color: #17a2b8;
-            color: #17a2b8;
-        }
-
-        .btn-outline-info:hover {
-            background-color: #17a2b8;
-            color: #fff;
-        }
-
-        /* Table Styling */
-        .table {
-            margin-top: 20px;
-        }
-
+        /* Table Styling Adjustments */
         .table thead {
-            background-color: #d8373e;
-            color: #fff;
+            background-color: #d8373e; /* Màu đỏ */
+            color: #fff; /* Chữ màu trắng */
         }
 
-        .table-hover tbody tr:hover {
-            background-color: #ffecec; /* Nhẹ nhàng hơn khi hover */
+        .table td:nth-child(1) { /* Tên sản phẩm */
+            width: 50%;
         }
 
-        /* Pagination Controls */
-        .btn-secondary {
+        .table td:nth-child(2) input { /* Số lượng */
+            width: 80px; /* Làm ô số lượng nhỏ lại */
+        }
+
+        .table td:nth-child(3) button { /* Nút Cập nhật */
+            background-color: #d8373e; /* Màu đỏ */
+            color: white;
+            border: none;
+            padding: 6px 12px;
             font-size: 14px;
-            border-radius: 25px;
-            padding: 8px 16px;
-            margin: 0 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
         }
 
-        .btn-secondary:hover {
-            background-color: #d8373e;
-            border-color: #d8373e;
-            color: #fff;
+        .table td:nth-child(3) button:hover {
+            background-color: #a32b31; /* Màu đỏ đậm hơn khi hover */
+        }
+        /* Notification Styling */
+        #notification {
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 16px;
         }
 
-        .d-flex .btn[disabled] {
-            background-color: #e9ecef;
-            border-color: #ddd;
-            cursor: not-allowed;
+        #notification.success {
+            color: #28a745; /* Màu xanh */
+            background-color: #d4edda; /* Nền xanh nhạt */
+            border: 1px solid #c3e6cb;
         }
 
+        #notification.error {
+            color: #dc3545; /* Màu đỏ */
+            background-color: #f8d7da; /* Nền đỏ nhạt */
+            border: 1px solid #f5c6cb;
+        }
     </style>
+
+
 </head>
 <body>
-<div layout:fragment="content">
+<section class="row" layout:fragment="content">
     <div class="container">
-        <h1 class="text-center mb-4">KHO HÀNG</h1>
+        <!-- Search Bar -->
+        <div>
+            <input type="text" id="search" placeholder="Tìm sản phẩm..." class="form-control" oninput="searchInventory()" />
+        </div>
+        <!-- Notification area -->
+        <div id="notification" style="margin-top: 20px; font-weight: bold; display: none;"></div>
 
-        <!-- Button Group to switch between different stats -->
-        <label class="btn btn-custom">
-            <input type="radio" name="stats" id="statsByName" class="btn-check" autocomplete="off" checked> Sản Phẩm
-        </label>
-        <label class="btn btn-custom">
-            <input type="radio" name="stats" id="statsByCategory" class="btn-check" autocomplete="off"> Loại
-        </label>
-        <label class="btn btn-custom">
-            <input type="radio" name="stats" id="statsByManufacturer" class="btn-check" autocomplete="off"> Hãng
-        </label>
-
-        <!-- Table to display results -->
-        <div id="statsResult" class="results table-responsive">
+        <!-- Table to display inventory -->
+        <div id="inventoryResult" class="table-responsive">
             <!-- Table will be populated here -->
+        </div>
+
+        <!-- Pagination Controls -->
+        <div id="paginationControls" class="pagination">
+            <!-- Pagination links will be generated here -->
         </div>
     </div>
 
     <script>
-        // Function to fetch statistics by Product Name
-        let currentPage = 0; // Trang hiện tại
-        let pageSize = 10; // Số lượng sản phẩm mỗi trang
-        document.addEventListener('DOMContentLoaded', function() {
-            // Lắng nghe sự kiện thay đổi của các radio button
-            document.querySelectorAll('input[name="stats"]').forEach(function(radio) {
-                radio.addEventListener('change', function() {
-                    // Khi chọn radio nào thì sẽ gọi hàm tương ứng
-                    if (radio.id === 'statsByName') {
-                        getStatsByName();
-                    } else if (radio.id === 'statsByCategory') {
-                        getStatsByCategory();
-                    } else if (radio.id === 'statsByManufacturer') {
-                        getStatsByManufacturer();
-                    }
-                });
-            });
+        let currentPage = 1;
+        const itemsPerPage = 10;
+        let inventoryData = [];
 
-            // Gọi hàm cho radio mặc định (statsByName) khi trang được tải
-            document.getElementById('statsByName').checked = true; // Đảm bảo rằng radio này được chọn
-            getStatsByName(); // Gọi hàm tương ứng khi radio mặc định được chọn
-        });
-        // Function to fetch statistics with pagination
-        async function fetchStats(url, type) {
+        // Fetch and display inventory with search and pagination
+        async function fetchInventory(searchQuery = '') {
             try {
-                const response = await fetch(`${url}?page=${currentPage}&size=${pageSize}`);
+                const response = await fetch(`/admin/api/inventory?page=${currentPage}&size=${itemsPerPage}&search=${searchQuery}`);
                 const data = await response.json();
-                displayResults(data, type);
+                inventoryData = data.content; // Use 'content' to get the list of items
+                displayInventory(inventoryData);
+                displayPagination(data.totalPages); // Assuming API returns 'totalPages'
             } catch (error) {
-                console.error(`Error fetching stats from ${url}:`, error);
+                console.error('Error fetching inventory:', error);
             }
         }
 
-        // Function to fetch statistics by Product Name
-        function getStatsByName() {
-            fetchStats('/admin/api/product/stats-by-name', 'Product');
-        }
-
-        // Function to fetch statistics by Category Name
-        function getStatsByCategory() {
-            fetchStats('/admin/api/product/stats-by-category', 'Category');
-        }
-
-        // Function to fetch statistics by Manufacturer Name
-        function getStatsByManufacturer() {
-            fetchStats('/admin/api/product/stats-by-manufacturer', 'Manufacturer');
-        }
-
-        // Function to display results with pagination
-        function displayResults(data, type) {
-            const resultDiv = document.getElementById('statsResult');
+        // Function to display inventory with editable quantity
+        function displayInventory(data) {
+            const resultDiv = document.getElementById('inventoryResult');
             resultDiv.innerHTML = '';
 
-            let table = `<table class="table table-bordered table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th>${type}</th>
-                            <th>Số lượng</th>
-                        </tr>
-                    </thead>
-                    <tbody>`;
+            if (data.length === 0) {
+                resultDiv.innerHTML = 'Không có sản phẩm nào.';
+                return;
+            }
+
+            let table = `
+        <table class="table table-bordered table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Tên sản phẩm</th>
+                    <th>Số lượng</th>
+                    <th>Cập nhật</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
 
             data.forEach(item => {
-                table += `<tr>
-                      <td>${item[`${type.toLowerCase()}Name`]}</td>
-                      <td>${item.count}</td>
-                  </tr>`;
+                table += `
+            <tr>
+                <td>${item.product ? item.product.name : 'Unknown'}</td>
+                <td><input type="number" value="${item.quantity}" id="quantity-${item.productId}" class="form-control" /></td>
+                <td><button class="btn btn-primary" onclick="updateQuantity(${item.productId})">Cập nhật</button></td>
+            </tr>
+        `;
             });
 
             table += `</tbody></table>`;
             resultDiv.innerHTML = table;
-
-            // Add pagination controls
-            const pagination = `
-        <div class="d-flex justify-content-center mt-3">
-            <button class="btn btn-secondary mr-2" ${currentPage === 0 ? 'disabled' : ''} onclick="prevPage()">Previous</button>
-            <button class="btn btn-secondary" onclick="nextPage()">Next</button>
-        </div>`;
-            resultDiv.innerHTML += pagination;
         }
 
-        function prevPage() {
-            if (currentPage > 0) {
-                currentPage--;
-                reloadCurrentStats();
+        // Function to update the quantity of a product
+        async function updateQuantity(productId) {
+            const quantity = document.getElementById(`quantity-${productId}`).value;
+            const notificationDiv = document.getElementById('notification');
+
+            try {
+                const response = await fetch(`/admin/api/inventory/${productId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ quantity: quantity })
+                });
+
+                if (response.ok) {
+                    // Hiển thị thông báo thành công
+                    notificationDiv.textContent = 'Cập nhật thành công!';
+                    notificationDiv.className = 'success';
+                } else {
+                    // Hiển thị thông báo thất bại
+                    notificationDiv.textContent = 'Cập nhật không thành công!';
+                    notificationDiv.className = 'error';
+                }
+            } catch (error) {
+                console.error('Error updating quantity:', error);
+                // Hiển thị thông báo lỗi
+                notificationDiv.textContent = 'Có lỗi xảy ra khi cập nhật!';
+                notificationDiv.className = 'error';
+            }
+
+            // Hiển thị thông báo trong 5 giây rồi ẩn
+            notificationDiv.style.display = 'block';
+            setTimeout(() => {
+                notificationDiv.style.display = 'none';
+            }, 5000);
+
+            // Reload inventory sau khi cập nhật
+            fetchInventory();
+        }
+        // Function to display pagination links
+        function displayPagination(totalPages) {
+            const paginationDiv = document.getElementById('paginationControls');
+            paginationDiv.innerHTML = '';
+
+            // If there's more than one page, render the pagination
+            if (totalPages > 1) {
+                for (let i = 1; i <= totalPages; i++) {
+                    const pageLink = document.createElement('a');
+                    pageLink.href = '#';
+                    pageLink.textContent = i;
+                    pageLink.onclick = () => goToPage(i);
+                    paginationDiv.appendChild(pageLink);
+                }
             }
         }
 
-        function nextPage() {
-            currentPage++;
-            reloadCurrentStats();
+        // Function to go to the selected page
+        function goToPage(pageNumber) {
+            currentPage = pageNumber;
+            fetchInventory(); // Fetch inventory for the selected page
         }
 
-        function reloadCurrentStats() {
-            // Reload stats based on the active button
-            const activeButton = document.querySelector('.btn-group .btn-primary, .btn-group .btn-success, .btn-group .btn-info');
-            if (activeButton.id === 'statsByName') getStatsByName();
-            if (activeButton.id === 'statsByCategory') getStatsByCategory();
-            if (activeButton.id === 'statsByManufacturer') getStatsByManufacturer();
+        // Search functionality (only trigger on button click)
+        function searchInventory() {
+            const searchQuery = document.getElementById('search').value;
+            fetchInventory(searchQuery); // Fetch inventory with the search query
         }
 
-        // Event listeners
-        document.getElementById('statsByName').addEventListener('click', () => {
-            currentPage = 0;
-            getStatsByName();
-        });
-        document.getElementById('statsByCategory').addEventListener('click', () => {
-            currentPage = 0;
-            getStatsByCategory();
-        });
-        document.getElementById('statsByManufacturer').addEventListener('click', () => {
-            currentPage = 0;
-            getStatsByManufacturer();
-        });
+        // Fetch all inventory when the page loads
+        document.addEventListener('DOMContentLoaded', () => fetchInventory());
+
     </script>
-</div>
+</section>
 </body>
 </html>
