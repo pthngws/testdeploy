@@ -23,18 +23,18 @@ public class HomeController {
 
 	}
 
-//    @RequestMapping("/home")
-//    public String home(@RequestParam(defaultValue = "0") int page,
-//                       @RequestParam(defaultValue = "8") int size, Model model) {
-//        Page<ProductEntity> productPage = productService.getProducts(page, size);
-//
-//        // Truyền dữ liệu tới giao diện
-//        model.addAttribute("products", productPage.getContent());
-//        model.addAttribute("currentPage", page);
-//        model.addAttribute("totalPages", productPage.getTotalPages());
-//        return "trangchu";
-//       
-//    }
+    @RequestMapping("/home")
+    public String home(@RequestParam(defaultValue = "0") int page,
+                       @RequestParam(defaultValue = "8") int size, Model model) {
+        Page<ProductEntity> productPage = productService.getProducts(page, size);
+
+        // Truyền dữ liệu tới giao diện
+        model.addAttribute("products", productPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", productPage.getTotalPages());
+        return "trangchu";
+       
+    }
 
 
     // Xử lý về chúng tôi
