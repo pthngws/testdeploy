@@ -62,31 +62,6 @@ public class ProductServiceImpl implements IProductService {
                 .collect(Collectors.toList());
     }
 
-    public List<Map<String, Object>> countProductsByName(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        Page<Object[]> results = productRepository.countProductsGroupedByName(pageable);
-        return results.stream()
-                .map(result -> Map.of("productName", result[0], "count", result[1]))
-                .collect(Collectors.toList());
-    }
-
-    // Lấy số lượng sản phẩm theo tên danh mục với phân trang
-    public List<Map<String, Object>> countProductsByCategoryName(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        Page<Object[]> results = productRepository.countProductsGroupedByCategoryName(pageable);
-        return results.stream()
-                .map(result -> Map.of("categoryName", result[0], "count", result[1]))
-                .collect(Collectors.toList());
-    }
-
-    // Lấy số lượng sản phẩm theo tên nhà sản xuất với phân trang
-    public List<Map<String, Object>> countProductsByManufacturerName(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        Page<Object[]> results = productRepository.countProductsGroupedByManufacturerName(pageable);
-        return results.stream()
-                .map(result -> Map.of("manufacturerName", result[0], "count", result[1]))
-                .collect(Collectors.toList());
-    }
 
     @Override
     public List<ProductEntity> findAll() {
