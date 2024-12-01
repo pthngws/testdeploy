@@ -101,9 +101,9 @@ public class AdminOrderController {
             }
 
             orderService.confirmCancelOrder(id);
-            redirectAttributes.addFlashAttribute("successMessage", "Đơn hàng đã được xác nhận hủy.");
+            redirectAttributes.addFlashAttribute("successMessage", "Huỷ đơn thành công.");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Có lỗi xảy ra khi xác nhận hủy đơn hàng.");
+            redirectAttributes.addFlashAttribute("errorMessage", "Huỷ đơn không thành công.");
         }
         return "redirect:/admin/orders";
     }
@@ -121,9 +121,9 @@ public class AdminOrderController {
             }
 
             orderService.rejectCancelOrder(id);
-            redirectAttributes.addFlashAttribute("successMessage", "Đơn hàng đã được từ chối hủy.");
+            redirectAttributes.addFlashAttribute("successMessage", "Từ chối thành công.");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Có lỗi xảy ra khi từ chối hủy đơn hàng.");
+            redirectAttributes.addFlashAttribute("errorMessage", "Từ chối không thành công.");
         }
         return "redirect:/admin/orders";
     }

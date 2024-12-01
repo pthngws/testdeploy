@@ -41,7 +41,6 @@
                 <th style="text-align: center; vertical-align: middle;" scope="col">STT</th>
                 <th style="text-align: center; vertical-align: middle;" scope="col">Tên</th>
                 <th style="text-align: center; vertical-align: middle;" scope="col">Email</th>
-                <th style="text-align: center; vertical-align: middle;" scope="col">Giới tính</th>
                 <th style="text-align: center; vertical-align: middle;" scope="col">Số điện thoại</th>
                 <th style="text-align: center; vertical-align: middle;" scope="col">Địa chỉ</th>
                 <th style="text-align: center; vertical-align: middle;" scope="col">Thông tin chi tiết</th>
@@ -54,7 +53,6 @@
                 <td th:text="${iterStat.count}">1</td>
                 <td th:text="${customer.name}">Nguyễn Văn A</td>
                 <td th:text="${customer.email}">example@gmail.com</td>
-                <td th:text="${customer.gender}">Nam</td>
                 <td th:text="${customer.phone}">0123456789</td>
                 <td th:text="${customer.address.other} + ' ' + ${customer.address.commune} + ', ' +${customer.address.district} + ', ' +${customer.address.province} + ', ' +${customer.address.country}"></td>
 

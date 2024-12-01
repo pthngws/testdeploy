@@ -58,16 +58,24 @@ public class AdminCustomerController {
     // khóa tài khoản
     @GetMapping("/{id}/lock")
     public String lockCustomer(@PathVariable Long id, RedirectAttributes redirectAttributes) {
-        customerService.updateActiveStatus(id, false); // Khóa tài khoản
-        redirectAttributes.addFlashAttribute("message", "Khóa tài khoản thành công!");
+        try {
+            customerService.updateActiveStatus(id, false); // Khóa tài khoản
+            redirectAttributes.addFlashAttribute("message", "Khóa thành công!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Khoá không thành công: " + e.getMessage());
+        }
         return "redirect:/admin/customers"; // Quay lại danh sách khách hàng
     }
 
     // mở khóa tài khoản
     @GetMapping("/{id}/unlock")
     public String unlockCustomer(@PathVariable Long id, RedirectAttributes redirectAttributes) {
-        customerService.updateActiveStatus(id, true); // Mở khóa tài khoản
-        redirectAttributes.addFlashAttribute("message", "Mở khóa tài khoản thành công!");
+        try {
+            customerService.updateActiveStatus(id, true); // Mở khóa tài khoản
+            redirectAttributes.addFlashAttribute("message", "Mở khóa thành công!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Mở khoá không thành công: " + e.getMessage());
+        }
         return "redirect:/admin/customers"; // Quay lại danh sách khách hàng
     }
 
@@ -76,9 +84,9 @@ public class AdminCustomerController {
     public String deleteCustomerAccount(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
             customerService.deleteCustomerAccount(id);
-            redirectAttributes.addFlashAttribute("message", "Xóa tài khoản thành công!");
+            redirectAttributes.addFlashAttribute("message", "Xóa thành công!");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "Không thể xóa tài khoản: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("error", "Xóa không thành công: " + e.getMessage());
         }
         return "redirect:/admin/customers";
     }
