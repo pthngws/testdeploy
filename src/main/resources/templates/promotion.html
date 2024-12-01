@@ -28,7 +28,7 @@
                 <p th:text="${errorMessage}"></p>
             </div>
             <!-- Add New Promotion Button -->
-            <a th:href="@{/promotions/add}" class="btn btn-danger">Add New Promotion</a>
+            <a th:href="@{/admin/promotions/add}" class="btn btn-danger">Add New Promotion</a>
 
             <table class="table table-bordered">
                 <thead>
@@ -55,8 +55,8 @@
                     <td th:text="${promotion.promotionCode}">PROMO2024</td>
                     <td th:text="${promotion.description}"></td>
                     <td>
-                        <a th:href="@{/promotions/edit/{id}(id=${promotion.promotionID})}" class="btn btn-primary">Cập nhật</a>
-                        <form th:action="@{/promotions/delete/{id}(id=${promotion.promotionID})}" method="post" style="display:inline;">
+                        <a th:href="@{/admin/promotions/edit/{id}(id=${promotion.promotionID})}" class="btn btn-primary">Cập nhật</a>
+                        <form th:action="@{/admin/promotions/delete/{id}(id=${promotion.promotionID})}" method="post" style="display:inline;">
                             <input type="hidden" name="_method" value="delete"/>
                             <button type="submit" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa mã khuyến mãi này không?');">Xóa</button>
                         </form>
@@ -77,17 +77,17 @@
                     <ul class="pagination-box">
                         <!-- Nút "Trang trước" -->
                         <li th:if="${currentPage > 0}">
-                            <a class="Previous" th:href="@{/promotions(page=${currentPage - 1})}">Trang trước</a>
+                            <a class="Previous" th:href="@{/admin/promotions(page=${currentPage - 1})}">Trang trước</a>
                         </li>
                         <!-- Số trang -->
                         <li th:each="page : ${#numbers.sequence(1, totalPages)}"
                             th:classappend="${currentPage + 1 == page} ? 'active'">
-                            <a th:href="@{/promotions(page=${page - 1})}"
+                            <a th:href="@{/admin/promotions(page=${page - 1})}"
                                th:text="${page}">1</a>
                         </li>
                         <!-- Nút "Trang sau" -->
                         <li th:if="${currentPage < totalPages - 1}">
-                            <a class="Next" th:href="@{/promotions(page=${currentPage + 1})}">Trang sau</a>
+                            <a class="Next" th:href="@{/admin/promotions(page=${currentPage + 1})}">Trang sau</a>
                         </li>
                     </ul>
                 </div>

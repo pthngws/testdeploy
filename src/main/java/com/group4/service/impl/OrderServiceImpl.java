@@ -157,7 +157,7 @@ public class OrderServiceImpl implements IOrderService {
 
         // Tạo đối tượng OrderFailEntity để lưu thông tin hủy
         OrderFailEntity orderFail = new OrderFailEntity();
-        orderFail.setOrderId(order.getOrderId());
+        orderFail.setOrderId(null);
         orderFail.setCustomer(order.getCustomer());
         orderFail.setShippingAddress(order.getShippingAddress());
         orderFail.setOrderDate(order.getOrderDate());

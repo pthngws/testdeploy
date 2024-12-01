@@ -60,13 +60,13 @@
           <td th:text="${lineItem.product.name}"></td>
           <td th:text="${lineItem.quantity}"></td>
           <td th:text="${lineItem.product.price}"></td>
-          <td th:text="${lineItem.getTotal()}"></td>
+<!--          <td th:text="${lineItem.getTotal()}"></td>-->
         </tr>
         </tbody>
         <tfoot>
         <tr>
           <td colspan="3" class="text-end"><strong>Sub Total</strong></td>
-          <td th:text="${order.getTotalOrderValue()}"></td>
+<!--          <td th:text="${order.getTotalOrderValue()}"></td>-->
         </tr>
 <!--        <tr>-->
 <!--          <td colspan="3" class="text-end"><strong>Shipping Fee</strong></td>-->
@@ -74,7 +74,7 @@
 <!--        </tr>-->
         <tr>
           <td colspan="3" class="text-end"><strong>Total Amount</strong></td>
-          <td th:text="${order.getTotalOrderValue()}"></td>
+<!--          <td th:text="${order.getTotalOrderValue()}"></td>-->
         </tr>
         </tfoot>
       </table>

@@ -9,9 +9,7 @@ import com.group4.service.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,6 +19,8 @@ public class HistoryController {
 
     @Autowired
     private IHistoryService historyService;
+    @Autowired
+    private IOrderService orderService;
 
     @GetMapping
     public String viewOrderHistory(HttpSession session, Model model) {
@@ -41,5 +41,13 @@ public class HistoryController {
             model.addAttribute("orders", orders);
         }
         return "my-account";
+    }
+    @PostMapping("/cancel")
+    public String cancelOrder(@RequestParam Long orderId,
+                              @RequestParam String accountNumber,
+                              @RequestParam String accountName,
+                              @RequestParam String bankName) {
+        orderService.cancelOrder(orderId,accountNumber,accountName,bankName);
+        return "redirect:/history";
     }
 }

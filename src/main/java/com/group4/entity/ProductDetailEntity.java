@@ -17,55 +17,55 @@ public class ProductDetailEntity {
     @Column(name = "detail_id")
     private Long productDetailID;
 
-    @Column(columnDefinition = "nvarchar(250)")
+    @Column(columnDefinition = "text")
     private String RAM;
 
-    @Column(columnDefinition = "nvarchar(250)")
+    @Column(columnDefinition = "text")
     private String CPU;
 
-    @Column(columnDefinition = "nvarchar(250)")
+    @Column(columnDefinition = "text")
     private String GPU;
 
-    @Column(columnDefinition = "nvarchar(250)")
+    @Column(columnDefinition = "text")
     private String monitor;
 
-    @Column(columnDefinition = "nvarchar(250)")
+    @Column(columnDefinition = "text")
     private String charger;
 
-    @Column(columnDefinition = "nvarchar(250)")
+    @Column(columnDefinition = "text")
     private String disk;
 
-    @Column(columnDefinition = "nvarchar(1000)")
+    @Column(columnDefinition = "text")
     private String connect;
 
-    @Column(columnDefinition = "nvarchar(250)")
+    @Column(columnDefinition = "text")
     private String LAN;
 
-    @Column(columnDefinition = "nvarchar(250)")
+    @Column(columnDefinition = "text")
     private String WIFI;
 
-    @Column(columnDefinition = "nvarchar(250)")
+    @Column(columnDefinition = "text")
     private String bluetooth;
 
-    @Column(columnDefinition = "nvarchar(250)")
+    @Column(columnDefinition = "text")
     private String audio;
 
-    @Column(columnDefinition = "nvarchar(250)")
+    @Column(columnDefinition = "text")
     private String webcam;
 
-    @Column(name = "operation_system", columnDefinition = "nvarchar(250)")
+    @Column(name = "operation_system", columnDefinition = "text")
     private String operationSystem;
 
-    @Column(columnDefinition = "nvarchar(250)")
+    @Column(columnDefinition = "text")
     private String weight;
 
-    @Column(columnDefinition = "nvarchar(250)")
+    @Column(columnDefinition = "text")
     private String color;
 
-    @Column(columnDefinition = "nvarchar(250)")
+    @Column(columnDefinition = "text")
     private String size;
 
-    @Column(columnDefinition = "nvarchar(250)")
+    @Column(columnDefinition = "text")
     private String description;
 
 //    @OneToMany(mappedBy = "productDetail", cascade = CascadeType.ALL, orphanRemoval = true)

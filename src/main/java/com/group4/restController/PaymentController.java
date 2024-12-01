@@ -39,7 +39,7 @@ public class PaymentController {
     }
 
     @PostMapping("qr-callback")
-    public void qrPayCallbackHandler(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public ResponseEntity<Map<String, Object>> qrPayCallbackHandler(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html;charset=UTF-8");
         Long orderId = Long.parseLong(request.getParameter("orderId"));
         int requi_amount = Integer.parseInt(request.getParameter("requi_amount"));
@@ -51,16 +51,16 @@ public class PaymentController {
             response.getWriter().write(
                     "<script>" +
                             "alert('Đơn hàng đã thanh toán thành công');" +
-                            "window.location.href = '/order-history';"+
                             "</script>"
             );
+            return ResponseEntity.ok(Map.of("status", "success"));
         } else {
             response.getWriter().write(
                     "<script>" +
                             "alert('Đơn hàng đã thanh toán không thành công');" +
-                            "window.location.href = '/payment?orderId="+orderId+"&amount="+requi_amount+"';"+
                             "</script>"
             );
+            return ResponseEntity.badRequest().body(Map.of("status", "fail", "message", "Số tiền thanh toán không đủ"));
         }
     }
 
@@ -69,7 +69,7 @@ public class PaymentController {
         return new ResponseObject<  >(HttpStatus.OK, "Success", paymentService.createVnPayPayment(request));
     }
     @GetMapping("/vn-pay-callback")
-    public void bankPayCallbackHandler(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public ResponseEntity<Map<String, Object>> bankPayCallbackHandler(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html;charset=UTF-8");
 
         String status = request.getParameter("vnp_ResponseCode");
@@ -89,16 +89,16 @@ public class PaymentController {
             response.getWriter().write(
                     "<script>" +
                             "alert('Đơn hàng đã thanh toán thành công');" +
-                            "window.location.href = '/order-history';"+
                             "</script>"
             );
+            return ResponseEntity.ok(Map.of("status", "success"));
         } else {
             response.getWriter().write(
                     "<script>" +
                          "alert('Thanh toán thất bại. Vui lòng thử lại!');" + // Hiển thị popup lỗi//
-                            "window.location.href = '/payment?orderId="+orderId+"&amount="+amount+"';"+
                     "</script>"
             );
+            return ResponseEntity.badRequest().body(Map.of("status", "fail", "message", "Số tiền thanh toán không đủ"));
         }
     }
 }

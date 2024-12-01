@@ -85,7 +85,7 @@ public class PromotionController {
     @PostMapping("/save")
     public String savePromotion(@ModelAttribute PromotionModel promotion) {
         promotionService.saveOrUpdatePromotion(promotion);
-        return "redirect:/promotions";
+        return "redirect:/admin/promotions";
     }
 
     @PutMapping("/update")
@@ -96,7 +96,7 @@ public class PromotionController {
             return "redirect:/promotions"; // Chuyển hướng sau khi cập nhật
         } else {
             model.addAttribute("errorMessage", "Failed to update promotion.");
-            return "promotion";
+            return "/admin/promotion";
         }
     }
 
@@ -106,9 +106,9 @@ public class PromotionController {
         boolean status = promotionService.deletePromotion(promotionID);
 
         if (status) {
-            return "redirect:/promotions?delete-success";
+            return "redirect:/admin/promotions?delete-success";
         } else {
-            return "redirect:/promotions?delete-error";
+            return "redirect:/admin/promotions?delete-error";
         }
     }
 }

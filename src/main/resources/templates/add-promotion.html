@@ -24,7 +24,7 @@
                         <h2 class="section-title" th:text="${promotion.promotionID != null ? 'Edit Promotion' : 'Add New Promotion'}"></h2>
 
                         <!-- Form -->
-                        <form th:action="@{/promotions/save}" method="post" class="mt-4">
+                        <form th:action="@{/admin/promotions/save}" method="post" class="mt-4">
                             <!-- Hidden field để truyền promotionID nếu chỉnh sửa -->
                             <input type="hidden" name="promotionID" th:value="${promotion.promotionID}" />
 
