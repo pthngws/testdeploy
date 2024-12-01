@@ -11,12 +11,11 @@ import lombok.*;
 public class InventoryEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "inventory_id")
-    private Long inventoryID;
+    @Column(name = "product_id")
+    private Long productId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id", nullable = false)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id", referencedColumnName = "product_id", insertable = false, updatable = false)
     private ProductEntity product;
 
     @Column(nullable = false)
