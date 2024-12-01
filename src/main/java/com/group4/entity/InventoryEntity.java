@@ -9,7 +9,6 @@ import lombok.*;
 @Entity
 @Table(name = "inventory")
 public class InventoryEntity {
-
     @Id
     @Column(name = "product_id")
     private Long productId;

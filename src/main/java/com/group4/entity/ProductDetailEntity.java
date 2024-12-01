@@ -35,7 +35,7 @@ public class ProductDetailEntity {
     @Column(columnDefinition = "nvarchar(250)")
     private String disk;
 
-    @Column(columnDefinition = "nvarchar(250)")
+    @Column(columnDefinition = "nvarchar(1000)")
     private String connect;
 
     @Column(columnDefinition = "nvarchar(250)")

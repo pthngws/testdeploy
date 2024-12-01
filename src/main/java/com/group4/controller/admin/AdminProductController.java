@@ -20,11 +20,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.group4.entity.CategoryEntity;
 import com.group4.entity.ImageItemEntity;
+import com.group4.entity.InventoryEntity;
 import com.group4.entity.ManufacturerEntity;
 import com.group4.entity.ProductDetailEntity;
 import com.group4.entity.ProductEntity;
 import com.group4.service.impl.CategoryServiceImpl;
 import com.group4.service.impl.ImageItemServiceImpl;
+import com.group4.service.impl.InventoryServiceImpl;
 import com.group4.service.impl.ManufacturersServiceImpl;
 import com.group4.service.impl.ProductDetailServiceImpl;
 import com.group4.service.impl.ProductServiceImpl;
@@ -47,6 +49,9 @@ public class AdminProductController {
 
 	@Autowired
 	private ProductDetailServiceImpl productDetailServiceImpl;
+	
+	@Autowired
+	private InventoryServiceImpl inventoryServiceImpl;
 
 	public AdminProductController(ManufacturersServiceImpl manufacturersServiceImpl,
 			CategoryServiceImpl categoryServiceImpl, ProductServiceImpl productServiceImpl,
@@ -116,7 +121,12 @@ public class AdminProductController {
 			detail.setWeight(weight);
 			detail.setOperationSystem(operationSystem);
 			detail.setDescription(description);
-
+			
+			
+			
+			
+			
+			
 			// Xử lý danh sách ảnh
 			List<ImageItemEntity> imageItems = new ArrayList<>();
 			for (int i = 0; i < imageNames.size(); i++) {
@@ -135,6 +145,12 @@ public class AdminProductController {
 
 			// Lưu ProductEntity vào database
 			productServiceImpl.save(productEntity);
+			
+			// Tạo và lưu InventoryEntity
+	        InventoryEntity inventory = new InventoryEntity();
+	        inventory.setProductId(productEntity.getProductID());
+	        inventory.setQuantity(0); // Số lượng mặc định là 0
+	        inventoryServiceImpl.save(inventory); // Lưu InventoryEntity vào database
 
 			redirectAttributes.addFlashAttribute("successMessage", "Product added successfully!");
 		} catch (Exception e) {
