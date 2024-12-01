@@ -27,6 +27,23 @@
 	max-width: 550px;
 }
 
+.btn-action {
+	background-color: #D8373E; /* Màu nền mặc định */
+	color: white; /* Màu chữ */
+	border: none; /* Xóa viền */
+	padding: 10px 20px; /* Khoảng cách bên trong */
+	border-radius: 5px; /* Làm tròn góc */
+	cursor: pointer; /* Con trỏ chuột */
+	font-size: 28px; /* Kích thước chữ */
+	transition: background-color 0.3s ease, padding 0.3s ease; /* Hiệu ứng hover */
+}
+
+/* Hover chung */
+.btn-action:hover {
+	background-color: #D82E3E; /* Màu nền khi hover */
+	padding: 12px 25px; /* Tăng kích thước nút khi hover */
+}
+
 .add-to-cart-btn {
 	background-color: #D8373E; /* Đặt màu nền */
 	color: white; /* Đặt màu chữ là trắng */
@@ -43,9 +60,28 @@
 	background-color: #D82E3E; /* Thay đổi màu nền khi hover */
 	font-size: 28px; /* Tăng kích thước chữ cho nút */
 	padding: 12px 25px;
-} /* Điều chỉnh padding để nút lớn hơn *
+} /* Điều chỉnh padding để nút lớn hơn */
+.buy-now-btn {
+	background-color: #efc313; /* Đặt màu nền */
+color: white; /* Đặt màu chữ là trắng */
+border: none; /* Bỏ viền */
+padding: 10px 20px; /* Thêm khoảng cách trong nút */
+border-radius: 5px; /* Làm tròn các góc */
+cursor: pointer; /* Thêm con trỏ chuột khi di chuột lên nút */
+font-size: 28px; /* Đặt kích thước font chữ */
+transition: background-color 0.3s ease;
+/* Thêm hiệu ứng chuyển màu khi hover */
 }
+
+.buy-now-btn:hover {
+	background-color: #f3c50e; /* Thay đổi màu nền khi hover */
+	font-size: 28px; /* Tăng kích thước chữ cho nút */
+	padding: 12px 25px;
+} /* Điều chỉnh padding để nút lớn hơn */
+
+
 /* Tăng kích thước chữ tiêu đề sản phẩm */
+
 h2 {
 	font-size: 50px; /* Tăng kích thước chữ tiêu đề */
 	font-weight: bold; /* Làm đậm chữ */
@@ -108,20 +144,26 @@ p, .price {
 								th:value="${product.productID}"> <input id="quantity"
 								type="number" class="form-control me-3" style="width: 80px;"
 								value="1" min="1" name="quantity">
-							<button type="submit" class="btn add-to-cart-btn">Add To
+							<button type="submit" class="btn btn-action add-to-cart-btn">Add To
 								Cart</button>
-							<button type="submit" class="btn buy-now-btn">Mua ngay</button>
 						</form>
+						<button type="submit" class="btn btn-action buy-now-btn" onclick="buyNow(this)">Mua ngay</button>
 					</div>
-
 				</div>
 			</div>
 		</div>
-
-
 		<script>
 			function changeImage(element) {
 				document.getElementById("mainProductImage").src = element.src;
+			}
+
+
+			function buyNow(button){
+				var productId = document.querySelector('input[name="productId"]').value;
+				// Lấy giá trị của input có name="quantity"
+				var quantity = document.querySelector('input[name="quantity"]').value;
+				window.location.href = "/check-out?action=buyNow&productId="+productId+"&quantity="+quantity
+
 			}
 		</script>
 
