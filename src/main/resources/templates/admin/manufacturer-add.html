@@ -5,28 +5,28 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Add Manufacturer</title>
+<title>Thêm Nhà Sản Xuất</title>
 <link rel="stylesheet" href="/assets/css/admin/manufacturer-edit.css">
 </head>
 <body>
 
 	<section class="row" layout:fragment="content">
 	
-	<h1>Add Manufacturer</h1>
+	<h1>Thêm Nhà Sản Xuất</h1>
 	<form th:action="@{/admin/manufacturers/add}"
 		th:object="${manufacturer}" method="post">
 
 		<!-- Tên nhà sản xuất -->
-		<label for="name">Name:</label> <input type="text" id="name"
+		<label for="name">Tên:</label> <input type="text" id="name"
 			th:field="*{name}" required /> <br />
 
 		<!-- Địa chỉ nhà sản xuất -->
-		<label for="address">Address:</label> <input type="text" id="address"
+		<label for="address">Địa Chỉ:</label> <input type="text" id="address"
 			th:field="*{address}" /> <br /> 
 		<!-- Nút lưu -->
-		<button type="submit">Save</button>
+		<button type="submit">Thêm Mới</button>
 		<!-- Nút hủy -->
-		<a href="/admin/manufacturers">Cancel</a>
+		<a href="/admin/manufacturers">Hủy</a>
 	</form>
 	
 	</section>

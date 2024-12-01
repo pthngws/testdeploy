@@ -14,7 +14,7 @@
 	<section class="row" layout:fragment="content">
 
 		<div class="container">
-			<h2>Product Details</h2>
+			<h2>Thông Tin Chi Tiết Sản Phẩm</h2>
 
 			<!-- Hiển thị thông báo lỗi nếu có -->
 			<div th:if="${errorMessage}" class="alert alert-danger">
@@ -24,21 +24,21 @@
 			<div th:if="${product}">
 				<h3 th:text="${product.name}"></h3>
 				<p>
-					<strong>Price:</strong> $<span th:text="${product.price}"></span>
+					<strong>Giá:</strong> $<span th:text="${product.price}"></span>
 				</p>
 				<p>
-					<strong>Status:</strong> <span
+					<strong>Trạng Thái:</strong> <span
 						th:text="${product.status == 1 ? 'Available' : 'Unavailable'}"></span>
 				</p>
 
 				<h4>
-					Category: <span th:text="${product.category.name}"></span>
+					Thể Loại: <span th:text="${product.category.name}"></span>
 				</h4>
 				<h4>
-					Manufacturer: <span th:text="${product.manufacturer.name}"></span>
+					Nhà Sản Xuất: <span th:text="${product.manufacturer.name}"></span>
 				</h4>
 
-				<h4>Product Details:</h4>
+				<h4>Chi Tiết Sản Phẩm:</h4>
 				<ul>
 					<li><strong>RAM:</strong> <span
 						th:text="${product.detail.RAM}"></span></li>
@@ -46,11 +46,11 @@
 						th:text="${product.detail.CPU}"></span></li>
 					<li><strong>GPU:</strong> <span
 						th:text="${product.detail.GPU}"></span></li>
-					<li><strong>Monitor:</strong> <span
+					<li><strong>Màn Hình:</strong> <span
 						th:text="${product.detail.monitor}"></span></li>
 					<li><strong>Charger:</strong> <span
 						th:text="${product.detail.charger}"></span></li>
-					<li><strong>Disk:</strong> <span
+					<li><strong>Ổ Đĩa:</strong> <span
 						th:text="${product.detail.disk}"></span></li>
 					<li><strong>LAN:</strong> <span
 						th:text="${product.detail.LAN}"></span></li>
@@ -58,25 +58,25 @@
 						th:text="${product.detail.WIFI}"></span></li>
 					<li><strong>Bluetooth:</strong> <span
 						th:text="${product.detail.bluetooth}"></span></li>
-					<li><strong>Audio:</strong> <span
+					<li><strong>Loa:</strong> <span
 						th:text="${product.detail.audio}"></span></li>
-					<li><strong>Connect:</strong> <span
+					<li><strong>Cổng Kết Nối:</strong> <span
 						th:text="${product.detail.connect}"></span></li>
 					<li><strong>Webcam:</strong> <span
 						th:text="${product.detail.webcam}"></span></li>
-					<li><strong>Operation System:</strong> <span
+					<li><strong>Hệ Điều Hành:</strong> <span
 						th:text="${product.detail.operationSystem}"></span></li>
-					<li><strong>Weight:</strong> <span
+					<li><strong>Cân Nặng:</strong> <span
 						th:text="${product.detail.weight}"></span></li>
-					<li><strong>Color:</strong> <span
+					<li><strong>Màu:</strong> <span
 						th:text="${product.detail.color}"></span></li>
-					<li><strong>Size:</strong> <span
+					<li><strong>Kích Thước:</strong> <span
 						th:text="${product.detail.size}"></span></li>
-					<li><strong>Description:</strong> <span
+					<li><strong>Mô Tả:</strong> <span
 						th:text="${product.detail.description}"></span></li>
 				</ul>
 
-				<h4>Images:</h4>
+				<h4>Ảnh:</h4>
 				<ul>
 					<!-- Kiểm tra nếu danh sách ảnh tồn tại và không rỗng -->
 					<li
@@ -93,8 +93,7 @@
 				</ul>
 			</div>
 
-			<a href="/admin/products" class="btn btn-secondary">Back to
-				Products</a>
+			<a href="/admin/products" class="btn btn-secondary">Quay Lại</a>
 		</div>
 
 

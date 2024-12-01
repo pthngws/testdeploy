@@ -27,99 +27,135 @@
 	max-width: 550px;
 }
 
+.arrow {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	background: rgba(0, 0, 0, 0.5);
+	color: white;
+	border: none;
+	padding: 10px;
+	font-size: 24px;
+	cursor: pointer;
+	z-index: 1;
+}
+
+.left-arrow {
+	left: 225px;
+}
+
+.right-arrow {
+	right: 225px;
+}
+
+.arrow:hover {
+	background: rgba(0, 0, 0, 0.7);
+}
+
 .btn-action {
-	background-color: #D8373E; /* Màu nền mặc định */
-	color: white; /* Màu chữ */
-	border: none; /* Xóa viền */
-	padding: 10px 20px; /* Khoảng cách bên trong */
-	border-radius: 5px; /* Làm tròn góc */
-	cursor: pointer; /* Con trỏ chuột */
-	font-size: 28px; /* Kích thước chữ */
-	transition: background-color 0.3s ease, padding 0.3s ease; /* Hiệu ứng hover */
+	background-color: #D8373E;
+	color: white;
+	border: none;
+	padding: 10px 20px;
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: 20px;
+	transition: background-color 0.3s ease, padding 0.3s ease;
 }
 
-/* Hover chung */
 .btn-action:hover {
-	background-color: #D82E3E; /* Màu nền khi hover */
-	padding: 12px 25px; /* Tăng kích thước nút khi hover */
+	background-color: #D82E3E;
 }
 
-.add-to-cart-btn {
-	background-color: #D8373E; /* Đặt màu nền */
-	color: white; /* Đặt màu chữ là trắng */
-	border: none; /* Bỏ viền */
-	padding: 10px 20px; /* Thêm khoảng cách trong nút */
-	border-radius: 5px; /* Làm tròn các góc */
-	cursor: pointer; /* Thêm con trỏ chuột khi di chuột lên nút */
-	font-size: 28px; /* Đặt kích thước font chữ */
-	transition: background-color 0.3s ease;
-	/* Thêm hiệu ứng chuyển màu khi hover */
-}
-
-.add-to-cart-btn:hover {
-	background-color: #D82E3E; /* Thay đổi màu nền khi hover */
-	font-size: 28px; /* Tăng kích thước chữ cho nút */
-	padding: 12px 25px;
-} /* Điều chỉnh padding để nút lớn hơn */
 .buy-now-btn {
-	background-color: #efc313; /* Đặt màu nền */
-color: white; /* Đặt màu chữ là trắng */
-border: none; /* Bỏ viền */
-padding: 10px 20px; /* Thêm khoảng cách trong nút */
-border-radius: 5px; /* Làm tròn các góc */
-cursor: pointer; /* Thêm con trỏ chuột khi di chuột lên nút */
-font-size: 28px; /* Đặt kích thước font chữ */
-transition: background-color 0.3s ease;
-/* Thêm hiệu ứng chuyển màu khi hover */
+	background-color: #efc313;
+	color: white;
+	font-size: 20px;
 }
 
 .buy-now-btn:hover {
-	background-color: #f3c50e; /* Thay đổi màu nền khi hover */
-	font-size: 28px; /* Tăng kích thước chữ cho nút */
-	padding: 12px 25px;
-} /* Điều chỉnh padding để nút lớn hơn */
-
-
-/* Tăng kích thước chữ tiêu đề sản phẩm */
+	background-color: #f3c50e;
+}
 
 h2 {
-	font-size: 50px; /* Tăng kích thước chữ tiêu đề */
-	font-weight: bold; /* Làm đậm chữ */
+	font-size: 40px;
+	font-weight: bold;
 }
 
-/* Tăng kích thước chữ cho thông tin khác */
-p, .price {
-	font-size: 28px; /* Tăng kích thước chữ cho các đoạn văn bản */
+h3 {
+	margin-top: 30px;
+	margin-left: 220px;
 }
+
+p, .price {
+	font-size: 20px;
+}
+
 #quantity {
-    width: 100px; /* Tăng độ rộng của khung */
-    height: 40px; /* Tăng chiều cao của khung */
-    font-size: 28px; /* Tăng kích thước chữ trong khung */
-    padding: 10px; /* Thêm padding cho trường nhập */
-    margin-bottom: 20px;
+	width: 100px;
+	font-size: 18px;
+	margin-bottom: 10px;
+}
+/* Chỉnh độ rộng của bảng */
+.table {
+    width: 60%;  /* Độ rộng của bảng chiếm toàn bộ chiều ngang */
+    table-layout: fixed; /* Đảm bảo bảng có chiều rộng cố định */
+    margin-left: 220px;
+    margin-top: 30px;
+}
+
+/* Chỉnh độ rộng của các cột */
+.table th, .table td {
+    word-wrap: break-word; /* Cho phép nội dung dài trong ô bị cắt xuống dòng */
+    padding: 10px; /* Thêm khoảng cách giữa nội dung và viền */
+}
+
+/* Thay đổi màu nền cho cột đầu tiên */
+.table th:first-child, .table td:first-child {
+    background-color: #f0f0f0; /* Màu xám nhạt */
+}
+/* Chỉnh lại chiều rộng hình ảnh chính */
+#mainProductImage {
+    width: 100%; /* Đảm bảo hình ảnh chiếm hết chiều rộng của thẻ chứa */
+    max-height: 500px; /* Đặt chiều cao tối đa nếu cần */
+}
+
+/* Các hình ảnh nhỏ */
+.product-images img {
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border 0.3s ease;
+}
+
+.product-images img:hover {
+    border: 2px solid #007bff; /* Thêm hiệu ứng viền khi hover */
 }
 </style>
 </head>
 <body>
 	<section class="row" layout:fragment="content">
-
 		<div class="container mt-5">
 			<div class="row">
-				<!-- Image Section -->
-				<div class="col-md-6">
-					<div class="main-image text-center mb-4">
+				<!-- Hình ảnh sản phẩm (Bên trái) -->
+				<div class="col-md-6 text-center">
+					<div class="main-image mb-4 position-relative">
+						<button class="arrow left-arrow" onclick="prevImage()">&#8249;</button>
 						<img th:src="@{${product.detail.images[0].imageUrl}}"
 							id="mainProductImage" alt="Main Product">
+						<button class="arrow right-arrow" onclick="nextImage()">&#8250;</button>
 					</div>
 					<div class="product-images d-flex justify-content-center gap-3">
-						<div th:each="image : ${product.detail.images}">
+						<div th:each="image, iter : ${product.detail.images}"
+							data-index="${iter.index}">
 							<img th:src="@{${image.imageUrl}}" alt="Product Image"
 								onclick="changeImage(this)">
 						</div>
 					</div>
 				</div>
 
-				<!-- Product Details -->
+				<!-- Thông tin sản phẩm (Bên phải) -->
 				<div class="col-md-6">
 					<h2 th:text="${product.name}"></h2>
 					<p>
@@ -128,46 +164,174 @@ p, .price {
 							th:text="${reviewCount}">1</span> Customer Review)
 					</p>
 					<p>
-						Availability: <span
+						Hiện Có: <span
 							th:class="${product.status == 0 ? 'text-danger' : (product.inventory.quantity > 0 ? 'text-success' : 'text-warning')}"
-							th:text="${product.status == 0 ? 'Unavailable' : (product.inventory.quantity > 0 ? product.inventory.quantity : 'Out of stock')}">
+							th:text="${product.status == 0 ? 'Hết Hàng' : (product.inventory.quantity > 0 ? product.inventory.quantity : 'Hết Hàng')}">
 						</span>
 					</p>
-
-					<p class="price" th:text="${product.price + ' đ'}"></p>
+					<p class="price" th:text="${product.price + ' VND'}"></p>
 					<p th:text="${product.detail.description}"></p>
+					<div class="d-flex flex-column align-items-start mt-3">
+						<!-- Trường Số Lượng -->
+						<input id="quantity" type="number" class="form-control mb-3"
+							value="1" min="1" name="quantity">
 
-					<!-- Thêm vào giỏ hàng -->
-					<div class="d-flex align-items-center mb-3">
-						<form action="/cart/add" method="post">
-							<input type="hidden" name="productId"
-								th:value="${product.productID}"> <input id="quantity"
-								type="number" class="form-control me-3" style="width: 80px;"
-								value="1" min="1" name="quantity">
-							<button type="submit" class="btn btn-action add-to-cart-btn">Add To
-								Cart</button>
-						</form>
-						<button type="submit" class="btn btn-action buy-now-btn" onclick="buyNow(this)">Mua ngay</button>
+						<!-- Nút Thêm Vào Giỏ Hàng và Mua Ngay -->
+						<div class="d-flex gap-3">
+							<!-- Nút Thêm Vào Giỏ Hàng -->
+							<form action="/cart/add" method="post"
+								class="d-flex align-items-center">
+								<input type="hidden" name="productId"
+									th:value="${product.productID}">
+								<button type="submit" class="btn btn-action add-to-cart-btn">Thêm
+									Vào Giỏ Hàng</button>
+							</form>
+
+							<!-- Nút Mua Ngay -->
+							<button type="button" class="btn btn-action buy-now-btn"
+								onclick="buyNow()">Mua ngay</button>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+
+
+		<div class="product-detail">
+			<h3><b>Thông tin sản phẩm</b></h3>
+			<h3><b>Thông Số Kỹ Thuật :</b></h3>
+			<table class="table table-bordered">
+				<tr>
+					<th>CPU</th>
+					<td th:text="${product.detail.CPU}">Intel Core i9-14900HX (up
+						to 5.80GHz, 36MB Cache)</td>
+				</tr>
+				<tr>
+					<th>RAM</th>
+					<td th:text="${product.detail.RAM}">16GB (2x8GB) DDR5 5600MHz</td>
+				</tr>
+				<tr>
+					<th>GPU</th>
+					<td th:text="${product.detail.GPU}">NVIDIA GeForce RTX 4060
+						Laptop GPU 8GB GDDR6</td>
+				</tr>
+				<tr>
+					<th>Màn Hình</th>
+					<td th:text="${product.detail.monitor}">16.0 inch QHD+
+						(2560x1600), 240Hz</td>
+				</tr>
+				<tr>
+					<th>Sạc</th>
+					<td th:text="${product.detail.charger}">USB Type-C (PD 3.0)</td>
+				</tr>
+				<tr>
+					<th>Ổ Lưu Trữ</th>
+					<td th:text="${product.detail.disk}">1TB NVMe PCIe SSD Gen4x4</td>
+				</tr>
+				<tr>
+					<th>Cổng Giao Tiếp</th>
+					<td th:text="${product.detail.connect}">USB 3.2 Gen2, HDMI
+						2.1, RJ45</td>
+				</tr>
+				<tr>
+					<th>Kết Nối LAN</th>
+					<td th:text="${product.detail.LAN}">Gb LAN</td>
+				</tr>
+				<tr>
+					<th>Kết Nối WiFi</th>
+					<td th:text="${product.detail.WIFI}">Wi-Fi 6 (802.11ax)</td>
+				</tr>
+				<tr>
+					<th>Bluetooth</th>
+					<td th:text="${product.detail.bluetooth}">Bluetooth 5.2</td>
+				</tr>
+				<tr>
+					<th>Âm Thanh</th>
+					<td th:text="${product.detail.audio}">Dynaudio, 2x 2W Speaker</td>
+				</tr>
+				<tr>
+					<th>Webcam</th>
+					<td th:text="${product.detail.webcam}">HD Webcam</td>
+				</tr>
+				<tr>
+					<th>Hệ Điều Hành</th>
+					<td th:text="${product.detail.operationSystem}">Windows 11</td>
+				</tr>
+				<tr>
+					<th>Trọng Lượng</th>
+					<td th:text="${product.detail.weight}">2.1 kg</td>
+				</tr>
+				<tr>
+					<th>Màu Sắc</th>
+					<td th:text="${product.detail.color}">Black</td>
+				</tr>
+				<tr>
+					<th>Kích Thước</th>
+					<td th:text="${product.detail.size}">36.2 x 25.2 x 2.5 cm</td>
+				</tr>
+				<tr>
+					<th>Mô Tả</th>
+					<td th:text="${product.detail.description}">Gaming laptop with
+						powerful performance</td>
+				</tr>
+			</table>
+		</div>
+		
+
 		<script>
 			function changeImage(element) {
 				document.getElementById("mainProductImage").src = element.src;
 			}
 
-
-			function buyNow(button){
-				var productId = document.querySelector('input[name="productId"]').value;
-				// Lấy giá trị của input có name="quantity"
+			function buyNow() {
+				var productId = document
+						.querySelector('input[name="productId"]').value;
 				var quantity = document.querySelector('input[name="quantity"]').value;
-				window.location.href = "/check-out?action=buyNow&productId="+productId+"&quantity="+quantity
-
+				window.location.href = "/check-out?action=buyNow&productId="
+						+ productId + "&quantity=" + quantity;
 			}
+
+			let currentIndex = 0; // Chỉ số hình ảnh hiện tại
+			images = document.querySelectorAll('.product-images img'); // Tất cả hình ảnh nhỏ
+			let mainImage = document.getElementById('mainProductImage'); // Hình ảnh chính
+
+			function prevImage() {
+				if (images.length === 0)
+					return;
+				currentIndex = (currentIndex - 1 + images.length)
+						% images.length;
+				updateMainImage();
+			}
+
+			function nextImage() {
+				if (images.length === 0)
+					return;
+				currentIndex = (currentIndex + 1) % images.length;
+				updateMainImage();
+			}
+
+			function updateMainImage() {
+				const mainImage = document.getElementById('mainProductImage');
+				mainImage.src = images[currentIndex].src;
+			}
+			// Hàm để thay đổi hình ảnh chính
+			function changeMainImage(index) {
+			    mainImage.src = images[index].src; // Đặt hình ảnh chính bằng hình ảnh đã chọn
+			    currentIndex = index; // Cập nhật chỉ số hình ảnh hiện tại
+			}
+
+			// Hàm tự động chuyển hình ảnh
+			function autoSlide() {
+			    currentIndex++;
+			    if (currentIndex >= images.length) {
+			        currentIndex = 0; // Nếu đến cuối, quay lại đầu
+			    }
+			    changeMainImage(currentIndex); // Cập nhật hình ảnh chính
+			}
+
+			// Gọi autoSlide mỗi 3 giây (3000ms)
+			setInterval(autoSlide, 3000);
 		</script>
-
-
 	</section>
 </body>
 </html>

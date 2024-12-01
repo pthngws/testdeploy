@@ -12,16 +12,16 @@
 
 	<section class="row" layout:fragment="content">
 	
-    <h1>Edit Category</h1>
+    <h1>Chỉnh Sửa Thể Loại</h1>
     <form th:action="@{'/admin/categories/edit/' + ${category.categoryID}}" th:object="${category}" method="post">
-        <label for="name">Name:</label>
+        <label for="name">Tên:</label>
         <input type="text" id="name" th:field="*{name}" required />
         <br />
-        <label for="description">Description:</label>
+        <label for="description">Mô Tả:</label>
         <input type="text" id="description" th:field="*{description}" />
         <br />
-        <button type="submit">Update</button>
-        <a href="/admin/categories">Cancel</a>
+        <button type="submit">Cập Nhật</button>
+        <a href="/admin/categories">Hủy</a>
     </form>
     
     </section>
