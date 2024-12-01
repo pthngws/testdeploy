@@ -9,16 +9,18 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
+@RequestMapping("")
 public class SearchController {
     @Autowired
     ProductServiceImpl productServiceImpl = new ProductServiceImpl();
-    @GetMapping("/search-products")
+    @GetMapping("/products")
     public String listProducts(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(required = false) String searchName,
