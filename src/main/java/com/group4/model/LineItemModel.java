@@ -13,6 +13,7 @@ public class LineItemModel {
     private int total;
     private OrderModel order;
 
+
     public int getTotalAmount(){
         return total*quantity;
     }

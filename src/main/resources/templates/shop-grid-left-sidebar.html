@@ -119,14 +119,20 @@
 											<span>hot</span>
 										</div>
 										<div class="product-action-link">
-											<a href="#" data-toggle="modal" data-target="#quick_view">
-												<span data-toggle="tooltip" data-placement="left"
-												title="Quick view"> <i class="fa fa-search"></i>
-											</span>
-											
-											</a> <a href="#" data-toggle="tooltip" data-placement="left"
-												title="Add to cart"> <i class="fa fa-shopping-cart"></i>
-											</a>
+											<form th:action="@{/cart/add}" method="post" style="display:inline;">
+												<!-- Truyền productId và quantity qua input hidden -->
+												<input type="hidden" name="productId" th:value="${product.getProductID()}" />
+												<input type="hidden" name="quantity" value="1" />
+
+												<!-- Nút thêm vào giỏ hàng -->
+												<button type="submit"
+														data-toggle="tooltip"
+														data-placement="left"
+														title="Add to cart"
+														style="border: none; background: none;">
+													<i class="fa fa-shopping-cart"></i>
+												</button>
+											</form>
 										</div>
 									</div>
 									<div class="product-content">

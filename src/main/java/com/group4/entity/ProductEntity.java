@@ -45,10 +45,7 @@ public class ProductEntity {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "detail_id", referencedColumnName = "detail_id")
     private ProductDetailEntity detail;
-    
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "product_id", referencedColumnName = "product_id")
-    private InventoryEntity inventory;
+
 
     @ManyToMany(mappedBy = "products", fetch = FetchType.LAZY)
     @JsonBackReference
