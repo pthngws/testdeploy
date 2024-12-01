@@ -7,4 +7,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RateRepository extends JpaRepository<RateEntity, Long> {
 
+    // Kiểm tra xem đánh giá đã tồn tại dựa trên userId và productId
+    boolean existsByUser_UserIDAndProduct_ProductID(Long userId, Long productId);
 }
+
