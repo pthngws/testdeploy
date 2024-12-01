@@ -53,6 +53,7 @@ button.btn-primary {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
+    margin-bottom: 20px;
 }
 
 button.btn-primary:hover {
@@ -81,4 +82,10 @@ select.form-control {
     border: 1px solid #ccc;
     border-radius: 5px;
     width: 100%;
+}
+section.row {
+    padding: 20px;
+    display: flex;
+    flex-direction: column; /* Dọc theo chiều dọc */
+    align-items: center; /* Căn giữa tất cả phần tử trong section */
 }

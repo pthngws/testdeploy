@@ -30,5 +30,7 @@ public class LineItemEntity {
     @JsonManagedReference
     private OrderEntity order;//
 
-
+    public double getTotal() {
+        return product.getPrice() * quantity;
+    }
 }

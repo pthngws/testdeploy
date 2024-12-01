@@ -9,11 +9,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
-@RequestMapping("/orders")
-public class OrderController {
+@RequestMapping("/admin/orders")
+public class AdminOrderController {
 
     @Autowired
     private IOrderService orderService;
@@ -23,7 +25,21 @@ public class OrderController {
     public String listOrders(Model model) {
         List<OrderEntity> orders = orderService.getAllOrders();
         model.addAttribute("orders", orders);
-        return "TamaOrderList";
+
+        // Tạo Map để lưu tổng giá trị của từng đơn hàng
+        Map<Long, Integer> orderTotalValues = new HashMap<>();
+
+        // Tính tổng giá trị cho từng đơn hàng
+        for (OrderEntity order : orders) {
+            int totalValue = orderService.getTotalOrderValue(order);
+            orderTotalValues.put(order.getOrderId(), totalValue);
+        }
+
+        // Thêm danh sách đơn hàng và tổng giá trị vào model
+        model.addAttribute("orders", orders);
+        model.addAttribute("orderTotalValues", orderTotalValues);
+
+        return "order-list";
     }
 
     // Tìm kếm đơn hàng
@@ -32,12 +48,25 @@ public class OrderController {
                                @RequestParam(value = "status", required = false) String status,
                                Model model) {
         List<OrderEntity> orders = orderService.searchOrders(keyword, status);
+
+        // Tạo Map để lưu tổng giá trị của từng đơn hàng
+        Map<Long, Integer> orderTotalValues = new HashMap<>();
+
+        // Tính tổng giá trị cho từng đơn hàng
+        for (OrderEntity order : orders) {
+            int totalValue = orderService.getTotalOrderValue(order);
+            orderTotalValues.put(order.getOrderId(), totalValue);
+        }
+
         model.addAttribute("orders", orders);
         model.addAttribute("searchKeyword", keyword);
         model.addAttribute("status", status);
+        model.addAttribute("orderTotalValues", orderTotalValues);
 
-        return "TamaOrderList";
+
+        return "order-list";
     }
+
 
     // Chi tiết đơn hàng
     @GetMapping("/{id}")
@@ -48,10 +77,15 @@ public class OrderController {
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy đơn hàng"));
         model.addAttribute("order", order);
 
-        int totalvalue = order.getTotalOrderValue();
-        model.addAttribute("totalvalue", totalvalue);
+//        int totalvalue = order.getTotalOrderValue();
+//        model.addAttribute("totalvalue", totalvalue);
 
-        return "TamaOrderDetail";
+        if (order != null) {
+            int totalvalue = orderService.getTotalOrderValue(order); // Gọi Service để tính toán
+            model.addAttribute("totalvalue", totalvalue);
+        }
+
+        return "order-details";
     }
 
     @PostMapping("/{id}/confirm")
@@ -61,9 +95,9 @@ public class OrderController {
                     .orElseThrow(() -> new RuntimeException("Không tìm thấy đơn hàng"));
 
             // Chỉ xử lý nếu trạng thái là "Yêu cầu hủy"
-            if (!"Yêu cầu hủy".equals(order.getShippingStatus())) {
+            if (!"Yêu cầu huỷ".equals(order.getShippingStatus())) {
                 redirectAttributes.addFlashAttribute("errorMessage", "Chỉ có thể xác nhận hủy khi đơn hàng ở trạng thái 'Yêu cầu hủy'.");
-                return "redirect:/orders";
+                return "redirect:/admin/orders";
             }
 
             orderService.confirmCancelOrder(id);
@@ -71,7 +105,7 @@ public class OrderController {
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Có lỗi xảy ra khi xác nhận hủy đơn hàng.");
         }
-        return "redirect:/orders";
+        return "redirect:/admin/orders";
     }
 
     @PostMapping("/{id}/cancel")
@@ -81,9 +115,9 @@ public class OrderController {
                     .orElseThrow(() -> new RuntimeException("Không tìm thấy đơn hàng"));
 
             // Chỉ xử lý nếu trạng thái là "Yêu cầu hủy"
-            if (!"Yêu cầu hủy".equals(order.getShippingStatus())) {
+            if (!"Yêu cầu huỷ".equals(order.getShippingStatus())) {
                 redirectAttributes.addFlashAttribute("errorMessage", "Chỉ có thể từ chối hủy khi đơn hàng ở trạng thái 'Yêu cầu hủy'.");
-                return "redirect:/orders";
+                return "redirect:/admin/orders";
             }
 
             orderService.rejectCancelOrder(id);
@@ -91,7 +125,7 @@ public class OrderController {
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Có lỗi xảy ra khi từ chối hủy đơn hàng.");
         }
-        return "redirect:/orders";
+        return "redirect:/admin/orders";
     }
     @GetMapping("/order-details")
     public String showOrderDetails(

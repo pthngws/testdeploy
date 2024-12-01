@@ -1,11 +1,69 @@
 <header>
+    <div class="header-top-area bg-gray text-center text-md-left"  style="background-color: white; font-weight: bold ">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-5">
+                    <div class="header-call-action">
+                        <a href="#">
+                            <i class="fa fa-envelope"></i>
+                            cnpm@laptop.com
+                        </a>
+                        <a href="#">
+                            <i class="fa fa-phone"></i>
+                            0123456789
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-7">
+                    <div class="header-top-right float-md-right float-none">
+                        <nav>
+                            <ul>
+<!--                                <li>-->
+<!--                                    <div class="dropdown header-top-dropdown">-->
+<!--                                        <a class="dropdown-toggle" id="myaccount" data-toggle="dropdown"-->
+<!--                                           aria-haspopup="true" aria-expanded="false">-->
+<!--                                            Tài khoản-->
+<!--                                            <i class="fa fa-angle-down"></i>-->
+<!--                                        </a>-->
+<!--                                        <div class="dropdown-menu" aria-labelledby="myaccount">-->
+<!--                                            <a class="dropdown-item" href="">Tài khoản</a>-->
+<!--                                            <a class="dropdown-item" href="/login"> Đăng nhập</a>-->
+<!--                                            <a class="dropdown-item" href="/register">Đăng ký</a>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </li>-->
+                                <li>
+                                    <a href="#">Giỏ hàng</a>
+                                </li>
+                                <th:block th:if="${session.username}">
+                                    <li>
+                                        <a th:text="${session.fullName}"></a>
+                                        <a href="/logout">Đăng xuất</a>
+                                    </li>
+                                </th:block>
+
+                                <th:block th:unless="${session.username}">
+                                    <li>
+                                        <a href="/login">Đăng nhập</a>
+                                    </li>
+                                    <li>
+                                        <a href="/register">Đăng ký</a>
+                                    </li>
+                                </th:block>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- header middle start -->
     <div class="header-middle-area pt-20 pb-20">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-3">
                     <div class="brand-logo">
-                        <a href="index.html">
+                        <a href="/">
                             <img th:src="@{/assets/img/logo/logo.png}" alt="brand logo">
                         </a>
                     </div>
@@ -20,11 +78,9 @@
                             <div class="header-mini-cart">
                                 <div class="mini-cart-btn">
                                     <i class="fa fa-shopping-cart"></i>
-                                    <span class="cart-notification">2</span>
                                 </div>
                                 <div class="cart-total-price">
-                                    <span>total</span>
-                                    $50.00
+                                    $0.00
                                 </div>
                                 <ul class="cart-list">
                                     <li>
@@ -40,11 +96,11 @@
                                         </div>
                                     </li>
                                     <li class="mini-cart-price">
-                                        <span class="subtotal">subtotal : </span>
+                                        <span class="subtotal">Tổng cộng : </span>
                                         <span class="subtotal-price">$88.66</span>
                                     </li>
                                     <li class="checkout-btn">
-                                        <a th:href="@{/checkout}">checkout</a>
+                                        <a th:href="@{/checkout}">Mua ngay</a>
                                     </li>
                                 </ul>
                             </div>
