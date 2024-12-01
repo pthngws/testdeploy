@@ -4,10 +4,12 @@ import com.group4.entity.CustomerEntity;
 import com.group4.entity.ProductEntity;
 import com.group4.entity.ShoppingCartEntity;
 import com.group4.entity.UserEntity;
+import com.group4.repository.ProductRepository;
 import com.group4.repository.ShoppingCartRepository;
 import com.group4.service.IShoppingCartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +19,9 @@ import java.util.Optional;
 public class ShoppingCartServiceImpl implements IShoppingCartService {
     @Autowired
     private ShoppingCartRepository shoppingCartRepository;
+
+    @Autowired
+    private ProductRepository productRepository;
 
     @Override
     public ShoppingCartEntity addProductToCart(CustomerEntity customer, ProductEntity product) {
@@ -45,6 +50,24 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
     @Override
     public List<ProductEntity> findProductsByCustomerId(Long customerID) {
         return shoppingCartRepository.findProductsByCustomerId(customerID);
+    }
+
+    @Override
+    @Transactional
+    public void removeProductFromCart(Long customerId, Long productId) {
+        // Lấy giỏ hàng của khách hàng
+        ShoppingCartEntity cart = shoppingCartRepository.findShoppingCartEntityByCustomerUserID(customerId)
+                .orElseThrow(() -> new RuntimeException("Shopping cart not found for customer ID: " + customerId));
+
+        // Tìm sản phẩm cần xóa
+        ProductEntity product = productRepository.findById(productId)
+                .orElseThrow(() -> new RuntimeException("Product not found with ID: " + productId));
+
+        // Xóa sản phẩm khỏi danh sách
+        cart.getProducts().remove(product);
+
+        // Lưu lại giỏ hàng
+        shoppingCartRepository.save(cart);
     }
 
 }

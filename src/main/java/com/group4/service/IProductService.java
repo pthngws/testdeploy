@@ -38,4 +38,6 @@ public interface IProductService {
     public double calculateAverageRating(ProductEntity product);
 
     public int getReviewCount(ProductEntity product);
+
+    public Page<ProductEntity> getProducts(int page, int size);
 }

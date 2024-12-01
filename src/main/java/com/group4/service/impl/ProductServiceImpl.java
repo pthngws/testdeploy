@@ -128,5 +128,8 @@ public class ProductServiceImpl implements IProductService {
         return (product.getRates() == null) ? 0 : product.getRates().size();
     }
 
-
+    public Page<ProductEntity> getProducts(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return productRepository.findAll(pageable);
+    }
 }

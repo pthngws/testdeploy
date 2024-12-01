@@ -105,7 +105,7 @@
                                 <a th:href="@{/product/{id}(id=${product.getProductID()})}" th:text="${product.getName()}">Product Name</a>
                             </td>
                             <td class="pro-price">
-                                <span th:text="${product.getPrice()} + '$'">Price</span>
+                                <span th:text="${product.getPrice()} + ''">Price</span>
                             </td>
                             <td>
                                 <div class="quantity">
@@ -115,10 +115,10 @@
                                 </div>
                             </td>
                             <td class="pro-subtotal">
-                                <span th:text="${product.getPrice() * 1} + '$'">Total</span>
+                                <span th:text="${product.getPrice() * 1} + ''">Total</span>
                             </td>
                             <td class="pro-remove">
-                                <a th:href="@{/cart/remove/{id}(id=${product.getProductID()})}">
+                                <a th:href="@{/cart/remove/{id}/{customerId}(id=${product.productID}, customerId=${customerId})}">
                                     <i class="fa fa-trash-o"></i>
                                 </a>
                             </td>
@@ -142,33 +142,34 @@
             </div>
         </div>
 
-        <!--        <div class="row">-->
-        <!--            <div class="col-lg-5 ml-auto">-->
-        <!--                &lt;!&ndash; Cart Calculation Area &ndash;&gt;-->
-        <!--                <div class="cart-calculator-wrapper">-->
-        <!--                    <div class="cart-calculate-items">-->
-        <!--                        <h3>Cart Totals</h3>-->
-        <!--                        <div class="table-responsive">-->
-        <!--                            <table class="table">-->
-        <!--                                <tr>-->
-        <!--                                    <td>Sub Total</td>-->
-        <!--                                    <td th:text="${subTotal} + '$'">Sub Total</td>-->
-        <!--                                </tr>-->
-        <!--                                <tr>-->
-        <!--                                    <td>Shipping</td>-->
-        <!--                                    <td th:text="${shippingFee} + '$'">Shipping</td>-->
-        <!--                                </tr>-->
-        <!--                                <tr class="total">-->
-        <!--                                    <td>Total</td>-->
-        <!--                                    <td class="total-amount" th:text="${total} + '$'">Total</td>-->
-        <!--                                </tr>-->
-        <!--                            </table>-->
-        <!--                        </div>-->
-        <!--                    </div>-->
-        <!--                    <a href="/checkout" class="sqr-btn d-block">Proceed To Checkout</a>-->
-        <!--                </div>-->
-        <!--            </div>-->
-        <!--        </div>-->
+        <div class="row">
+            <div class="col-lg-5 ml-auto">
+                <!-- Cart Calculation Area -->
+                <div class="cart-calculator-wrapper">
+                    <div class="cart-calculate-items">
+                        <h3>Cart Totals</h3>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <tr>
+                                    <td>Sub Total</td>
+                                    <td id="sub-total">Sub Total</td>
+                                </tr>
+                                <tr>
+                                    <td>Giảm giá</td>
+                                    <td id="shipping-fee">Shipping</td>
+                                </tr>
+                                <tr class="total">
+                                    <td>Total</td>
+                                    <td id="total-amount" class="total-amount">Total</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                    </div>
+                    <a href="/checkout" class="sqr-btn d-block">Proceed To Checkout</a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <!-- cart main wrapper end -->
@@ -176,28 +177,96 @@
 </body>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        // Lấy tất cả các ô nhập số lượng
-        const quantityInputs = document.querySelectorAll(".quantity-input");
+        const cartRows = document.querySelectorAll("tbody tr");
 
-        quantityInputs.forEach(input => {
-            // Lấy nút tăng và giảm
-            const minusBtn = input.previousElementSibling;
-            const plusBtn = input.nextElementSibling;
+        // Hàm định dạng tiền tệ với dấu phân cách
+        function formatCurrency(value) {
+            return value.toLocaleString(); // Thêm dấu phân cách hàng nghìn
+        }
+
+        // Hàm cập nhật Total cho từng hàng
+        function updateTotal(row) {
+            const priceElement = row.querySelector(".pro-price span");
+            const totalElement = row.querySelector(".pro-subtotal span");
+            const quantityInput = row.querySelector(".quantity-input");
+
+            const price = parseFloat(priceElement.innerText.replace(/[^0-9.-]+/g, ""));
+            const quantity = parseInt(quantityInput.value);
+
+            const total = (price * quantity).toFixed();
+            totalElement.innerText = `${formatCurrency(parseInt(total))}`;
+
+            // Cập nhật tổng giỏ hàng
+            updateCartTotal();
+        }
+
+        // Hàm cập nhật tổng giỏ hàng
+        function updateCartTotal() {
+            let subTotalAmount = 0;
+
+            // Lặp qua tất cả các hàng trong bảng và tính tổng các giá trị của cột Total
+            document.querySelectorAll(".pro-subtotal span").forEach(subtotalElement => {
+                const subtotal = parseFloat(subtotalElement.innerText.replace(/[^0-9.-]+/g, ""));
+                subTotalAmount += subtotal;
+            });
+
+            // Cập nhật Sub Total
+            const subTotalElement = document.getElementById("sub-total");
+            subTotalElement.innerText = `${formatCurrency(subTotalAmount.toFixed(0))}`;
+
+            // Giảm giá (shipping fee)
+            const shippingFee = calculateDiscount(subTotalAmount);
+            const shippingFeeElement = document.getElementById("shipping-fee");
+            shippingFeeElement.innerText = `${formatCurrency(shippingFee.toFixed(0))}`;
+
+            // Cập nhật Total (giá thực trả)
+            const totalAmount = subTotalAmount - shippingFee;
+            const totalAmountElement = document.getElementById("total-amount");
+            totalAmountElement.innerText = `${formatCurrency(totalAmount.toFixed(0))} `;
+        }
+
+        // Hàm tính giảm giá (Shipping Fee) - giả sử là 10% giảm giá
+        function calculateDiscount(subTotal) {
+            const discountRate = 0.1; // 10% giảm giá
+            return subTotal * discountRate;
+        }
+
+        // Cập nhật định dạng cho cột Price và Total khi trang được tải
+        cartRows.forEach(row => {
+            const priceElement = row.querySelector(".pro-price span");
+            const minusBtn = row.querySelector(".qty-btn.minus");
+            const plusBtn = row.querySelector(".qty-btn.plus");
+            const quantityInput = row.querySelector(".quantity-input");
+
+            // Lấy giá trị Price, định dạng lại, và cập nhật nội dung
+            const rawPrice = parseFloat(priceElement.innerText.replace(/[^0-9.-]+/g, ""));
+            priceElement.innerText = `${formatCurrency(rawPrice)}`;
 
             // Giảm số lượng
             minusBtn.addEventListener("click", function () {
-                let currentValue = parseInt(input.value);
+                let currentValue = parseInt(quantityInput.value);
                 if (currentValue > 1) {
-                    input.value = currentValue - 1;
+                    quantityInput.value = currentValue - 1;
+                    updateTotal(row);
                 }
             });
 
             // Tăng số lượng
             plusBtn.addEventListener("click", function () {
-                let currentValue = parseInt(input.value);
-                input.value = currentValue + 1;
+                let currentValue = parseInt(quantityInput.value);
+                quantityInput.value = currentValue + 1;
+                updateTotal(row);
             });
+
+            // Cập nhật total ban đầu khi trang được tải
+            updateTotal(row);
         });
+
+        // Cập nhật tổng khi trang được tải lần đầu
+        updateCartTotal();
     });
+
+
 </script>
+
 </html>
