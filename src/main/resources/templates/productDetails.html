@@ -103,9 +103,9 @@ p, .price {
 
 					<!-- Thêm vào giỏ hàng -->
 					<div class="d-flex align-items-center mb-3">
-						<form action="/cart/product" method="get">
+						<form action="/cart/add" method="post">
 							<input type="hidden" name="productId"
-								value="${product.productID}"> <input id="quantity"
+								th:value="${product.productID}"> <input id="quantity"
 								type="number" class="form-control me-3" style="width: 80px;"
 								value="1" min="1" name="quantity">
 							<button type="submit" class="btn add-to-cart-btn">Add To

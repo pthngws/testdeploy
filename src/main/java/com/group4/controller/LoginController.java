@@ -1,5 +1,6 @@
 package com.group4.controller;
 
+import com.group4.entity.CustomerEntity;
 import com.group4.entity.UserEntity;
 import com.group4.service.IUserService;
 import jakarta.servlet.http.HttpSession;
