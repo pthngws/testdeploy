@@ -140,6 +140,13 @@
                                     <li class="static"><a th:href="@{/products}">Sản phẩm</a></li>
                                     <li class="static"><a th:href="@{/about-us}">Về chúng tôi</a></li>
                                     <li class="static"><a th:href="@{/contact}">Liên hệ</a></li>
+                                    <li th:if="${session.roleName == 'Admin'}">
+                                        <a href="/admin/products">Quản Lý Sản Phẩm</a>
+                                            	<ul class="dropdown">                       
+                                                    <li><a href="/admin/manufacturers">Nhà Sản Xuất</a></li>
+                                                    <li><a href="/admin/categories">Thể Loại</a></li>
+                                                </ul>
+                                    </li>
                                 </ul>
                             </nav>
                         </div>

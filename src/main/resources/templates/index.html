@@ -496,7 +496,7 @@
                                                 </ul>
                                             </li>
                                             <li><a href="contact-us.html">Liên Hệ</a></li>
-                                            <li th:if="${session.user.role_name == 'manager'}">
+                                            <li th:if="${session.user.roleName == 'Admin'}">
                                             	<a href="/admin/products">Quản Lý Sản Phẩm</a>
                                             	<ul class="dropdown">                       
                                                     <li><a href="/admin/manufacturers">Nhà Sản Xuất</a></li>

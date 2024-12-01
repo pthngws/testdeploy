@@ -14,7 +14,7 @@ body {
 
 /* Tiêu đề h2 */
 h2 {
-    color: #e74c3c; /* Màu đỏ tươi */
+    color: #d8373e; /* Màu đỏ tươi */
     font-size: 2.5em;
     text-align: center;
     margin-bottom: 30px;
@@ -45,7 +45,7 @@ input.form-control {
 
 /* Định dạng cho button */
 button.btn-primary {
-    background-color: #e74c3c; /* Màu đỏ tươi */
+    background-color: #d8373e; /* Màu đỏ tươi */
     color: white;
     border: none;
     padding: 10px 20px;

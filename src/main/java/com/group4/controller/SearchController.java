@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 public class SearchController {
     @Autowired
     ProductServiceImpl productServiceImpl = new ProductServiceImpl();
-    @GetMapping("/products")
+    @GetMapping("/search-products")
     public String listProducts(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(required = false) String searchName,

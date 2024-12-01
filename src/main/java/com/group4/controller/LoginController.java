@@ -24,6 +24,7 @@ public class LoginController {
         if (isValidCredentials) {
             session.setAttribute("username", username);
             session.setAttribute("fullName", user.getName());
+            session.setAttribute("roleName", user.getRoleName());
             session.setAttribute("user", user);
             return "redirect:/home";
         } else {

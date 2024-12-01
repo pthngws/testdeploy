@@ -12,12 +12,12 @@ section.row h1 {
     text-align: center;
     margin-top: 20px;
     font-size: 36px;
-    color: #e74c3c; /* Màu đỏ chủ đạo */
+    color: #d8373e; /* Màu đỏ chủ đạo */
 }
 
 /* Bảng hiển thị sản phẩm */
 section.row table {
-    width: 100%;
+    width: 80%;
     margin: 20px auto;
     border-collapse: collapse;
     background-color: #ffffff; /* Nền trắng */
@@ -32,7 +32,7 @@ section.row th, section.row td {
 }
 
 section.row th {
-    background-color: #e74c3c; /* Màu đỏ */
+    background-color: #d8373e; /* Màu đỏ */
     color: white;
     font-weight: bold;
 }
@@ -47,7 +47,7 @@ section.row tr:nth-child(odd) {
 
 /* Các nút hành động */
 section.row a {
-    color: #e74c3c; /* Màu đỏ */
+    color: #d8373e; /* Màu đỏ */
     text-decoration: none;
     margin: 0 10px;
     font-weight: bold;
@@ -55,7 +55,7 @@ section.row a {
 
 section.row a:hover {
     text-decoration: underline;
-    color: #c0392b; /* Đỏ đậm khi hover */
+    color: #d8373e; /* Đỏ đậm khi hover */
 }
 
 /* Canh giữa phân trang */
@@ -75,7 +75,7 @@ section.row span a {
 }
 
 section.row span a.active {
-    background-color: #e74c3c; /* Đỏ */
+    background-color: #d8373e; /* Đỏ */
     color: white;
 }
 
@@ -85,7 +85,7 @@ section.row span a:hover {
 
 /* Nút Add Product */
 section.row .btn-red {
-    background-color: #e74c3c; /* Đỏ */
+    background-color: #d8373e; /* Đỏ */
     color: white;
     border: none;
     padding: 15px 30px; /* Kích thước nút lớn */

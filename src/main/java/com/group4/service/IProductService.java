@@ -32,7 +32,10 @@ public interface IProductService {
 
     ProductEntity save(ProductEntity productEntity);
     
-
+    public List<ProductEntity> findByName(String producName);
+    
+    public Page<ProductEntity> findAllDistinctByName(Pageable pageable);
+    
     void deleteById(Long id);
 
     public double calculateAverageRating(ProductEntity product);

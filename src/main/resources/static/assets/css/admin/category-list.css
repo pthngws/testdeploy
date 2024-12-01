@@ -31,7 +31,7 @@ th {
 }
 
 .btn-add {
-	background-color: #dc3545; /* Nút thêm màu đỏ */
+	background-color: #d8373e; /* Nút thêm màu đỏ */
 	color: white;
 	text-decoration: none;
 	padding: 10px 20px;
@@ -40,7 +40,7 @@ th {
 }
 
 .btn-edit {
-	background-color: #ff5733; /* Nút chỉnh sửa màu đỏ cam */
+	background-color: #d8373e; /* Nút chỉnh sửa màu đỏ cam */
 	color: white;
 }
 
@@ -59,7 +59,7 @@ th {
 }
 
 .btn-edit:hover {
-	background-color: #e74c3c; /* Nút chỉnh sửa khi hover sẽ sáng hơn */
+	background-color: #d8373e; /* Nút chỉnh sửa khi hover sẽ sáng hơn */
 }
 
 .btn-delete:hover {

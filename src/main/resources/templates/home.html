@@ -5,7 +5,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Profile</title>
+    <title>Home Page</title>
+    
+    
+     
     <style>
         body {
             font-family: sans-serif;
@@ -58,9 +61,15 @@
             text-decoration: underline;
         }
     </style>
+    
+    
 </head>
 <body>
-<div class="wrapper box-layout" th:replace="layout :: content">
+
+	
+<!-- <div class="wrapper box-layout" th:replace="layout :: content">
+
+	  
     <div class="tab-pane fade" id="address-edit" role="tabpanel">
         <div class="myaccount-content">
             <h3>Address Details</h3>
@@ -122,7 +131,8 @@
             </form>
         </div>
     </div>
-    <!-- Scroll to Top End -->
+    
+    <!-- Scroll to Top End 
     <div th:if="${session.username != null}">
         <p>Chào mừng, <span th:text="${session.username}"></span>!</p>
         <a href="/logout">Đăng xuất</a>
@@ -130,6 +140,13 @@
     <div th:if="${session.username == null}">
         <p>Bạn chưa đăng nhập. Vui lòng <a href="/login">đăng nhập</a>.</p>
     </div>
-</div>
+    
+    -->
+    
+    
+    
+    
+  
+
 </body>
 </html>

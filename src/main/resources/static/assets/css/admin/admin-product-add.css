@@ -10,7 +10,7 @@ body {
 /* Tạo hiệu ứng đổ bóng cho phần header */
 h1, h3 {
     text-align: center;
-    color: #e50914;  /* Màu đỏ cho header */
+    color: #d8373e;  /* Màu đỏ cho header */
     margin-bottom: 20px;
 }
 
@@ -75,8 +75,8 @@ button[type="submit"] {
 
 /* Tạo tông màu đỏ và đen */
 .btn-primary {
-    background-color: #e50914;
-    border-color: #e50914;
+    background-color: #d8373e;
+    border-color: #d8373e;
     color: white;
 }
 
@@ -119,7 +119,7 @@ th, td {
 }
 
 th {
-    background-color: #e50914;  /* Màu đỏ cho header của table */
+    background-color: #d8373e;  /* Màu đỏ cho header của table */
     color: white;
 }
 
@@ -143,7 +143,7 @@ tr:hover td {
     padding: 8px 12px;
     text-decoration: none;
     border-radius: 4px;
-    background-color: #e50914;  /* Màu đỏ cho các trang */
+    background-color: #d8373e;  /* Màu đỏ cho các trang */
     color: white;
 }
 

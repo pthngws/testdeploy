@@ -8,7 +8,7 @@ body {
 
 h1 {
 	text-align: center;
-	color: #dc3545; /* Màu đỏ chủ đạo */
+	color: #d8373e; /* Màu đỏ chủ đạo */
 	margin-top: 20px;
 }
 
@@ -36,7 +36,7 @@ input[type="text"] {
 }
 
 button {
-	background-color: #dc3545; /* Nút màu đỏ */
+	background-color: #d8373e; /* Nút màu đỏ */
 	color: white;
 	padding: 10px 15px;
 	border: none;
@@ -51,7 +51,7 @@ button:hover {
 a {
 	display: inline-block;
 	margin-top: 10px;
-	color: #dc3545;
+	color: #d8373e;
 	text-decoration: none;
 }
 

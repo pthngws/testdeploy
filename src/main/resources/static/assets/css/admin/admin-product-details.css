@@ -9,7 +9,7 @@ section.row {
 section.row a {
     text-decoration: none;
     color: white;
-    background-color: #d32f2f;
+    background-color: #d8373e;
     padding: 10px 20px;
     border-radius: 5px;
     font-weight: bold;
@@ -52,7 +52,7 @@ section.row input {
 
 /* Các nút */
 section.row button {
-    background-color: #d32f2f; /* Màu đỏ */
+    background-color: #d8373e; /* Màu đỏ */
     color: white;
     padding: 10px 20px;
     border: none;
@@ -108,7 +108,7 @@ section.row .alert-danger p {
 /* Tùy chọn bổ sung cho liên kết */
 .container a {
     font-size: inherit; /* Đảm bảo đồng bộ kích thước */
-    color: #d32f2f; /* Màu chữ đỏ */
+    color: #d8373e; /* Màu chữ đỏ */
     text-decoration: none;
 }
 

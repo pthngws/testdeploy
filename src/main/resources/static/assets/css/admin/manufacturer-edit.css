@@ -11,7 +11,7 @@ body {
 /* Tiêu đề */
 h1 {
     text-align: center;
-    color: #ff0000; /* Màu đỏ */
+    color: #d8373e; /* Màu đỏ */
     margin-bottom: 20px;
 }
 
@@ -31,7 +31,7 @@ label {
     display: block;
     margin-bottom: 10px;
     font-weight: bold;
-    color: #ff0000; /* Màu đỏ cho nhãn */
+    color: #d8373e; /* Màu đỏ cho nhãn */
 }
 
 /* Inputs */
@@ -46,7 +46,7 @@ input[type="text"] {
 
 /* Nút bấm */
 button {
-    background-color: #ff0000; /* Màu đỏ */
+    background-color: #d8373e; /* Màu đỏ */
     color: white;
     padding: 10px 20px;
     border: none;
@@ -63,7 +63,7 @@ button:hover {
 /* Link Cancel */
 a {
     margin-left: 15px;
-    color: #ff0000; /* Màu đỏ */
+    color: #d8373e; /* Màu đỏ */
     text-decoration: none;
     font-size: 16px;
 }

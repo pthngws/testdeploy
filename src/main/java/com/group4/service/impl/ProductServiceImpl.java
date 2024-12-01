@@ -128,5 +128,17 @@ public class ProductServiceImpl implements IProductService {
         return (product.getRates() == null) ? 0 : product.getRates().size();
     }
 
+	@Override
+	public List<ProductEntity> findByName(String producName) {
+		// TODO Auto-generated method stub
+		return productRepository.findByName(producName);
+	}
+
+	@Override
+	public Page<ProductEntity> findAllDistinctByName(Pageable pageable) {
+		// TODO Auto-generated method stub
+		return productRepository.findAllDistinctByName(pageable);
+	}
+
 
 }

@@ -70,6 +70,7 @@ public class AdminProductController {
 		// Lấy danh sách sản phẩm phân trang
 		Page<ProductEntity> productPage = productServiceImpl.findAll(PageRequest.of(page - 1, size));
 
+		
 		model.addAttribute("products", productPage.getContent()); // Danh sách sản phẩm
 		model.addAttribute("currentPage", page); // Trang hiện tại
 		model.addAttribute("totalPages", productPage.getTotalPages()); // Tổng số trang
@@ -180,66 +181,142 @@ public class AdminProductController {
 		}
 	}
 
+//	@PostMapping("products/edit{id}")
+//	public String saveProduct(@PathVariable("id") Long id, @ModelAttribute("product") ProductEntity product,
+//			Model model) {
+//		try {
+//			// Lấy sản phẩm cũ từ database
+//			Optional<ProductEntity> optionalProduct = productServiceImpl.findById(id);
+//
+//			if (optionalProduct.isEmpty()) {
+//				// Nếu sản phẩm không tồn tại
+//				model.addAttribute("errorMessage", "Product not found.");
+//				return "redirect:/admin/products";
+//			}
+//
+//			// Lấy sản phẩm hiện tại và cập nhật thông tin
+//			ProductEntity existingProduct = optionalProduct.get();
+//
+//			// Cập nhật thông tin từ form vào sản phẩm cũ
+//			existingProduct.setName(product.getName());
+//			existingProduct.setPrice(product.getPrice());
+//			existingProduct.setCategory(product.getCategory()); // Cập nhật category
+//			existingProduct.setManufacturer(product.getManufacturer()); // Cập nhật manufacturer
+//
+//			// Cập nhật chi tiết sản phẩm
+//			existingProduct.getDetail().setRAM(product.getDetail().getRAM());
+//			existingProduct.getDetail().setCPU(product.getDetail().getCPU());
+//			existingProduct.getDetail().setGPU(product.getDetail().getGPU());
+//			existingProduct.getDetail().setMonitor(product.getDetail().getMonitor());
+//			existingProduct.getDetail().setColor(product.getDetail().getColor());
+//
+//			existingProduct.getDetail().setAudio(product.getDetail().getAudio());
+//			existingProduct.getDetail().setBluetooth(product.getDetail().getBluetooth());
+//			existingProduct.getDetail().setCharger(product.getDetail().getCharger());
+//			existingProduct.getDetail().setConnect(product.getDetail().getConnect());
+//			existingProduct.getDetail().setDescription(product.getDetail().getDescription());
+//			existingProduct.getDetail().setLAN(product.getDetail().getLAN());
+//			existingProduct.getDetail().setOperationSystem(product.getDetail().getOperationSystem());
+//			existingProduct.getDetail().setDisk(product.getDetail().getDisk());
+//
+//			// Cập nhật ảnh nếu có
+//			List<ImageItemEntity> images = existingProduct.getDetail().getImages();
+//			if (!images.isEmpty()) {
+//				for (int i = 0; i < images.size(); i++) {
+//					images.get(i).setName(product.getDetail().getImages().get(i).getName());
+//					images.get(i).setImageUrl(product.getDetail().getImages().get(i).getImageUrl());
+//				}
+//			}
+//
+//			// Lưu sản phẩm đã chỉnh sửa vào cơ sở dữ liệu
+//			productServiceImpl.save(existingProduct);
+//
+//			// Thêm thông báo thành công và chuyển đến trang danh sách sản phẩm
+//			model.addAttribute("successMessage", "Product updated successfully.");
+//			return "redirect:/admin/products";
+//
+//		} catch (Exception e) {
+//			// Xử lý lỗi nếu có
+//			model.addAttribute("errorMessage", "Error occurred: " + e.getMessage());
+//			return "redirect:/admin/products";
+//		}
+//	}
+	
 	@PostMapping("products/edit{id}")
 	public String saveProduct(@PathVariable("id") Long id, @ModelAttribute("product") ProductEntity product,
-			Model model) {
-		try {
-			// Lấy sản phẩm cũ từ database
-			Optional<ProductEntity> optionalProduct = productServiceImpl.findById(id);
+	                          Model model) {
+	    try {
+	        // Lấy sản phẩm cũ từ database theo ID
+	        Optional<ProductEntity> optionalProduct = productServiceImpl.findById(id);
 
-			if (optionalProduct.isEmpty()) {
-				// Nếu sản phẩm không tồn tại
-				model.addAttribute("errorMessage", "Product not found.");
-				return "redirect:/admin/products";
-			}
+	        if (optionalProduct.isEmpty()) {
+	            // Nếu sản phẩm không tồn tại
+	            model.addAttribute("errorMessage", "Sản Phẩm Không Tồn Tại.");
+	            return "redirect:/admin/products";
+	        }
 
-			// Lấy sản phẩm hiện tại và cập nhật thông tin
-			ProductEntity existingProduct = optionalProduct.get();
+	        // Lấy tên sản phẩm hiện tại
+	        ProductEntity existingProduct = optionalProduct.get();
+	        String productName = existingProduct.getName();
 
-			// Cập nhật thông tin từ form vào sản phẩm cũ
-			existingProduct.setName(product.getName());
-			existingProduct.setPrice(product.getPrice());
-			existingProduct.setCategory(product.getCategory()); // Cập nhật category
-			existingProduct.setManufacturer(product.getManufacturer()); // Cập nhật manufacturer
+	        // Lấy danh sách tất cả các sản phẩm có cùng tên
+	        List<ProductEntity> productsToUpdate = productServiceImpl.findByName(productName);
 
-			// Cập nhật chi tiết sản phẩm
-			existingProduct.getDetail().setRAM(product.getDetail().getRAM());
-			existingProduct.getDetail().setCPU(product.getDetail().getCPU());
-			existingProduct.getDetail().setGPU(product.getDetail().getGPU());
-			existingProduct.getDetail().setMonitor(product.getDetail().getMonitor());
-			existingProduct.getDetail().setColor(product.getDetail().getColor());
+	        if (productsToUpdate.isEmpty()) {
+	            // Nếu không có sản phẩm nào cần cập nhật
+	            model.addAttribute("errorMessage", "Không Tồn Tại Sản Phẩm Khác Cùng Tên.");
+	            return "redirect:/admin/products";
+	        }
 
-			existingProduct.getDetail().setAudio(product.getDetail().getAudio());
-			existingProduct.getDetail().setBluetooth(product.getDetail().getBluetooth());
-			existingProduct.getDetail().setCharger(product.getDetail().getCharger());
-			existingProduct.getDetail().setConnect(product.getDetail().getConnect());
-			existingProduct.getDetail().setDescription(product.getDetail().getDescription());
-			existingProduct.getDetail().setLAN(product.getDetail().getLAN());
-			existingProduct.getDetail().setOperationSystem(product.getDetail().getOperationSystem());
-			existingProduct.getDetail().setDisk(product.getDetail().getDisk());
+	        // Cập nhật thông tin cho từng sản phẩm
+	        for (ProductEntity prod : productsToUpdate) {
+	            prod.setName(product.getName());
+	            prod.setPrice(product.getPrice());
+	            prod.setCategory(product.getCategory());
+	            prod.setManufacturer(product.getManufacturer());
 
-			// Cập nhật ảnh nếu có
-			List<ImageItemEntity> images = existingProduct.getDetail().getImages();
-			if (!images.isEmpty()) {
-				for (int i = 0; i < images.size(); i++) {
-					images.get(i).setName(product.getDetail().getImages().get(i).getName());
-					images.get(i).setImageUrl(product.getDetail().getImages().get(i).getImageUrl());
-				}
-			}
+	            // Cập nhật chi tiết sản phẩm
+	            prod.getDetail().setRAM(product.getDetail().getRAM());
+	            prod.getDetail().setCPU(product.getDetail().getCPU());
+	            prod.getDetail().setGPU(product.getDetail().getGPU());
+	            prod.getDetail().setMonitor(product.getDetail().getMonitor());
+	            prod.getDetail().setColor(product.getDetail().getColor());
+	            prod.getDetail().setAudio(product.getDetail().getAudio());
+	            prod.getDetail().setBluetooth(product.getDetail().getBluetooth());
+	            prod.getDetail().setCharger(product.getDetail().getCharger());
+	            prod.getDetail().setConnect(product.getDetail().getConnect());
+	            prod.getDetail().setDescription(product.getDetail().getDescription());
+	            prod.getDetail().setLAN(product.getDetail().getLAN());
+	            prod.getDetail().setOperationSystem(product.getDetail().getOperationSystem());
+	            prod.getDetail().setDisk(product.getDetail().getDisk());
 
-			// Lưu sản phẩm đã chỉnh sửa vào cơ sở dữ liệu
-			productServiceImpl.save(existingProduct);
+	            // Cập nhật ảnh nếu có
+	            List<ImageItemEntity> images = prod.getDetail().getImages();
+	            if (!images.isEmpty()) {
+	                for (int i = 0; i < images.size(); i++) {
+	                    images.get(i).setName(product.getDetail().getImages().get(i).getName());
+	                    images.get(i).setImageUrl(product.getDetail().getImages().get(i).getImageUrl());
+	                }
+	            }
+	            
+	            productServiceImpl.save(prod);
+	        }
 
-			// Thêm thông báo thành công và chuyển đến trang danh sách sản phẩm
-			model.addAttribute("successMessage", "Product updated successfully.");
-			return "redirect:/admin/products";
+	        // Lưu tất cả các sản phẩm đã chỉnh sửa vào cơ sở dữ liệu
+	        //productServiceImpl.save(productsToUpdate);
 
-		} catch (Exception e) {
-			// Xử lý lỗi nếu có
-			model.addAttribute("errorMessage", "Error occurred: " + e.getMessage());
-			return "redirect:/admin/products";
-		}
+	        // Thêm thông báo thành công và chuyển đến trang danh sách sản phẩm
+	        model.addAttribute("successMessage", "All products with the same name updated successfully.");
+	        return "redirect:/admin/products";
+
+	    } catch (Exception e) {
+	        // Xử lý lỗi nếu có
+	        model.addAttribute("errorMessage", "Error occurred: " + e.getMessage());
+	        return "redirect:/admin/products";
+	    }
 	}
+
+
 
 	// Delete product
 	@GetMapping("/products/delete{id}")
