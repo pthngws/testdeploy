@@ -120,17 +120,11 @@
                     <div class="main-header-inner">
                         <div class="category-toggle-wrap">
                             <div class="category-toggle">
-                                category
+                                CNPM
                                 <div class="cat-icon">
-                                    <i class="fa fa-angle-down"></i>
+                                    <i class="fa fa-laptop"></i>
                                 </div>
                             </div>
-                            <nav class="category-menu category-style-2">
-                                <ul>
-                                    <li><a th:href="@{/templates/shop-grid-left-sidebar.html}"><i class="fa fa-desktop"></i> Latop Gaming</a></li>
-                                    <li><a th:href="@{/templates/shop-grid-left-sidebar.html}"><i class="fa fa-desktop"></i> Latop văn phòng</a></li>
-                                </ul>
-                            </nav>
 
                         </div>
                         <div class="main-menu">
@@ -138,16 +132,15 @@
                                 <ul>
                                     <li class="active"><a th:href="@{/home}"><i class="fa fa-home"></i>Trang chủ </a></li>
                                     <li class="static"><a th:href="@{/products}">Sản phẩm</a></li>
-                                    <li class="static"><a th:href="@{/about-us}">Về chúng tôi</a></li>
-                                    <li class="static"><a th:href="@{/contact}">Liên hệ</a></li>
                                     <li class="static"><a th:href="@{/history}">Lịch sử mua hàng</a></li>
                                     <li th:if="${session.roleName == 'Admin'}">
-                                        <a href="/admin/products">Quản Lý Sản Phẩm</a>
-                                            	<ul class="dropdown">                       
-                                                    <li><a href="/admin/manufacturers">Nhà Sản Xuất</a></li>
-                                                    <li><a href="/admin/categories">Thể Loại</a></li>
-                                                    <li><a href="/admin/inventory">Kho</a></li>
-                                                </ul>
+                                        <a>Quản Lý Sản Phẩm</a>
+                                        <ul class="dropdown">
+                                            <li><a href="/admin/products">Sản Phẩm</a></li>
+                                            <li><a href="/admin/manufacturers">Nhà Sản Xuất</a></li>
+                                            <li><a href="/admin/categories">Thể Loại</a></li>
+                                            <li><a href="/admin/inventory">Kho</a></li>
+                                        </ul>
                                     </li>
                                 </ul>
                             </nav>
