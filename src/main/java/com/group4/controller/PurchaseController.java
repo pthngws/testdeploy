@@ -7,8 +7,10 @@ import com.group4.entity.*;
 import com.group4.repository.ProductRepository;
 import com.group4.service.IOrderService;
 import com.group4.service.IProductService;
+import com.group4.service.IPromotionService;
 import com.group4.service.IUserService;
 import com.group4.service.impl.AddressServiceImpl;
+import com.group4.service.impl.PromotionServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -41,6 +43,8 @@ public class PurchaseController {
     private ProductRepository productRepository;
     @Autowired
     private AddressServiceImpl addressServiceImpl;
+    @Autowired
+    private IPromotionService promotionService = new PromotionServiceImpl();
 
     @GetMapping("/purchase/checkout/buyNow")
     public String buyNow(
@@ -119,6 +123,14 @@ public class PurchaseController {
         session.setAttribute("discount", discount);
         session.setAttribute("total", total);
         session.setAttribute("address", address);
+
+        // Giảm số lần sử dụng mã giảm giá nếu có trong session
+        PromotionEntity promotion = (PromotionEntity) session.getAttribute("appliedPromotion");
+        if (promotion != null) {
+            promotion.setRemainingUses(promotion.getRemainingUses() - 1);
+            promotionService.save(promotion);
+            session.removeAttribute("appliedPromotion"); // Xóa mã giảm giá khỏi session sau khi áp dụng
+        }
 
         return "checkout";
     }

@@ -131,6 +131,8 @@ public class ShoppingCartController {
         redirectAttributes.addFlashAttribute("discountAmount", discountAmount != 0 ? discountAmount : 0.0);
         redirectAttributes.addFlashAttribute("totalAmount", totalAmount != 0 ? totalAmount : 0.0);
 
+        session.setAttribute("appliedPromotion", promotion); // Lưu mã giảm giá vào session
+
 
         redirectAttributes.addFlashAttribute("success", "Áp dụng mã giảm giá thành công!");
         return "redirect:/cart";
