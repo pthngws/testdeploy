@@ -73,13 +73,13 @@
                             <div class="single-input-item">
                               <label for="gender" class="required">Giới tính</label>
                               <select id="gender" name="gender" class="form-control">
-                                <option value="Male"
+                                <option value="Nam"
                                         th:selected="${user.gender == 'Nam'}">Nam
                                 </option>
-                                <option value="Female"
+                                <option value="Nữ"
                                         th:selected="${user.gender == 'Nữ'}">Nữ
                                 </option>
-                                <option value="Other"
+                                <option value="Khác"
                                         th:selected="${user.gender == 'Khác'}">Khác
                                 </option>
                               </select>
@@ -112,7 +112,7 @@
                         <div class="row">
                           <div class="col-lg-6">
                             <div class="single-input-item">
-                              <label for="country" class="required">Country</label>
+                              <label for="country" class="required">Quốc gia</label>
                               <input type="text" id="country" name="country"
                                      class="form-control"
                                      th:value="${user.address.country}"
@@ -121,7 +121,7 @@
                           </div>
                           <div class="col-lg-6">
                             <div class="single-input-item">
-                              <label for="province" class="required">Province/City</label>
+                              <label for="province" class="required">Tỉnh/thành phố</label>
                               <select id="province" name="province" class="form-control"
                                       onchange="updateDistricts()">
                                 <option class="form-control"
@@ -134,7 +134,7 @@
                         <div class="row">
                           <div class="col-lg-6">
                             <div class="single-input-item">
-                              <label for="district" class="required">District</label>
+                              <label for="district" class="required">Quận/Huyện</label>
                               <select id="district" name="district"
                                       class="form-control">
                                 <option class="form-control"
@@ -146,7 +146,7 @@
                           <script th:src="@{/assets/js/password.js}"></script>
                           <div class="col-lg-6">
                             <div class="single-input-item">
-                              <label for="commune" class="required">Commune</label>
+                              <label for="commune" class="required">Xã/phường/thị trấn</label>
                               <input type="text" id="commune" name="commune"
                                      class="form-control"
                                      th:value="${user.address.commune}"
@@ -157,17 +157,17 @@
                         <div class="row">
                           <div class="col-lg-12">
                             <div class="single-input-item">
-                              <label for="other" class="required">Other Details</label>
+                              <label for="other" class="required">Số nhà, tên đường</label>
                               <input type="text" id="other" name="other"
                                      class="form-control"
                                      th:value="${user.address.other}"
-                                     placeholder="Enter your other details"/>
+                                     placeholder="Nhập số nhà, tên đường của bạn"/>
                             </div>
                           </div>
                         </div>
 
                         <div class="single-input-item">
-                          <button type="submit" class="check-btn sqr-btn">Save Address
+                          <button type="submit" class="check-btn sqr-btn">Lưu địa chỉ
                           </button>
                         </div>
                       </form>
@@ -245,7 +245,6 @@
                       <script th:src="@{/assets/js/password.js}"></script>
                     </div>
                   </div>
-
                   <!-- Change password Tab End -->
                 </div>
               </div>

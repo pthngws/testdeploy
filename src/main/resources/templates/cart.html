@@ -182,6 +182,7 @@
 <!-- cart main wrapper end -->
 <div th:replace="fragments/footer :: footer"></div>
 </body>
+
 <script>
     function getCartData() {
         const cartRows = document.querySelectorAll("tbody tr");
@@ -239,7 +240,12 @@
 
         // Hàm định dạng tiền tệ với dấu phân cách
         function formatCurrency(value) {
-            return value.toLocaleString(); // Thêm dấu phân cách hàng nghìn
+            return new Intl.NumberFormat('vi-VN', { style: 'decimal', maximumFractionDigits: 0 }).format(value);
+        }
+
+        function parseCurrency(value) {
+            // Loại bỏ ký tự không phải số và chuyển đổi về số thực
+            return parseFloat(value.replace(/[^\d.-]/g, "").replace(/,/g, ""));
         }
 
         // Hàm cập nhật Total cho từng hàng
@@ -248,7 +254,7 @@
             const totalElement = row.querySelector(".pro-subtotal span");
             const quantityInput = row.querySelector(".quantity-input");
 
-            const price = parseFloat(priceElement.innerText.replace(/[^0-9.-]+/g, ""));
+            const price = parseFloat(priceElement.innerText.replace(/\./g, ''));
             const quantity = parseInt(quantityInput.value);
 
             const total = (price * quantity).toFixed();
@@ -265,23 +271,23 @@
 
             // Lặp qua tất cả các hàng trong bảng và tính tổng các giá trị của cột Total
             document.querySelectorAll(".pro-subtotal span").forEach(subtotalElement => {
-                const subtotal = parseFloat(subtotalElement.innerText.replace(/[^0-9.-]+/g, ""));
+                const subtotal = parseFloat(subtotalElement.innerText.replace(/\./g, ''));
                 subTotalAmount += subtotal;
             });
 
             // Cập nhật Sub Total
             const subTotalElement = document.getElementById("sub-total");
-            subTotalElement.innerText = `${formatCurrency(subTotalAmount)} VND`;
+            subTotalElement.innerText = `${formatCurrency(subTotalAmount)} `;
 
             // Cập nhật discound
             discountAmount = calculateDiscount(subTotalAmount);  // Gọi lại hàm tính discountAmount
             const discountElement = document.getElementById("discount-amount");
-            discountElement.innerText = `${formatCurrency(discountAmount)} VND`;
+            discountElement.innerText = `${formatCurrency(discountAmount)} `;
 
             // Tính tổng sau khi trừ discount
             const totalElement = document.getElementById("total-amount");
             const total = subTotalAmount - discountAmount;
-            totalElement.innerText = `${formatCurrency(total)} VND`;
+            totalElement.innerText = `${formatCurrency(total)} `;
         }
 
         // Hàm tính giảm giá
