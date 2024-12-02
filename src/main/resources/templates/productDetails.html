@@ -98,39 +98,40 @@ p, .price {
 }
 /* Chỉnh độ rộng của bảng */
 .table {
-    width: 60%;  /* Độ rộng của bảng chiếm toàn bộ chiều ngang */
-    table-layout: fixed; /* Đảm bảo bảng có chiều rộng cố định */
-    margin-left: 220px;
-    margin-top: 30px;
+	width: 60%; /* Độ rộng của bảng chiếm toàn bộ chiều ngang */
+	table-layout: fixed; /* Đảm bảo bảng có chiều rộng cố định */
+	margin-left: 220px;
+	margin-top: 30px;
 }
 
 /* Chỉnh độ rộng của các cột */
 .table th, .table td {
-    word-wrap: break-word; /* Cho phép nội dung dài trong ô bị cắt xuống dòng */
-    padding: 10px; /* Thêm khoảng cách giữa nội dung và viền */
+	word-wrap: break-word;
+	/* Cho phép nội dung dài trong ô bị cắt xuống dòng */
+	padding: 10px; /* Thêm khoảng cách giữa nội dung và viền */
 }
 
 /* Thay đổi màu nền cho cột đầu tiên */
 .table th:first-child, .table td:first-child {
-    background-color: #f0f0f0; /* Màu xám nhạt */
+	background-color: #f0f0f0; /* Màu xám nhạt */
 }
 /* Chỉnh lại chiều rộng hình ảnh chính */
 #mainProductImage {
-    width: 100%; /* Đảm bảo hình ảnh chiếm hết chiều rộng của thẻ chứa */
-    max-height: 500px; /* Đặt chiều cao tối đa nếu cần */
+	width: 100%; /* Đảm bảo hình ảnh chiếm hết chiều rộng của thẻ chứa */
+	max-height: 500px; /* Đặt chiều cao tối đa nếu cần */
 }
 
 /* Các hình ảnh nhỏ */
 .product-images img {
-    width: 60px;
-    height: 60px;
-    cursor: pointer;
-    border: 2px solid transparent;
-    transition: border 0.3s ease;
+	width: 60px;
+	height: 60px;
+	cursor: pointer;
+	border: 2px solid transparent;
+	transition: border 0.3s ease;
 }
 
 .product-images img:hover {
-    border: 2px solid #007bff; /* Thêm hiệu ứng viền khi hover */
+	border: 2px solid #007bff; /* Thêm hiệu ứng viền khi hover */
 }
 </style>
 </head>
@@ -142,7 +143,8 @@ p, .price {
 				<div class="col-md-6 text-center">
 					<div class="main-image mb-4 position-relative">
 						<button class="arrow left-arrow" onclick="prevImage()">&#8249;</button>
-						<img th:src="@{${product.detail.images[0].imageUrl}}"
+						<img
+							th:src="${product.detail.images != null && product.detail.images.size() > 0 ? product.detail.images[0].imageUrl : '/default-image.jpg'}"
 							id="mainProductImage" alt="Main Product">
 						<button class="arrow right-arrow" onclick="nextImage()">&#8250;</button>
 					</div>
@@ -165,8 +167,8 @@ p, .price {
 					</p>
 					<p>
 						Hiện Có: <span
-							th:class="${product.status == 0 ? 'text-danger' : (product.inventory.quantity > 0 ? 'text-success' : 'text-warning')}"
-							th:text="${product.status == 0 ? 'Hết Hàng' : (product.inventory.quantity > 0 ? product.inventory.quantity : 'Hết Hàng')}">
+							th:class="${product?.status == 0 ? 'text-danger' : 'text-success'}"
+							th:text="${product?.status == 0 ? 'Hết Hàng' : (quantity != null ? quantity : 'Không Có Hàng Này')}">
 						</span>
 					</p>
 					<p class="price" th:text="${product.price + ' VND'}"></p>
@@ -198,8 +200,12 @@ p, .price {
 
 
 		<div class="product-detail">
-			<h3><b>Thông tin sản phẩm</b></h3>
-			<h3><b>Thông Số Kỹ Thuật :</b></h3>
+			<h3>
+				<b>Thông tin sản phẩm</b>
+			</h3>
+			<h3>
+				<b>Thông Số Kỹ Thuật :</b>
+			</h3>
 			<table class="table table-bordered">
 				<tr>
 					<th>CPU</th>
@@ -276,7 +282,7 @@ p, .price {
 				</tr>
 			</table>
 		</div>
-		
+
 
 		<script>
 			function changeImage(element) {
@@ -316,17 +322,17 @@ p, .price {
 			}
 			// Hàm để thay đổi hình ảnh chính
 			function changeMainImage(index) {
-			    mainImage.src = images[index].src; // Đặt hình ảnh chính bằng hình ảnh đã chọn
-			    currentIndex = index; // Cập nhật chỉ số hình ảnh hiện tại
+				mainImage.src = images[index].src; // Đặt hình ảnh chính bằng hình ảnh đã chọn
+				currentIndex = index; // Cập nhật chỉ số hình ảnh hiện tại
 			}
 
 			// Hàm tự động chuyển hình ảnh
 			function autoSlide() {
-			    currentIndex++;
-			    if (currentIndex >= images.length) {
-			        currentIndex = 0; // Nếu đến cuối, quay lại đầu
-			    }
-			    changeMainImage(currentIndex); // Cập nhật hình ảnh chính
+				currentIndex++;
+				if (currentIndex >= images.length) {
+					currentIndex = 0; // Nếu đến cuối, quay lại đầu
+				}
+				changeMainImage(currentIndex); // Cập nhật hình ảnh chính
 			}
 
 			// Gọi autoSlide mỗi 3 giây (3000ms)
