@@ -2,6 +2,7 @@ package com.group4.controller;
 
 
 import com.group4.config.Constants;
+import com.group4.entity.AddressEntity;
 import com.group4.entity.CustomerEntity;
 import com.group4.repository.AddressRepository;
 import com.group4.repository.CustomerRepository;
@@ -32,6 +33,7 @@ public class OtpController {
 
     @Autowired
     private AddressRepository addressRepository;
+
     Constants constants = new Constants();
     String email;
 
@@ -50,21 +52,39 @@ public class OtpController {
     public String checkOtp(HttpSession session, @RequestParam("otp") String otp, Model model) {
         String otpRegister = (String) session.getAttribute("otp-register");
         if (otp.equals(otpRegister)) {
+            // Create a new AddressEntity object
+            AddressEntity newAddress = new AddressEntity();
+            newAddress.setCommune("x");  // Set street (example)
+            newAddress.setCountry("x");      // Set city (example)
+            newAddress.setDistrict("x");    // Set state (example)
+            newAddress.setOther("x"); // Set country (example)
+            newAddress.setProvince("x");       // Set zip code (example)
 
+            // Save the new address
+            addressRepository.save(newAddress);
+
+            // Retrieve customer information from session
             String fullName = (String) session.getAttribute("name");
-            CustomerEntity customerEntity = new CustomerEntity();
-            customerEntity.setEmail((String) session.getAttribute("email"));
-            customerEntity.setPassword((String) session.getAttribute("password"));
+            String email = (String) session.getAttribute("email");
+            String password = (String) session.getAttribute("password");
 
+            // Create and populate the customer entity
+            CustomerEntity customerEntity = new CustomerEntity();
+            customerEntity.setEmail(email);
+            customerEntity.setPassword(password);
             customerEntity.setName(fullName);
             customerEntity.setActive(false);
 
-            customerEntity = customerRepository.save(customerEntity);
+            // Set the newly created address to the customer
+            customerEntity.setAddress(newAddress);
 
-
+            // Save the customer entity
             customerRepository.save(customerEntity);
+
+            // Redirect after successful account creation
             return "redirect:/";
         }
+
         model.addAttribute("mess","OTP is not correct! Please check your email.");
         return "auth/otpConfirm";
     }

@@ -63,7 +63,6 @@ public class AuthController {
         session.setAttribute("email", user.getEmail());
         session.setAttribute("name", user.getName());
         session.setAttribute("password", user.getPassword());
-
         return "redirect:/otp-check";
     }
 
