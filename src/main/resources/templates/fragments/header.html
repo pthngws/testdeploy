@@ -33,7 +33,7 @@
 <!--                                    </div>-->
 <!--                                </li>-->
                                 <li>
-                                    <a href="#">Giỏ hàng</a>
+                                    <a th:href="@{/cart}">Giỏ hàng</a>
                                 </li>
                                 <th:block th:if="${session.username}">
                                     <li>
@@ -76,11 +76,10 @@
                                 <button class="search-btn"><i class="fa fa-search"></i></button>
                             </div>
                             <div class="header-mini-cart">
-                                <div class="mini-cart-btn">
+                                <a href="/cart" class="mini-cart-btn">
                                     <i class="fa fa-shopping-cart"></i>
-                                </div>
+                                </a>
                                 <div class="cart-total-price">
-                                    $0.00
                                 </div>
                                 <ul class="cart-list">
                                     <li>
@@ -141,6 +140,9 @@
                                             <li><a href="/admin/categories">Thể Loại</a></li>
                                             <li><a href="/admin/inventory">Kho</a></li>
                                         </ul>
+                                    </li>
+                                    <li th:if="${session.roleName == 'Admin'}">
+                                        <a th:href="@{/admin/dashboard}">Doanh Thu</a>
                                     </li>
                                 </ul>
                             </nav>
