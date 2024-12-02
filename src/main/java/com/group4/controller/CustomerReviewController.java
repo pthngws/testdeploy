@@ -6,6 +6,7 @@ import com.group4.entity.ProductEntity;
 import com.group4.service.ICustomerReviewService;
 import com.group4.service.IProductService;
 import com.group4.service.IUserService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,14 +30,12 @@ public class CustomerReviewController {
     public String submitReview(@RequestParam Long productId,
                                @RequestParam int rating,
                                @RequestParam String reviewContent,
-                               @RequestParam Long userId) {
-
+                               HttpSession session) {
+        UserEntity user = (UserEntity) session.getAttribute("user");
         // Check if the product exists
 
         ProductEntity product = new ProductEntity();
         product.setProductID(productId);
-        // Lấy thông tin người dùng
-        UserEntity user = userService.findById(userId);
 
         // Tạo đối tượng RateEntity và gán giá trị
         RateEntity review = new RateEntity();
@@ -48,7 +47,7 @@ public class CustomerReviewController {
         // Lưu đánh giá vào cơ sở dữ liệu
         customerReviewService.saveReview(review);
 
-        return "redirect:/purchasedProduct"; // Chuyển hướng về trang chi tiết sản phẩm
+        return "redirect:/history"; // Chuyển hướng về trang chi tiết sản phẩm
     }
 
 }
