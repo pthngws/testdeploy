@@ -72,10 +72,10 @@ public class PromotionController {
         }
 
         // Lưu khuyến mãi vào cơ sở dữ liệu
-        boolean isSaved = promotionService.savePromotion(promotionModel);
+        boolean isSaved = promotionService.saveOrUpdatePromotion(promotionModel);
         if (isSaved) {
             model.addAttribute("successMessage", "Promotion added successfully!");
-            return "redirect:/promotions"; // Chuyển hướng nếu thành công
+            return "redirect:/admin/promotions"; // Chuyển hướng nếu thành công
         } else {
             model.addAttribute("errorMessage", "Failed to add promotion.");
             return "add-promotion";
@@ -90,13 +90,13 @@ public class PromotionController {
 
     @PutMapping("/update")
     public String updatePromotion(@ModelAttribute PromotionModel promotionModel, Model model) {
-        boolean isUpdated = promotionService.updatePromotion(promotionModel);
+        boolean isUpdated = promotionService.saveOrUpdatePromotion(promotionModel);
         if (isUpdated) {
             model.addAttribute("successMessage", "Promotion updated successfully!");
-            return "redirect:/promotions"; // Chuyển hướng sau khi cập nhật
+            return "redirect:/admin/promotions"; // Chuyển hướng sau khi cập nhật
         } else {
             model.addAttribute("errorMessage", "Failed to update promotion.");
-            return "/admin/promotion";
+            return "promotion";
         }
     }
 
@@ -110,6 +110,48 @@ public class PromotionController {
         } else {
             return "redirect:/admin/promotions?delete-error";
         }
+    }
+    @PostMapping("/api/promotions/apply")
+    public ResponseEntity<?> applyPromotion(@RequestBody Map<String, Object> request) {
+        String promotionCode = (String) request.get("promotionCode");
+        double totalAmount = Double.parseDouble(request.get("totalAmount").toString());
+        double shippingAmount = Double.parseDouble(request.get("shippingAmount").toString());
+
+        // Lấy thông tin mã giảm giá từ database
+        Optional<PromotionEntity> promotionOpt = promotionService.findByPromotionCode(promotionCode);
+        if (!promotionOpt.isPresent()) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Promotion code is invalid!"));
+        }
+
+        PromotionEntity promotion = promotionOpt.get();
+        if (promotion.getValidTo().before(new Date())) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Promotion code has expired!"));
+        }
+
+        // Tính toán giá mới
+        double discountAmount = promotion.getDiscountAmount();
+        double updatedAmount = Math.max(0, totalAmount - discountAmount - shippingAmount);
+
+        return ResponseEntity.ok(Map.of("updatedAmount", updatedAmount));
+    }
+
+    @PostMapping("/api/orders/checkout")
+    public ResponseEntity<?> checkout(@RequestBody Map<String, Object> request) {
+        String promotionCode = (String) request.get("promotionCode");
+        double totalAmount = Double.parseDouble(request.get("totalAmount").toString());
+
+        // Xử lý thanh toán
+        if (promotionCode != null && !promotionCode.isEmpty()) {
+            Optional<PromotionEntity> promotionOpt = promotionService.findByPromotionCode(promotionCode);
+            if (promotionOpt.isPresent()) {
+                PromotionEntity promotion = promotionOpt.get();
+                promotion.setRemainingUses(promotion.getRemainingUses() - 1); // Giảm số lượt sử dụng
+                promotionService.save(promotion);
+            }
+        }
+
+        // Trả về phản hồi
+        return ResponseEntity.ok(Map.of("message", "Checkout successful!"));
     }
 }
 
