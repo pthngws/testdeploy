@@ -56,6 +56,9 @@
 </head>
 <body>
 <div th:replace="fragments/header :: header"></div>
+<div class="alert alert-success" th:if="${success}" th:text="${success}"></div>
+<div class="alert alert-danger" th:if="${error}" th:text="${error}"></div>
+
 
 <!-- breadcrumb area start -->
 <div class="breadcrumb-area">
@@ -98,6 +101,7 @@
                         <!-- Lặp qua danh sách sản phẩm trong giỏ hàng -->
                         <tr th:each="product : ${products}">
                             <td class="pro-thumbnail">
+                                <input type="text" hidden="hidden" class="productId" th:value="${product.productID}">
                                 <a href="#"><img class="img-fluid" th:src="${product.detail.images[0]?.imageUrl}" alt="Product"/></a>
                             </td>
                             <td class="pro-title">
@@ -129,9 +133,9 @@
                 <!-- Cart Update Option -->
                 <div class="cart-update-option d-block d-md-flex justify-content-between">
                     <div class="apply-coupon-wrapper">
-                        <form action="#" method="post" class=" d-block d-md-flex">
-                            <input type="text" placeholder="Enter Your Coupon Code" required />
-                            <button class="sqr-btn">Apply Coupon</button>
+                        <form action="/cart/apply-coupon" method="post" class="d-block d-md-flex">
+                            <input type="text" name="couponCode" placeholder="Enter Your Coupon Code" required />
+                            <button class="sqr-btn" type="submit">Apply Coupon</button>
                         </form>
                     </div>
                     <div class="cart-update mt-sm-16">
@@ -151,22 +155,24 @@
                             <table class="table">
                                 <tr>
                                     <td>Sub Total</td>
-                                    <td id="sub-total">Sub Total</td>
+                                    <td id="sub-total" th:text="${subTotal != null ? subTotal : 0} + ' VND'">Sub Total</td>
                                 </tr>
                                 <tr>
-                                    <td>Giảm giá</td>
-                                    <td id="shipping-fee">Shipping</td>
+                                    <td>Discount</td>
+                                    <td id="discount-amount" th:text="${discountAmount != null ? discountAmount : 0} + ' VND'">Discount</td>
                                 </tr>
                                 <tr class="total">
                                     <td>Total</td>
-                                    <td id="total-amount" class="total-amount">Total</td>
+                                    <td id="total-amount" th:text="${totalAmount != null ? totalAmount : 0} + ' VND'">Total</td>
                                 </tr>
+                                <input type="hidden" id="discount-rate" th:value="${discountAmount}" />
                             </table>
                         </div>
-
                     </div>
-                    <a href="/checkout" class="sqr-btn d-block">Proceed To Checkout</a>
+                    <button onclick="proceedToCheckout()" class="sqr-btn d-block">Proceed To Checkout</button>
+<!--                    <a href="/checkout" >Proceed To Checkout</a>-->
                 </div>
+
             </div>
         </div>
     </div>
@@ -175,6 +181,48 @@
 <div th:replace="fragments/footer :: footer"></div>
 </body>
 <script>
+    function getCartData() {
+        const cartRows = document.querySelectorAll("tbody tr");
+        const cartData = [];
+        var string = ""
+        cartRows.forEach(row => {
+            if(row.querySelector(".productId") == null)
+                return
+            const productID = parseInt(row.querySelector(".productId").value)
+            const quantity = parseInt(row.querySelector(".quantity-input").value);
+
+            // alert(productID)
+            // alert(quantity)
+
+            string += productID +' '+quantity+','
+
+            cartData.push({ productID: productID, quantity: quantity });
+        });
+        console.log(cartData)
+        return string;
+    }
+
+
+    function proceedToCheckout(){
+        const string = getCartData();
+
+        // Send cart data to controller (e.g., via AJAX or through form submission)
+        // Here, using a hidden form to send the data via POST request
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/purchase/checkout/buyInCart'; // Replace with the correct controller URL
+
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'cartData'; // You can change this name to match what the controller expects
+        input.value = JSON.stringify(string);
+        form.appendChild(input);
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+
+
     document.addEventListener("DOMContentLoaded", function () {
         const cartRows = document.querySelectorAll("tbody tr");
 
@@ -202,6 +250,7 @@
         // Hàm cập nhật tổng giỏ hàng
         function updateCartTotal() {
             let subTotalAmount = 0;
+            let discountAmount = 0;
 
             // Lặp qua tất cả các hàng trong bảng và tính tổng các giá trị của cột Total
             document.querySelectorAll(".pro-subtotal span").forEach(subtotalElement => {
@@ -211,23 +260,30 @@
 
             // Cập nhật Sub Total
             const subTotalElement = document.getElementById("sub-total");
-            subTotalElement.innerText = `${formatCurrency(subTotalAmount.toFixed(0))}`;
+            subTotalElement.innerText = `${formatCurrency(subTotalAmount)} VND`;
 
-            // Giảm giá (shipping fee)
-            const shippingFee = calculateDiscount(subTotalAmount);
-            const shippingFeeElement = document.getElementById("shipping-fee");
-            shippingFeeElement.innerText = `${formatCurrency(shippingFee.toFixed(0))}`;
+            // Cập nhật discound
+            discountAmount = calculateDiscount(subTotalAmount);  // Gọi lại hàm tính discountAmount
+            const discountElement = document.getElementById("discount-amount");
+            discountElement.innerText = `${formatCurrency(discountAmount)} VND`;
 
-            // Cập nhật Total (giá thực trả)
-            const totalAmount = subTotalAmount - shippingFee;
-            const totalAmountElement = document.getElementById("total-amount");
-            totalAmountElement.innerText = `${formatCurrency(totalAmount.toFixed(0))} `;
+            // Tính tổng sau khi trừ discount
+            const totalElement = document.getElementById("total-amount");
+            const total = subTotalAmount - discountAmount;
+            totalElement.innerText = `${formatCurrency(total)} VND`;
         }
 
-        // Hàm tính giảm giá (Shipping Fee) - giả sử là 10% giảm giá
+        // Hàm tính giảm giá
         function calculateDiscount(subTotal) {
-            const discountRate = 0.1; // 10% giảm giá
-            return subTotal * discountRate;
+
+
+            const discountRate = parseFloat(document.getElementById("discount-rate").value);  // Lấy tỷ lệ giảm giá từ backend
+
+            // Nếu không có giảm giá hoặc giá trị không hợp lệ, trả về 0
+            if (isNaN(discountRate) || discountRate <= 0) {
+                return 0;
+            }
+            return subTotal * discountRate / 100;
         }
 
         // Cập nhật định dạng cho cột Price và Total khi trang được tải

@@ -5,26 +5,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Manufacturer</title>
+    <title>Chỉnh Sửa Nhà Sản Xuất</title>
     <link rel="stylesheet" href="/assets/css/admin/manufacturer-edit.css">
 </head>
 <body>
 
 	<section class="row" layout:fragment="content">
 	
-    <h1>Edit Manufacturer</h1>
+    <h1>Chỉnh Sửa Nhà Sản Xuất</h1>
 
     <form th:action="@{'/admin/manufacturers/edit/' + ${manufacturer.id}}" th:object="${manufacturer}" method="post">
-        <label for="name">Name:</label>
+        <label for="name">Tên:</label>
         <input type="text" id="name" th:field="*{name}" required />
         <br />
 
-        <label for="address">Address:</label>
+        <label for="address">Địa Chỉ:</label>
         <input type="text" id="address" th:field="*{address}" />
         <br />
 
-        <button type="submit">Update</button>
-        <a href="/admin/manufacturers">Cancel</a>
+        <button type="submit">Cập Nhật</button>
+        <a href="/admin/manufacturers">Hủy</a>
     </form>
     
 

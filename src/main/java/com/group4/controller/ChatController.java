@@ -59,7 +59,7 @@ public class ChatController {
 
     @MessageMapping("/sendMessage")
     @SendTo("/topic/public")
-    public ChatEntity sendMessageToHomepage(ChatEntity chatEntity) {
+    public ChatEntity sendMessage(ChatEntity chatEntity) {
         Long senderID = chatEntity.getSenderID(); // Giả sử có cách lấy ID người gửi
         Long receiverID = chatEntity.getReceiverID();
 
@@ -87,7 +87,7 @@ public class ChatController {
 
     @GetMapping("/getMessages")
     @ResponseBody
-    public List<Map<String, Object>> getMessagesBetweenUsers(
+    public List<Map<String, Object>> loadMessage(
             @RequestParam Long senderId,
             @RequestParam Long receiverId) {
         return chatService.findAll().stream()

@@ -47,33 +47,34 @@ public class PromotionServiceImpl implements IPromotionService {
 
 
     // Lưu hoặc cập nhật khuyến mãi
+    // Lưu hoặc cập nhật khuyến mãi
     public boolean saveOrUpdatePromotion(PromotionModel promotionModel) {
-        // Kiểm tra xem khuyến mãi đã tồn tại hay chưa
-        PromotionEntity promotionEntity = new PromotionEntity();
-        // Cập nhật các trường từ PromotionModel vào PromotionEntity
-        promotionEntity.setDiscountAmount(promotionModel.getDiscountAmount());
-        promotionEntity.setValidFrom(promotionModel.getValidFrom());
-        promotionEntity.setValidTo(promotionModel.getValidTo());
-        promotionEntity.setPromotionCode(promotionModel.getPromotionCode());
-        promotionEntity.setDescription(promotionModel.getDescription());
+        PromotionEntity promotionEntity;
 
-        if(promotionModel.getPromotionID() == null) {
-
+        if (promotionModel.getPromotionID() == null) {
+            // Trường hợp chưa có ID, tạo mới
+            promotionEntity = convertToEntity(promotionModel);
             promotionRepository.save(promotionEntity);
-            return false;
+            return true; // Lưu mới thành công
         }
+
+        // Trường hợp đã có ID, kiểm tra sự tồn tại
         Optional<PromotionEntity> existingPromotion = promotionRepository.findById(promotionModel.getPromotionID());
         if (existingPromotion.isPresent()) {
-            // Lấy khuyến mãi hiện tại để cập nhật
+            // Cập nhật khuyến mãi đã tồn tại
             promotionEntity = existingPromotion.get();
+            promotionEntity.setDiscountAmount(promotionModel.getDiscountAmount());
+            promotionEntity.setValidFrom(promotionModel.getValidFrom());
+            promotionEntity.setValidTo(promotionModel.getValidTo());
+            promotionEntity.setPromotionCode(promotionModel.getPromotionCode());
+            promotionEntity.setDescription(promotionModel.getDescription());
+            promotionEntity.setRemainingUses(promotionModel.getRemainingUses());
+
+            promotionRepository.save(promotionEntity);
+            return true; // Cập nhật thành công
         }
 
-
-
-        // Lưu (hoặc cập nhật) khuyến mãi vào cơ sở dữ liệu
-        promotionRepository.save(promotionEntity);
-
-        return true; // Trả về true nếu lưu hoặc cập nhật thành công
+        return false; // Không tìm thấy khuyến mãi với ID đã cho
     }
 
     // Xóa khuyến mãi

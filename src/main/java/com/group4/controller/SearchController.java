@@ -60,14 +60,4 @@ public class SearchController {
 
         return "shop-grid-left-sidebar";
     }
-
-    @GetMapping("/payment")
-    public String showPaymentPage(@RequestParam("orderId") String orderId,
-                                  @RequestParam("amount") String amount,
-                                  Model model) {
-        // Truyền orderId và amount vào model
-        model.addAttribute("orderId", orderId);
-        model.addAttribute("amount", amount);
-        return "payment"; // Trả về template payment.html
-    }
 }

@@ -13,7 +13,7 @@
 	
 	
     <div class="container">
-        <h2>Edit Product</h2>
+        <h2>Chỉnh Sửa Sản Phẩm</h2>
 
         <!-- Hiển thị thông báo lỗi nếu có -->
         <div th:if="${errorMessage}" class="alert alert-danger">
@@ -24,17 +24,17 @@
               method="post" th:object="${product}">
             <!-- Product Information -->
             <div class="form-group">
-                <label for="name">Product Name:</label>
+                <label for="name">Tên Sản Phẩm:</label>
                 <input type="text" id="name" th:field="*{name}" class="form-control" required>
             </div>
 
             <div class="form-group">
-                <label for="price">Price:</label>
+                <label for="price">Giá:</label>
                 <input type="number" id="price" th:field="*{price}" class="form-control" required>
             </div>
 
             <div class="form-group">
-                <label for="category">Category:</label>
+                <label for="category">Thể Loại:</label>
                 <select id="category" th:field="*{category.categoryID}" class="form-control" required>
                     <option th:each="category : ${categories}"
                             th:value="${category.categoryID}" th:text="${category.name}"
@@ -43,7 +43,7 @@
             </div>
 
             <div class="form-group">
-                <label for="manufacturer">Manufacturer:</label>
+                <label for="manufacturer">Nhà Sản Xuất:</label>
                 <select id="manufacturer" th:field="*{manufacturer.id}" class="form-control" required>
                     <option th:each="manufacturer : ${manufacturers}"
                             th:value="${manufacturer.id}" th:text="${manufacturer.name}"
@@ -69,12 +69,12 @@
 
             <!-- Các trường khác như monitor, color, wifi, etc. -->
             <div class="form-group">
-                <label for="monitor">Monitor:</label>
+                <label for="monitor">Màn Hình:</label>
                 <input type="text" id="monitor" th:field="*{detail.monitor}" class="form-control">
             </div>
 
             <div class="form-group">
-                <label for="color">Color:</label>
+                <label for="color">Màu Sắc:</label>
                 <input type="text" id="color" th:field="*{detail.color}" class="form-control">
             </div>
 
@@ -89,7 +89,7 @@
             </div>
 
             <div class="form-group">
-                <label for="audio">Audio:</label>
+                <label for="audio">Loa:</label>
                 <input type="text" id="audio" th:field="*{detail.audio}" class="form-control">
             </div>
 
@@ -99,32 +99,32 @@
             </div>
 
             <div class="form-group">
-                <label for="charger">Charger:</label>
+                <label for="charger">Bộ Sạc:</label>
                 <input type="text" id="charger" th:field="*{detail.charger}" class="form-control">
             </div>
 
             <div class="form-group">
-                <label for="connect">Connect:</label>
+                <label for="connect">Cổng Kết Nối:</label>
                 <input type="text" id="connect" th:field="*{detail.connect}" class="form-control">
             </div>
 
             <div class="form-group">
-                <label for="description">Description:</label>
+                <label for="description">Mô Tả:</label>
                 <input type="text" id="description" th:field="*{detail.description}" class="form-control">
             </div>
 
             <div class="form-group">
-                <label for="disk">Disk:</label>
+                <label for="disk">Ổ Đĩa:</label>
                 <input type="text" id="disk" th:field="*{detail.disk}" class="form-control">
             </div>
 
             <div class="form-group">
-                <label for="operationSystem">Operation System:</label>
+                <label for="operationSystem">Hệ Điều Hành:</label>
                 <input type="text" id="operationSystem" th:field="*{detail.operationSystem}" class="form-control">
             </div>
 
             <div class="form-group">
-                <label for="size">Size:</label>
+                <label for="size">Kích Thước:</label>
                 <input type="text" id="size" th:field="*{detail.size}" class="form-control">
             </div>
 
@@ -134,23 +134,23 @@
             </div>
 
             <div class="form-group">
-                <label for="weight">Weight:</label>
+                <label for="weight">Cân Nặng:</label>
                 <input type="text" id="weight" th:field="*{detail.weight}" class="form-control">
             </div>
 
             <!-- Image fields (hiển thị nhiều ảnh nếu có) -->
             <div class="form-group" th:each="imageItem, iterStat : ${product.detail.images}">
-                <label for="imageName">Image Name:</label>
+                <label for="imageName">Tên Ảnh:</label>
                 <input type="text" th:field="*{detail.images[__${iterStat.index}__].name}" class="form-control">
-                <label for="imageURI">Image URI:</label>
+                <label for="imageURI">URL Ảnh:</label>
                 <input type="text" th:field="*{detail.images[__${iterStat.index}__].imageUrl}" class="form-control">
             </div>
 
             <!-- Save Changes button -->
-            <button type="submit" class="btn btn-primary">Save Changes</button>
+            <button type="submit" class="btn btn-primary">Lưu Thay Đổi</button>
         </form>
 
-        <a href="/admin/products" class="btn btn-secondary">Back to Products</a>
+        <a href="/admin/products" class="btn btn-secondary">Quay Lại</a>
     </div>
 
 

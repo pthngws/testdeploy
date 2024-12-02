@@ -12,10 +12,10 @@
 
 	<section class="row" layout:fragment="content">
 	
-    <h1>Manufacturer List</h1>
+    <h1>Danh Sách Nhà Sản Xuất</h1>
 
     <!-- Button to Add Manufacturer -->
-    <a href="/admin/manufacturers/add" class="btn btn-add">Add Manufacturer</a>
+    <a href="/admin/manufacturers/add" class="btn btn-add">Thêm Nhà Sản Xuất</a>
 
     <!-- Manufacturer Table -->
     <table>
@@ -25,7 +25,7 @@
                 <th>Tên</th>
                 <th>Địa Chỉ</th>
                 <th>Sản Phẩm</th>
-                <th>Actions</th>
+                <th>Hành Động</th>
             </tr>
         </thead>
         <tbody>
@@ -42,9 +42,9 @@
                 </td>
 
                 <td>
-                    <a th:href="@{'/admin/manufacturers/edit/' + ${manufacturer.id}}" class="btn btn-edit">Edit</a>
+                    <a th:href="@{'/admin/manufacturers/edit/' + ${manufacturer.id}}" class="btn btn-edit">Chỉnh Sửa</a>
                     <a th:href="@{'/admin/manufacturers/delete/' + ${manufacturer.id}}" class="btn btn-delete" 
-                       onclick="return confirm('Bạn có chắc muốn xóa nhà sản xuất này?');">Delete</a>
+                       onclick="return confirm('Bạn có chắc muốn xóa nhà sản xuất này?');">Xóa</a>
                 </td>
             </tr>
         </tbody>
