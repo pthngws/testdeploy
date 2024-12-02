@@ -1,5 +1,8 @@
 package com.group4.service;
 
+import com.group4.entity.AddressEntity;
+import com.group4.entity.CustomerEntity;
+import com.group4.entity.LineItemEntity;
 import com.group4.entity.OrderEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,7 +20,10 @@ public interface IOrderService {
     public OrderEntity placeOrder(OrderEntity order);
     public void confirmCancelOrder(Long orderId);
     public void rejectCancelOrder(Long orderId);
-    public OrderEntity createOrder(Long userId, List<Long> productIds);
+    public OrderEntity createOrder(List<LineItemEntity>lineItems, CustomerEntity currentUser, AddressEntity address,long total, boolean checkAddress, String phone, String note);
     public void cancelOrder(Long orderId, String accountNumber, String accountName,String bankName);
     public int getTotalOrderValue(OrderEntity order);
+    public int checkInventoryProduct(List<LineItemEntity> lineItems);
+    public int checkStatusProduct(List<LineItemEntity> lineItems);
+    public OrderEntity createOrder(Long userId, List<Long> productIds);
 }

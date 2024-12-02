@@ -101,6 +101,7 @@
                         <!-- Lặp qua danh sách sản phẩm trong giỏ hàng -->
                         <tr th:each="product : ${products}">
                             <td class="pro-thumbnail">
+                                <input type="text" hidden="hidden" class="productId" th:value="${product.productID}">
                                 <a href="#"><img class="img-fluid" th:src="${product.detail.images[0]?.imageUrl}" alt="Product"/></a>
                             </td>
                             <td class="pro-title">
@@ -168,7 +169,8 @@
                             </table>
                         </div>
                     </div>
-                    <a href="/checkout" class="sqr-btn d-block">Proceed To Checkout</a>
+                    <button onclick="proceedToCheckout()" class="sqr-btn d-block">Proceed To Checkout</button>
+<!--                    <a href="/checkout" >Proceed To Checkout</a>-->
                 </div>
 
             </div>
@@ -179,6 +181,48 @@
 <div th:replace="fragments/footer :: footer"></div>
 </body>
 <script>
+    function getCartData() {
+        const cartRows = document.querySelectorAll("tbody tr");
+        const cartData = [];
+        var string = ""
+        cartRows.forEach(row => {
+            if(row.querySelector(".productId") == null)
+                return
+            const productID = parseInt(row.querySelector(".productId").value)
+            const quantity = parseInt(row.querySelector(".quantity-input").value);
+
+            // alert(productID)
+            // alert(quantity)
+
+            string += productID +' '+quantity+','
+
+            cartData.push({ productID: productID, quantity: quantity });
+        });
+        console.log(cartData)
+        return string;
+    }
+
+
+    function proceedToCheckout(){
+        const string = getCartData();
+
+        // Send cart data to controller (e.g., via AJAX or through form submission)
+        // Here, using a hidden form to send the data via POST request
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/purchase/checkout/buyInCart'; // Replace with the correct controller URL
+
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'cartData'; // You can change this name to match what the controller expects
+        input.value = JSON.stringify(string);
+        form.appendChild(input);
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+
+
     document.addEventListener("DOMContentLoaded", function () {
         const cartRows = document.querySelectorAll("tbody tr");
 

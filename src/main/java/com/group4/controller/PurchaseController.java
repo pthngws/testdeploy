@@ -1,11 +1,15 @@
 package com.group4.controller;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.group4.entity.*;
 import com.group4.repository.ProductRepository;
 import com.group4.service.IOrderService;
 import com.group4.service.IProductService;
 import com.group4.service.IUserService;
+import com.group4.service.impl.AddressServiceImpl;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +18,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import jakarta.servlet.http.HttpSession;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,132 +39,142 @@ public class PurchaseController {
 
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private AddressServiceImpl addressServiceImpl;
 
-    @GetMapping("/checkout")
-    public String showOrderDetails(
-            @RequestParam Long userId,
-            @RequestParam(required = false) Long productId, // Trường hợp mua 1 sản phẩm
-            @RequestParam(required = false) List<Long> productIds, // Trường hợp mua nhiều sản phẩm
+    @GetMapping("/checkout/buyNow")
+    public String buyNow(
+            HttpServletRequest request,
+            HttpSession session,
             Model model) {
+        Long productId = Long.parseLong(request.getParameter("productId"));
+        int quantity = Integer.parseInt(request.getParameter("quantity"));
 
-        UserEntity user = userService.findById(userId);
-        if (user == null) {
-            model.addAttribute("error", "User not found!");
-            return "error";
+        CustomerEntity currentUser = (CustomerEntity) session.getAttribute("user");
+        if (currentUser == null) {
+            return "redirect:/login"; // Chuyển hướng đến trang login nếu chưa đăng nhập
         }
-
-        model.addAttribute("user", user);
 
         // Lấy địa chỉ giao hàng của người dùng
-        AddressEntity address = user.getAddress();
+        AddressEntity address = currentUser.getAddress();
+
         model.addAttribute("address", address);
 
-        // Danh sách các ID sản phẩm được chọn
-        List<Long> selectedProductIds = new ArrayList<>();
-        if (productId != null) {
-            selectedProductIds.add(productId);
-        }
-        if (productIds != null) {
-            selectedProductIds.addAll(productIds);
-        }
+        ProductEntity product = productService.findById(productId).get();
 
-        if (selectedProductIds.isEmpty()) {
-            model.addAttribute("error", "No products selected!");
-            return "error";
-        }
-
-        // Tạo đơn hàng tạm thời
-        OrderEntity tempOrder = new OrderEntity();
-        double total = 0;
         List<LineItemEntity> lineItems = new ArrayList<>();
+        LineItemEntity lineItem = new LineItemEntity();
+        lineItem.setQuantity(quantity);
+        lineItem.setProduct(product);
+        lineItems.add(lineItem);
+        long total = lineItems.stream()
+                .mapToLong(li -> (long) li.getQuantity() * li.getProduct().getPrice())
+                .sum();
 
-        for (Long selectedProductId : selectedProductIds) {
-            ProductEntity product = productRepository.findById(selectedProductId).orElse(null);
-            if (product == null) {
-                model.addAttribute("error", "Product not found: " + selectedProductId);
-                return "error";
-            }
-
-            // Tạo line item cho sản phẩm
-            LineItemEntity lineItem = new LineItemEntity();
-            lineItem.setProduct(product);
-            lineItem.setQuantity(1); // Mặc định là 1 sản phẩm
-            lineItems.add(lineItem);
-//            total += lineItem.getTotal();
-        }
-
-        // Gán danh sách line items và tổng giá trị cho đơn hàng
-        tempOrder.setListLineItems(lineItems);
-
-        // Thêm thông tin đơn hàng vào model để hiển thị
-        model.addAttribute("order", tempOrder);
-        model.addAttribute("userId", userId);
+        model.addAttribute("lineitems", lineItems);
         model.addAttribute("total", total);
+
+        session.setAttribute("lineitems", lineItems);
+        session.setAttribute("total", total);
+        session.setAttribute("address", address);
+
         return "checkout";
     }
 
-    // Xử lý thanh toán
-    @PostMapping("/pay")
-    public String payOrder(@RequestParam Long userId,
-                           @RequestParam List<Long> productIds,
-                           RedirectAttributes redirectAttributes) {
-        UserEntity user = userService.findById(userId);
-        if (user == null) {
-            redirectAttributes.addFlashAttribute("error", "User not found!");
-            return "redirect:/error";
-        }
-        List<ProductEntity> products = productRepository.findAllById(productIds);
-        if (products.isEmpty()) {
-            redirectAttributes.addFlashAttribute("error", "No products found for the given IDs.");
-            return "redirect:/error";
+    @PostMapping("/checkout/buyInCart")
+    public String buyInCart(@RequestParam("cartData") String cartData, HttpSession session, Model model) throws JsonProcessingException {
+        cartData = cartData.substring(1, cartData.length() - 1);
+
+        String[] items = cartData.split(",");
+        List<LineItemEntity> lineItems = new ArrayList<>();
+        long total = 0;
+        for (String item : items) {
+            String[] parts = item.split(" ");
+            LineItemEntity lineItem = new LineItemEntity();
+            Long productId = Long.parseLong(parts[0]);
+            ProductEntity product = productService.findById(productId).get();
+            lineItem.setProduct(product);
+            int quantity = Integer.parseInt(parts[1]);
+            lineItem.setQuantity(quantity);
+            total += (long) quantity * product.getPrice();
+            lineItems.add(lineItem);
         }
 
-        double total = products.stream().mapToDouble(ProductEntity::getPrice).sum();
-        boolean paymentSuccess = PaymentGateway(total);
-
-        if (paymentSuccess) {
-            OrderEntity order = orderService.createOrder(userId, productIds);
-            if (order == null) {
-                redirectAttributes.addFlashAttribute("error", "Failed to create order.");
-                return "redirect:/error";
-            }
-
-            // Chuyển đến trang thanh toán
-            redirectAttributes.addFlashAttribute("success", "Payment successful!");
-            return "redirect:/payment?orderId=" + order.getOrderId() + "&total=" + total;
-        } else {
-            // Nếu thanh toán thất bại
-            redirectAttributes.addFlashAttribute("error", "Payment failed. Please try again.");
-            return "redirect:/checkout?userId=" + userId;
+        CustomerEntity currentUser = (CustomerEntity) session.getAttribute("user");
+        if (currentUser == null) {
+            return "redirect:/login";
         }
+        AddressEntity address = currentUser.getAddress();
+
+        model.addAttribute("address", address);
+        model.addAttribute("lineitems", lineItems);
+        model.addAttribute("total", total);
+
+        session.setAttribute("lineitems", lineItems);
+        session.setAttribute("total", total);
+        session.setAttribute("address", address);
+
+        return "checkout";
+    }
+    @PostMapping("/createOrder")
+    public String createOrder(Model model, HttpServletRequest request, HttpSession session) {
+        List<LineItemEntity> lineItems = (List<LineItemEntity>) session.getAttribute("lineitems");
+
+        if (lineItems == null || lineItems.isEmpty()) {
+            model.addAttribute("msg", "Không có sản phẩm nào trong giỏ hàng.");
+            return "checkout";
+        }
+
+        int checkInventory = orderService.checkInventoryProduct(lineItems);
+        // hết hàng
+        if(checkInventory != -1) {
+            model.addAttribute("msg", "Sản phẩm" + lineItems.get(checkInventory).getProduct().getName() +" không đủ số lượng để mua. Vui lòng chọn ít hơn hoặc sản phẩm khác");
+            return "checkout";
+        }
+
+        int checkStatus = orderService.checkStatusProduct(lineItems);
+        // ngừng kinh doanh
+        if(checkStatus != -1) {
+            model.addAttribute("msg", "Sản phẩm" + lineItems.get(checkInventory).getProduct().getName() +"đã ngừng kinh doanh. Vui lòng chọn sản phẩm khác");
+            return "checkout";
+        }
+
+
+
+        CustomerEntity currentUser = (CustomerEntity) session.getAttribute("user");
+        boolean checkAddress = true;
+        if (currentUser.getAddress() == null)
+            checkAddress = false;
+
+        //xuly dia chi
+        String province = request.getParameter("province");
+        String district = request.getParameter("district");
+        String commune = request.getParameter("commune");
+        String other = request.getParameter("other");
+        AddressEntity address = new AddressEntity();
+        address.setCountry("Vietnam");
+        address.setProvince(province);
+        address.setDistrict(district);
+        address.setCommune(commune);
+        address.setOther(other);
+
+
+        Long total = (Long) session.getAttribute("total");
+        String phone = request.getParameter("phone");
+        String note = request.getParameter("ordernote");
+
+        Long orderId = orderService.createOrder(lineItems,currentUser,address,total,checkAddress, phone, note).getOrderId();
+        return "redirect:/purchase/payment?orderId="+orderId+"&amount="+total;
     }
 
-    @PostMapping("/payment/confirm")
-    public String confirmPayment(
-            @RequestParam Long userId,
-            @RequestParam List<Long> productIds,
-            @RequestParam double total,
-            RedirectAttributes redirectAttributes) {
-
-        // Gửi yêu cầu đến API thanh toán
-        boolean paymentSuccess = PaymentGateway(total);
-
-        if (paymentSuccess) {
-            // Nếu thanh toán thành công, tạo đơn hàng
-            OrderEntity order = orderService.createOrder(userId, productIds);
-            if (order == null) {
-                redirectAttributes.addFlashAttribute("error", "Failed to create order.");
-                return "redirect:/error";
-            }
-
-            // Chuyển đến trang xác nhận đơn hàng
-            redirectAttributes.addFlashAttribute("success", "Payment successful!");
-            return "redirect:/order-confirmation?orderId=" + order.getOrderId();
-        } else {
-            // Nếu thanh toán thất bại
-            redirectAttributes.addFlashAttribute("error", "Payment failed. Please try again.");
-            return "redirect:/checkout?userId=" + userId;
-        }
+    @GetMapping("/payment")
+    public String showPaymentPage(@RequestParam("orderId") String orderId,
+                                  @RequestParam("amount") String amount,
+                                  Model model) {
+        // Truyền orderId và amount vào model
+        model.addAttribute("orderId", orderId);
+        model.addAttribute("amount", amount);
+        return "payment"; // Trả về template payment.html
     }
 
     @GetMapping("/details")
@@ -174,17 +190,5 @@ public class PurchaseController {
         model.addAttribute("user", order.getCustomer());
         model.addAttribute("address", order.getCustomer().getAddress());
         return "order-detail-view";
-    }
-    public boolean PaymentGateway(double total) {
-        // Giả lập xử lý thanh toán
-        try {
-            // Gửi yêu cầu đến cổng thanh toán (giả lập API)
-            Thread.sleep(1000); // Giả lập thời gian xử lý
-            // API trả về thành công
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false; // Trả về thất bại nếu có lỗi
-        }
     }
 }
