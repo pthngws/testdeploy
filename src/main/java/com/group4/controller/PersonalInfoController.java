@@ -4,7 +4,7 @@ import com.group4.model.AddressModel;
 import com.group4.model.UserModel;
 import com.group4.service.IAddressService;
 import com.group4.service.IPersonalInfoService;
-import jakarta.servlet.http.HttpSession;
+import com.group4.service.impl.PersonalInfoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,22 +12,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/personal-info")
 public class PersonalInfoController {
 
     @Autowired
-    private IPersonalInfoService service;
-    @Autowired
-    private IAddressService addressService;
+    private IAddressService addressService ;
     @Autowired
     private IPersonalInfoService personalInfoService;
 
     // Lấy thông tin cá nhân và địa chỉ
     @GetMapping
-    public String getPersonalInfo(Model model) {
-        UserModel user = service.fetchPersonalInfo(2L); // Gọi Service để lấy thông tin người dùng
+    public String getPersonalInfo(HttpSession session,Model model) {
+        Long userID = (Long) session.getAttribute("userID"); // Lấy userID từ session
+        UserModel user = personalInfoService.fetchPersonalInfo(userID); // Gọi Service để lấy thông tin người dùng
         if (user != null) {
             model.addAttribute("user", user); // Thêm thông tin người dùng vào model
         }
@@ -36,21 +36,23 @@ public class PersonalInfoController {
 
     // Cập nhật thông tin cá nhân
     @PostMapping("/profile")
-    public String updatePersonalInfo(UserModel userModel) {
-        Long userID = 2L;
+    public String updatePersonalInfo(HttpSession session, UserModel userModel, Model model) {
+        Long  userID= (Long) session.getAttribute("userID");
         userModel.setUserID(userID);
-        boolean status = service.savePersonalInfo(userModel, userModel.getUserID()); // Lưu thông tin mới
+        boolean status = personalInfoService.savePersonalInfo(userModel, userModel.getUserID()); // Lưu thông tin mới
         if (status) {
+            model.addAttribute("message", "Cập nhật thông tin cá nhân thành công!");
             return "redirect:/personal-info?success"; // Chuyển hướng với trạng thái thành công
         } else {
+            model.addAttribute("error", "Có lỗi xảy ra khi cập nhật thông tin cá nhân!");
             return "redirect:/personal-info?error"; // Chuyển hướng với trạng thái thất bại
         }
     }
 
 
     @PostMapping("/address")
-    public String updateAddress(@ModelAttribute AddressModel addressModel) {
-        Long userID = 2L; // Thay đổi theo user hiện tại từ session/token
+    public String updateAddress(HttpSession session, @ModelAttribute AddressModel addressModel, Model model) {
+        Long userID = (Long) session.getAttribute("userID"); // Lấy userID từ session
         UserModel user = personalInfoService.fetchPersonalInfo(userID);
 
         AddressModel existingAddress = user.getAddress();
@@ -59,34 +61,38 @@ public class PersonalInfoController {
         }
 
         boolean status = addressService.updateAddressForUser(addressModel, addressModel.getAddressID());
-        return status ? "redirect:/personal-info?address-success"
-                : "redirect:/personal-info?address-error";
+        if (status) {
+            model.addAttribute("message", "Cập nhật địa chỉ thành công!");
+            return "redirect:/personal-info?address-success";
+        } else {
+            model.addAttribute("error", "Có lỗi xảy ra khi cập nhật địa chỉ!");
+            return "redirect:/personal-info?address-error";
+        }
     }
 
 
     @PostMapping("/password")
-    public String changePassword(String currentPassword, String newPassword, String confirmNewPassword, Model model) {
-        Long userID = 2L; // ID người dùng hiện tại, thay bằng ID từ session hoặc token
-
+    public String changePassword(HttpSession session, String currentPassword, String newPassword, String confirmNewPassword, Model model) {
+        Long userID = (Long) session.getAttribute("userID"); // Lấy userID từ session
         // Lấy thông tin người dùng từ database
         UserModel user = personalInfoService.fetchPersonalInfo(userID);
 
         // Kiểm tra nếu không tìm thấy người dùng
         if (user == null) {
             model.addAttribute("error", "Người dùng không tồn tại!");
-            return "personal-info";
+            return "redirect:/personal-info";
         }
 
         // Kiểm tra mật khẩu hiện tại
         if (!currentPassword.equals(user.getPassword())) {
             model.addAttribute("error", "Mật khẩu hiện tại không đúng!");
-            return "personal-info";
+            return "redirect:/personal-info";
         }
 
         // Kiểm tra mật khẩu mới có khớp với xác nhận mật khẩu không
         if (!newPassword.equals(confirmNewPassword)) {
             model.addAttribute("error", "Mật khẩu mới và xác nhận mật khẩu không khớp!");
-            return "personal-info";
+            return "redirect:/personal-info";
         }
 
         // Cập nhật mật khẩu mới
