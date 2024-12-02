@@ -4,10 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.group4.config.ResponseObject;
 import com.group4.dto.PaymentDTO;
 import com.group4.dto.QRPaymentRequest;
-import com.group4.entity.OrderEntity;
-import com.group4.entity.PaymentEntity;
-import com.group4.repository.OrderRepository;
-import com.group4.repository.PaymentRepository;
 import com.group4.service.IPaymentService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -20,9 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.Map;
-import java.util.Optional;
 
 
 @RestController
@@ -39,7 +33,7 @@ public class PaymentController {
     }
 
     @PostMapping("qr-callback")
-    public ResponseEntity<Map<String, Object>> qrPayCallbackHandler(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void qrPayCallbackHandler(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html;charset=UTF-8");
         Long orderId = Long.parseLong(request.getParameter("orderId"));
         int requi_amount = Integer.parseInt(request.getParameter("requi_amount"));
@@ -51,16 +45,18 @@ public class PaymentController {
             response.getWriter().write(
                     "<script>" +
                             "alert('Đơn hàng đã thanh toán thành công');" +
+                            "window.location.href = '/history';"+
                             "</script>"
             );
-            return ResponseEntity.ok(Map.of("status", "success"));
+            //return ResponseEntity.ok(Map.of("status", "success"));
         } else {
             response.getWriter().write(
                     "<script>" +
                             "alert('Đơn hàng đã thanh toán không thành công');" +
+                            "window.location.href = '/purchase/payment?orderId="+orderId +"&amount=" + requi_amount +
                             "</script>"
             );
-            return ResponseEntity.badRequest().body(Map.of("status", "fail", "message", "Số tiền thanh toán không đủ"));
+            //return ResponseEntity.badRequest().body(Map.of("status", "fail", "message", "Số tiền thanh toán không đủ"));
         }
     }
 
@@ -69,7 +65,7 @@ public class PaymentController {
         return new ResponseObject<  >(HttpStatus.OK, "Success", paymentService.createVnPayPayment(request));
     }
     @GetMapping("/vn-pay-callback")
-    public ResponseEntity<Map<String, Object>> bankPayCallbackHandler(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void bankPayCallbackHandler(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html;charset=UTF-8");
 
         String status = request.getParameter("vnp_ResponseCode");
@@ -89,16 +85,18 @@ public class PaymentController {
             response.getWriter().write(
                     "<script>" +
                             "alert('Đơn hàng đã thanh toán thành công');" +
+                            "window.location.href = '/history';"+
                             "</script>"
             );
-            return ResponseEntity.ok(Map.of("status", "success"));
+            //return ResponseEntity.ok(Map.of("status", "success"));
         } else {
             response.getWriter().write(
                     "<script>" +
                          "alert('Thanh toán thất bại. Vui lòng thử lại!');" + // Hiển thị popup lỗi//
+                            "window.location.href = '/purchase/payment?orderId="+orderId +"&amount=" + amount +
                     "</script>"
             );
-            return ResponseEntity.badRequest().body(Map.of("status", "fail", "message", "Số tiền thanh toán không đủ"));
+            //return ResponseEntity.badRequest().body(Map.of("status", "fail", "message", "Số tiền thanh toán không đủ"));
         }
     }
 }

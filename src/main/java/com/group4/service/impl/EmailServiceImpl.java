@@ -45,7 +45,13 @@ public class EmailServiceImpl implements IEmailService {
     }
     @Override
     public void sendInvoice(EmailDetail detail) {
+        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+        simpleMailMessage.setFrom("buiducthang13022004@gmail.com");
+        simpleMailMessage.setTo(detail.getRecipient());
+        simpleMailMessage.setSubject(detail.getSubject());
+        simpleMailMessage.setText(detail.getMsgBody());
 
+        this.mailSender.send(simpleMailMessage);
     }
 
 

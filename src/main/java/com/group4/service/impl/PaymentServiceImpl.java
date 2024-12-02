@@ -40,7 +40,8 @@ public class PaymentServiceImpl implements IPaymentService {
     private final OrderRepository orderRepository;
     @Autowired
     private final PaymentRepository paymentRepository;
-    EmailServiceImpl emailService;
+    @Autowired
+    private EmailServiceImpl emailService;
 
     @Override
     public String generateQr(int orderId, int amount) {
@@ -110,7 +111,6 @@ public class PaymentServiceImpl implements IPaymentService {
         emailDetail.setMsgBody(body);
         emailDetail.setRecipient(order.getCustomer().getEmail());
         emailDetail.setSubject("Thông báo thánh toán đơn hàng");
-        emailService.sendEmailConfirmCancelOrder(emailDetail);
         emailService.sendInvoice(emailDetail);
     }
 
@@ -164,7 +164,6 @@ public class PaymentServiceImpl implements IPaymentService {
         emailDetail.setMsgBody(body);
         emailDetail.setRecipient(order.getCustomer().getEmail());
         emailDetail.setSubject("Thông báo thánh toán đơn hàng");
-        emailService.sendEmailConfirmCancelOrder(emailDetail);
         emailService.sendInvoice(emailDetail);
     }
 

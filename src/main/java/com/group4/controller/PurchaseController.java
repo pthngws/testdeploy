@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping("purchase")
+//@RequestMapping("purchase")
 public class PurchaseController {
 
     @Autowired
@@ -42,7 +42,7 @@ public class PurchaseController {
     @Autowired
     private AddressServiceImpl addressServiceImpl;
 
-    @GetMapping("/checkout/buyNow")
+    @GetMapping("/purchase/checkout/buyNow")
     public String buyNow(
             HttpServletRequest request,
             HttpSession session,
@@ -81,7 +81,7 @@ public class PurchaseController {
         return "checkout";
     }
 
-    @PostMapping("/checkout/buyInCart")
+    @PostMapping("/purchase/checkout/buyInCart")
     public String buyInCart(@RequestParam("cartData") String cartData, HttpSession session, Model model) throws JsonProcessingException {
         cartData = cartData.substring(1, cartData.length() - 1);
 
@@ -116,7 +116,7 @@ public class PurchaseController {
 
         return "checkout";
     }
-    @PostMapping("/createOrder")
+    @PostMapping("/purchase/createOrder")
     public String createOrder(Model model, HttpServletRequest request, HttpSession session) {
         List<LineItemEntity> lineItems = (List<LineItemEntity>) session.getAttribute("lineitems");
 
@@ -164,7 +164,7 @@ public class PurchaseController {
         String note = request.getParameter("ordernote");
 
         Long orderId = orderService.createOrder(lineItems,currentUser,address,total,checkAddress, phone, note).getOrderId();
-        return "redirect:/purchase/payment?orderId="+orderId+"&amount="+total;
+        return "redirect:/payment?orderId="+orderId+"&amount="+total;
     }
 
     @GetMapping("/payment")
@@ -177,7 +177,7 @@ public class PurchaseController {
         return "payment"; // Trả về template payment.html
     }
 
-    @GetMapping("/details")
+    @GetMapping("purchase/details")
     public String viewOrderDetails(@RequestParam Long orderId, Model model) {
         // Lấy thông tin đơn hàng theo orderId
         OrderEntity order = orderService.getOrderDetails(orderId);
