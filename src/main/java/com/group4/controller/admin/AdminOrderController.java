@@ -103,6 +103,7 @@ public class AdminOrderController {
             orderService.confirmCancelOrder(id);
             redirectAttributes.addFlashAttribute("successMessage", "Huỷ đơn thành công.");
         } catch (Exception e) {
+            e.printStackTrace();
             redirectAttributes.addFlashAttribute("errorMessage", "Huỷ đơn không thành công.");
         }
         return "redirect:/admin/orders";
@@ -123,6 +124,7 @@ public class AdminOrderController {
             orderService.rejectCancelOrder(id);
             redirectAttributes.addFlashAttribute("successMessage", "Từ chối thành công.");
         } catch (Exception e) {
+            e.printStackTrace();
             redirectAttributes.addFlashAttribute("errorMessage", "Từ chối không thành công.");
         }
         return "redirect:/admin/orders";
@@ -143,15 +145,15 @@ public class AdminOrderController {
         }
 
         if (selectedProductIds.isEmpty()) {
-            model.addAttribute("error", "No products selected!");
-            return "error";
+            model.addAttribute("errorMessage", "No products selected!");
+            return "errorMessage";
         }
 
         // Tạo đơn hàng và hiển thị chi tiết
         OrderEntity order = orderService.createOrder(userId, selectedProductIds);
         if (order == null) {
-            model.addAttribute("error", "Order not found");
-            return "error";
+            model.addAttribute("errorMessage", "Order not found");
+            return "errorMessage";
         }
 
         // Tính tổng giá trị đơn hàng
@@ -168,7 +170,7 @@ public class AdminOrderController {
     // Xử lý thanh toán (chỉ gọi URL thanh toán)
     @PostMapping("/pay")
     public String payOrder(@RequestParam Long orderId, RedirectAttributes redirectAttributes) {
-        redirectAttributes.addFlashAttribute("message", "Redirecting to payment...");
+        redirectAttributes.addFlashAttribute("successMessage", "Redirecting to payment...");
         return "redirect:/payment?orderId=" + orderId;
     }
 }

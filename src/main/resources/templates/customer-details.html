@@ -62,12 +62,6 @@
                onclick="return confirm('Bạn có chắc chắn muốn mở khóa tài khoản này?');">
                 Mở khóa tài khoản
             </a>
-
-            <!-- Nút Xóa tài khoản -->
-            <a th:href="@{/admin/customers/{id}/delete(id=${customer.userID})}" class="btn btn-danger"
-               onclick="return confirm('Bạn có chắc chắn muốn xóa tài khoản này?');">
-                Xóa tài khoản
-            </a>
         </div>
 
         <!-- Lịch sử đơn hàng -->

@@ -27,31 +27,7 @@ public class CustomerService implements ICustomerService {
         if (keyword == null || keyword.isEmpty()) {
             return customerRepository.findAllCustomers();
         }
-        return customerRepository.findByNameContainingOrEmailContaining(keyword, keyword);
-    }
-
-
-//    // Thêm mới khách hàng
-//    public CustomerEntity addCustomer(CustomerEntity customer) {
-//        return customerRepository.save(customer);
-//    }
-
-
-//    // Sửa thông tin khách hàng
-//    public CustomerEntity updateCustomer(Long id, CustomerEntity updatedCustomer) {
-//        return (CustomerEntity) customerRepository.findById(id).map(customer -> {
-//            customer.setName(updatedCustomer.getName());
-//            customer.setEmail(updatedCustomer.getEmail());
-//            customer.setPhone(updatedCustomer.getPhone());
-//            customer.setAddress(updatedCustomer.getAddress());
-//            return customerRepository.save(customer);
-//        }).orElseThrow(() -> new RuntimeException("Customer not found"));
-//    }
-
-    // Xóa tài khoản khách hàng
-    @Override
-    public void deleteCustomer(Long id) {
-        customerRepository.deleteById(id);
+        return customerRepository.findByNameOrEmail(keyword, keyword);
     }
 
     // Lấy danh sách khách hàng
@@ -74,31 +50,4 @@ public class CustomerService implements ICustomerService {
         user.setActive(status);
         userRepository.save(user); // Lưu thay đổi
     }
-
-    // Chuyển từ Entity sang Model
-    private UserModel mapToModel(UserEntity user) {
-        return new UserModel(
-                user.getUserID(),
-                user.getName(),
-                user.getEmail(),
-                user.getPassword(),
-                user.getGender(),
-                user.getPhone(),
-                user.getRoleName(),
-                user.isActive(),
-                new AddressModel( /* Mapping address fields */ )
-        );
-    }
-
-    // Xóa tài khoản người dùng
-    @Override
-    public void deleteCustomerAccount(Long id) {
-        if (!customerRepository.existsById(id)) {
-            throw new RuntimeException("Không tìm thấy khách hàng với ID: " + id);
-        }
-        customerRepository.deleteById(id);
-    }
-
-
-
 }
