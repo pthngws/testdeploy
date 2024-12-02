@@ -143,7 +143,7 @@
                               </select>
                             </div>
                           </div>
-                          <script th:src="@{/assets/js/password.js}"></script>
+                          <script th:src="@{/assets/js/address.js}"></script>
                           <div class="col-lg-6">
                             <div class="single-input-item">
                               <label for="commune" class="required">Xã/phường/thị trấn</label>
@@ -191,10 +191,10 @@
                                        name="currentPassword" class="form-control"
                                        placeholder="Nhập mật khẩu hiện tại" required/>
                                 <div class="input-group-append">
-                                                                  <span class="input-group-text" id="eyeIcon1"
-                                                                        onclick="togglePasswordVisibility('currentPassword', 'eyeIcon1')">
-                                                                      <i class="fa fa-eye"></i>
-                                                                  </span>
+                                  <span class="input-group-text" id="eyeIcon1"
+                                        onclick="togglePasswordVisibility('currentPassword', 'eyeIcon1')">
+                                    <i class="fa fa-eye"></i>
+                                 </span>
                                 </div>
                               </div>
                             </div>
@@ -211,10 +211,10 @@
                                        class="form-control"
                                        placeholder="Nhập mật khẩu mới" required/>
                                 <div class="input-group-append">
-                                                                  <span class="input-group-text" id="eyeIcon2"
-                                                                        onclick="togglePasswordVisibility('newPassword', 'eyeIcon2')">
-                                                                      <i class="fa fa-eye"></i>
-                                                                  </span>
+                                  <span class="input-group-text" id="eyeIcon2"
+                                        onclick="togglePasswordVisibility('newPassword', 'eyeIcon2')">
+                                    <i class="fa fa-eye"></i>
+                                 </span>
                                 </div>
                               </div>
                             </div>
@@ -229,10 +229,10 @@
                                        name="confirmNewPassword" class="form-control"
                                        placeholder="Nhập lại mật khẩu mới" required/>
                                 <div class="input-group-append">
-                                                                  <span class="input-group-text" id="eyeIcon3"
-                                                                        onclick="togglePasswordVisibility('confirmNewPassword', 'eyeIcon3')">
-                                                                      <i class="fa fa-eye"></i>
-                                                                  </span>
+                                  <span class="input-group-text" id="eyeIcon3"
+                                        nclick="togglePasswordVisibility('confirmNewPassword', 'eyeIcon3')">
+                                      <i class="fa fa-eye"></i>
+                                  </span>
                                 </div>
                               </div>
                             </div>
@@ -252,6 +252,17 @@
             </div>
           </div>
           <!-- My Account Page End -->
+        </div>
+        <div class="container mt-3">
+          <!-- Thông báo thành công -->
+          <div th:if="${message}" class="alert alert-success" role="alert">
+            <i class="fa fa-check-circle"></i> <span th:text="${message}"></span>
+          </div>
+
+          <!-- Thông báo lỗi -->
+          <div th:if="${error}" class="alert alert-danger" role="alert">
+            <i class="fa fa-exclamation-circle"></i> <span th:text="${error}"></span>
+          </div>
         </div>
       </div>
     </div>
