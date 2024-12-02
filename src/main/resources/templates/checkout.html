@@ -45,6 +45,57 @@
             <p th:text="${msg}"></p>
         </div>
 <div class="row">
+    <!-- Order Summary Details -->
+    <div class="col-lg-6">
+        <div class="order-summary-details mt-md-26 mt-sm-26">
+            <h2>Tóm tắt đơn hàng của bạn</h2>
+            <div class="order-summary-content mb-sm-4">
+                <!-- Order Summary Table -->
+                <div class="order-summary-table table-responsive text-center">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>Sản phẩm</th>
+                            <th>Tổng</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="lineItem : ${session.lineitems}">
+                            <td>
+                                <a th:href="@{/product/{id}(id=${lineItem.product.productID})}"  th:text="${lineItem.product.name}"></a>
+                                <strong> × <span th:text="${lineItem.quantity}"></span></strong>
+                            </td>
+                            <td><span th:text="${lineItem.quantity * lineItem.product.price}"></span></td>
+                        </tr>
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <td>Thành tiền</td>
+                            <td><strong th:text="${session.total}"></strong></td>
+                        </tr>
+                        <tr>
+                            <td>Vận chuyển</td>
+                            <td>
+                                <ul class="shipping-type">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="freeshipping" name="shipping" class="custom-control-input" value="0" onchange="updateTotal()" />
+                                            <label class="custom-control-label" for="freeshipping"> Miễn phí vận chuyển</label>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Total Amount</td>
+                            <td><strong id="total-amount" th:text="${session.total}"></strong></td>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Checkout Billing Details -->
     <div class="col-lg-6">
         <div class="checkout-billing-details-wrap">
@@ -108,76 +159,6 @@
         </div>
     </div>
 
-    <!-- Order Summary Details -->
-    <div class="col-lg-6">
-        <div class="order-summary-details mt-md-26 mt-sm-26">
-            <h2>Tóm tắt đơn hàng của bạn</h2>
-            <div class="order-summary-content mb-sm-4">
-                <!-- Order Summary Table -->
-                <div class="order-summary-table table-responsive text-center">
-                    <table class="table table-bordered">
-                        <thead>
-                        <tr>
-                            <th>Sản phẩm</th>
-                            <th>Tổng</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="lineItem : ${session.lineitems}">
-                            <td>
-                                <a th:href="@{/product/{id}(id=${lineItem.product.productID})}"  th:text="${lineItem.product.name}"></a>
-                                <strong> × <span th:text="${lineItem.quantity}"></span></strong>
-                            </td>
-                            <td><span th:text="${lineItem.quantity * lineItem.product.price}"></span></td>
-                        </tr>
-                        </tbody>
-                        <tfoot>
-                        <tr>
-                            <td>Thành tiền</td>
-                            <td><strong th:text="${session.total}"></strong></td>
-                        </tr>
-                        <tr>
-                            <td>Vận chuyển</td>
-                            <td>
-                                <ul class="shipping-type">
-                                        <div class="custom-control custom-radio">
-                                            <input type="radio" id="freeshipping" name="shipping" class="custom-control-input" value="0" onchange="updateTotal()" />
-                                            <label class="custom-control-label" for="freeshipping"> Miễn phí vận chuyển</label>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Total Amount</td>
-                            <td><strong id="total-amount" th:text="${session.total}"></strong></td>
-                        </tr>
-                        </tfoot>
-                    </table>
-                </div>
-
-                <!-- Order Payment Method -->
-                <div class="order-payment-method">
-                    <div class="single-payment-method show">
-                        <div class="payment-method-name">
-                            <div class="custom-control custom-radio">
-                                <input type="radio" id="cashon" name="paymentmethod" value="QR" class="custom-control-input" checked />
-                                <label class="custom-control-label" for="cashon">   Mã QR</label>
-                            </div>
-                            <div class="custom-control custom-radio">
-                                <input type="radio" id="cashon" name="paymentmethod" value="VNBANK" class="custom-control-input" checked />
-                                <label class="custom-control-label" for="cashon">   Thẻ ngân hàng</label>
-                            </div>
-                            <div class="custom-control custom-radio">
-                                <input type="radio" id="cashon" name="paymentmethod" value="INTCARD" class="custom-control-input" checked />
-                                <label class="custom-control-label" for="cashon">   Thẻ quốc tế</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 </div>
 </div>
