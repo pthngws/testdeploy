@@ -142,7 +142,15 @@
         async function updateQuantity(productId) {
             const quantity = document.getElementById(`quantity-${productId}`).value;
             const notificationDiv = document.getElementById('notification');
-
+            if (quantity < 0) {
+                notificationDiv.textContent = 'Số lượng không được nhỏ hơn 0!';
+                notificationDiv.className = 'error';
+                notificationDiv.style.display = 'block';
+                setTimeout(() => {
+                    notificationDiv.style.display = 'none';
+                }, 5000);
+                return; // Dừng thực hiện nếu không hợp lệ
+            }
             try {
                 const response = await fetch(`/admin/api/inventory/${productId}`, {
                     method: 'PUT',

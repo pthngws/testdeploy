@@ -9,9 +9,7 @@ import java.util.Optional;
 
 public interface IPromotionService {
     public Page<PromotionEntity> fetchPromotionList(Pageable pageable);
-    public boolean savePromotion(PromotionModel promotionModel);
     public boolean isPromotionCodeExists(String promotionCode);
-    public boolean updatePromotion(PromotionModel promotionModel);
     public boolean saveOrUpdatePromotion(PromotionModel promotionModel);
     public boolean deletePromotion(Long id);
     public PromotionModel findPromotionById(Long id);

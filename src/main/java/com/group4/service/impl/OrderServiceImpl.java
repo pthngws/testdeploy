@@ -140,53 +140,7 @@ public class OrderServiceImpl implements IOrderService {
         return orderRepository.save(order);
     }
 
-    @Override
-    public void cancelOrder(Long orderId, String accountNumber, String accountName, String bankName) {
-        // Lấy thông tin đơn hàng từ database
-        OrderEntity order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy đơn hàng với ID: " + orderId));
 
-        // Kiểm tra trạng thái giao hàng (chỉ cho phép hủy nếu chưa vận chuyển)
-        if ("SHIPPED".equals(order.getShippingStatus())) {
-            throw new IllegalStateException("Đơn hàng đã được vận chuyển, không thể hủy.");
-        }
-
-        // Tạo đối tượng OrderFailEntity để lưu thông tin hủy
-        OrderFailEntity orderFail = new OrderFailEntity();
-        orderFail.setOrderId(null);
-        orderFail.setCustomer(order.getCustomer());
-        orderFail.setShippingAddress(order.getShippingAddress());
-        orderFail.setOrderDate(order.getOrderDate());
-        orderFail.setReceiveDate(order.getReceiveDate());
-        orderFail.setShippingStatus("CANCELLED"); // Đánh dấu trạng thái hủy
-        orderFail.setShippingMethod(order.getShippingMethod());
-        orderFail.setPhoneNumber(order.getPhoneNumber());
-        orderFail.setNote(order.getNote());
-        orderFail.setPaymentStatus(order.getPaymentStatus());
-        orderFail.setListLineItems(order.getListLineItems());
-        orderFail.setPayment(order.getPayment());
-        orderFail.setBankName(bankName);
-        orderFail.setAccountNumber(accountNumber);
-        orderFail.setAccountName(accountName);
-
-        // Lưu thông tin hủy vào bảng `orders-fail`
-        orderFailRepository.save(orderFail);
-
-        order.setShippingStatus("CANCELLED");
-        orderRepository.save(order);
-
-        EmailDetail emailDetail = new EmailDetail();
-
-        String body = "Chào " + order.getCustomer().getName() + ",\n\n" +
-                "Chúng tôi thông báo rằng đơn hàng của bạn (Mã đơn hàng: " + orderId +
-                ") đã hủy.\n\n" +
-                "Nếu bạn có bất kỳ câu hỏi nào, vui lòng liên hệ với chúng tôi.\n\n" +
-                "Trân trọng,\n";
-        emailDetail.setMsgBody(body);
-        emailDetail.setRecipient(order.getCustomer().getEmail());
-        emailDetail.setSubject("Thông báo hủy đơn hàng");
-        emailService.sendEmailConfirmCancelOrder(emailDetail);
-    }
 
     @Override
     public int getTotalOrderValue(OrderEntity order) {

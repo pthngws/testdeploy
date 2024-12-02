@@ -10,8 +10,12 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @Table(name = "orders-fail")
-@PrimaryKeyJoinColumn(name = "order_id")
-public class OrderFailEntity extends OrderEntity {
+public class OrderFailEntity {
+
+    @Id
+    @Column(name = "order_id", nullable = false)
+    private Long orderId;
+
     @Column(name = "bank_name", nullable = false)
     private String bankName;
 

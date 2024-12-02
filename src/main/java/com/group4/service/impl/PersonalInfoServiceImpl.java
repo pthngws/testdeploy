@@ -10,6 +10,8 @@ import com.group4.service.IPersonalInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class PersonalInfoServiceImpl implements IPersonalInfoService {
 
@@ -109,9 +111,8 @@ public class PersonalInfoServiceImpl implements IPersonalInfoService {
             return false;
         }
     }
-
     @Override
     public UserEntity findUserById(Long userID) {
-        return null;
+        return repository.retrieveInfoFormDB(userID); // Directly return the user
     }
 }

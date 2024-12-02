@@ -1,8 +1,10 @@
 package com.group4.controller;
 
+import com.group4.entity.UserEntity;
 import com.group4.model.LineItemModel;
 import com.group4.service.IPurchasedProductService;
 import com.group4.service.impl.CustomerReviewServiceImpl;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,15 +25,16 @@ public class PurchasedProductController {
     private CustomerReviewServiceImpl customerReviewServiceImpl;
 
     @GetMapping
-    public String getPurchasedProducts(Model model) {
-        List<LineItemModel> purchasedProducts = iPurchasedProductService.getAllLineItems(1L);
+    public String getPurchasedProducts(HttpSession session,@RequestParam Long orderId, Model model) {
+        UserEntity user = (UserEntity) session.getAttribute("user");
+        List<LineItemModel> purchasedProducts = iPurchasedProductService.getAllLineItems(orderId);
 
         // Tạo Map để lưu trạng thái hasReviewed theo productID
         Map<Long, Boolean> hasReviewedMap = new HashMap<>();
 
         // Kiểm tra trạng thái đánh giá của từng sản phẩm
         purchasedProducts.forEach(product -> {
-            boolean hasReviewed = customerReviewServiceImpl.hasReviewed(1L, product.getProduct().getProductID());
+            boolean hasReviewed = customerReviewServiceImpl.hasReviewed(user.getUserID(), product.getProduct().getProductID());
             hasReviewedMap.put(product.getProduct().getProductID(), hasReviewed);
         });
 
@@ -39,6 +42,4 @@ public class PurchasedProductController {
         model.addAttribute("hasReviewedMap", hasReviewedMap); // Truyền Map vào Model
         return "purchasedProduct";
     }
-
-
 }

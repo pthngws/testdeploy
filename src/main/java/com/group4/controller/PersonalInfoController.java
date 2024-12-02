@@ -4,14 +4,10 @@ import com.group4.model.AddressModel;
 import com.group4.model.UserModel;
 import com.group4.service.IAddressService;
 import com.group4.service.IPersonalInfoService;
-import com.group4.service.impl.PersonalInfoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -21,13 +17,18 @@ public class PersonalInfoController {
     @Autowired
     private IAddressService addressService ;
     @Autowired
-    private IPersonalInfoService personalInfoService;
+    private IPersonalInfoService service;
 
+    @ExceptionHandler(Exception.class)
+    public String handleException(Exception e, Model model) {
+        model.addAttribute("error", "Đã xảy ra lỗi: " + e.getMessage());
+        return "error";  // Trang lỗi tùy chỉnh
+    }
     // Lấy thông tin cá nhân và địa chỉ
     @GetMapping
     public String getPersonalInfo(HttpSession session,Model model) {
         Long userID = (Long) session.getAttribute("userID"); // Lấy userID từ session
-        UserModel user = personalInfoService.fetchPersonalInfo(userID); // Gọi Service để lấy thông tin người dùng
+        UserModel user = service.fetchPersonalInfo(userID); // Gọi Service để lấy thông tin người dùng
         if (user != null) {
             model.addAttribute("user", user); // Thêm thông tin người dùng vào model
         }
@@ -39,7 +40,7 @@ public class PersonalInfoController {
     public String updatePersonalInfo(HttpSession session, UserModel userModel, Model model) {
         Long  userID= (Long) session.getAttribute("userID");
         userModel.setUserID(userID);
-        boolean status = personalInfoService.savePersonalInfo(userModel, userModel.getUserID()); // Lưu thông tin mới
+        boolean status = service.savePersonalInfo(userModel, userModel.getUserID()); // Lưu thông tin mới
         if (status) {
             model.addAttribute("message", "Cập nhật thông tin cá nhân thành công!");
             return "redirect:/personal-info?success"; // Chuyển hướng với trạng thái thành công
@@ -53,7 +54,7 @@ public class PersonalInfoController {
     @PostMapping("/address")
     public String updateAddress(HttpSession session, @ModelAttribute AddressModel addressModel, Model model) {
         Long userID = (Long) session.getAttribute("userID"); // Lấy userID từ session
-        UserModel user = personalInfoService.fetchPersonalInfo(userID);
+        UserModel user = service.fetchPersonalInfo(userID);
 
         AddressModel existingAddress = user.getAddress();
         if (existingAddress != null) {
@@ -75,7 +76,7 @@ public class PersonalInfoController {
     public String changePassword(HttpSession session, String currentPassword, String newPassword, String confirmNewPassword, Model model) {
         Long userID = (Long) session.getAttribute("userID"); // Lấy userID từ session
         // Lấy thông tin người dùng từ database
-        UserModel user = personalInfoService.fetchPersonalInfo(userID);
+        UserModel user = service.fetchPersonalInfo(userID);
 
         // Kiểm tra nếu không tìm thấy người dùng
         if (user == null) {
@@ -97,7 +98,7 @@ public class PersonalInfoController {
 
         // Cập nhật mật khẩu mới
         user.setPassword(newPassword);
-        boolean status = personalInfoService.savePersonalInfo(user, user.getUserID());
+        boolean status = service.savePersonalInfo(user, user.getUserID());
 
         if (status) {
             model.addAttribute("message", "Thay đổi mật khẩu thành công!");

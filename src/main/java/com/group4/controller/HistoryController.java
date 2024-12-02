@@ -9,7 +9,10 @@ import com.group4.service.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -19,6 +22,7 @@ public class HistoryController {
 
     @Autowired
     private IHistoryService historyService;
+
     @Autowired
     private IOrderService orderService;
 
@@ -42,12 +46,31 @@ public class HistoryController {
         }
         return "my-account";
     }
+
     @PostMapping("/cancel")
-    public String cancelOrder(@RequestParam Long orderId,
-                              @RequestParam String accountNumber,
-                              @RequestParam String accountName,
-                              @RequestParam String bankName) {
-        orderService.cancelOrder(orderId,accountNumber,accountName,bankName);
+    public String cancelOrder(@RequestParam("orderId") Long orderId,
+                              @RequestParam("bankName") String bankName,
+                              @RequestParam("accountName") String accountName,
+                              @RequestParam("accountNumber") String accountNumber,
+                              Model model) {
+
+        OrderEntity order = historyService.getOrderById(orderId);
+
+        if (order == null) {
+            model.addAttribute("errorMessage", "Đơn hàng không tồn tại.");
+            return "redirect:/history";
+        }
+
+        // Kiểm tra trạng thái đơn hàng
+        if ("Đã giao".equals(order.getShippingStatus()) || "Đang giao".equals(order.getShippingStatus())) {
+            model.addAttribute("errorMessage", "Không thể hủy đơn hàng đã giao hoặc đang giao.");
+            return "redirect:/history";
+        }
+
+        // Hủy đơn hàng
+        historyService.cancelOrder(orderId, accountNumber, accountName, bankName);
+
+        model.addAttribute("successMessage", "Hủy đơn hàng thành công.");
         return "redirect:/history";
     }
 }

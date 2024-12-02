@@ -21,7 +21,6 @@ public interface IOrderService {
     public void confirmCancelOrder(Long orderId);
     public void rejectCancelOrder(Long orderId);
     public OrderEntity createOrder(List<LineItemEntity>lineItems, CustomerEntity currentUser, AddressEntity address,long total, boolean checkAddress, String phone, String note);
-    public void cancelOrder(Long orderId, String accountNumber, String accountName,String bankName);
     public int getTotalOrderValue(OrderEntity order);
     public int checkInventoryProduct(List<LineItemEntity> lineItems);
     public int checkStatusProduct(List<LineItemEntity> lineItems);
