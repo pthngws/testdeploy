@@ -13,13 +13,28 @@
                 background-color: #ff4d4d;
                 color: white;
             }
+
             .btn-review {
                 background-color: #ff4d4d;
                 color: white;
             }
+
             .btn-review:hover {
                 background-color: #cc0000;
             }
+
+            .star-rating .star {
+                font-size: 2rem;
+                cursor: pointer;
+                color: gray;
+                transition: color 0.3s;
+            }
+
+            .star-rating .star.selected,
+            .star-rating .star:hover {
+                color: #ff4d4d;
+            }
+
         </style>
     </head>
 
@@ -74,13 +89,13 @@
                 <div class="modal-header">
                     <h5 class="modal-title" id="reviewModalLabel">Đánh giá sản phẩm</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
                 <div class="modal-body">
                     <!-- Form đánh giá -->
                     <form method="post" action="/submitReview">
-                        <input type="hidden" name="productId" id="productId"> <!-- ID sản phẩm -->
+                        <input type="hidden" name="productId" id="productId"> <!-- Input chứa productID -->
 
                         <div class="star-rating" id="starRating">
                             <span class="star" data-value="1">&#9733;</span>
@@ -88,6 +103,8 @@
                             <span class="star" data-value="3">&#9733;</span>
                             <span class="star" data-value="4">&#9733;</span>
                             <span class="star" data-value="5">&#9733;</span>
+                            <span id="hoveredStars"
+                                  style="margin-left: 10px; font-weight: bold; color: #ff4d4d;"></span>
                         </div>
 
                         <input type="hidden" id="selectedRating" name="rating">
@@ -107,28 +124,57 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Các biến cần thiết
+            const reviewModal = document.getElementById('reviewModal');
+            const productIdInput = document.getElementById('productId'); // Input ẩn để chứa productID
+
+            // Bắt sự kiện khi nút đánh giá được click
+            document.querySelectorAll('.btn-review').forEach(button => {
+                button.addEventListener('click', function () {
+                    const productId = this.getAttribute('data-id'); // Lấy productID từ nút
+                    productIdInput.value = productId; // Gán giá trị vào input hidden
+                });
+            });
+
+            // Các sự kiện khác không thay đổi
+            const form = document.querySelector('form');
+            const reviewContent = document.getElementById('reviewContent');
+
+            form.addEventListener('submit', function (e) {
+                const rating = document.getElementById('selectedRating').value;
+                if (!rating || rating == 0) {
+                    alert('Vui lòng chọn số sao để đánh giá.');
+                    e.preventDefault();
+                    return;
+                }
+
+                if (!reviewContent.value.trim()) {
+                    alert('Nội dung đánh giá không được để trống.');
+                    e.preventDefault();
+                }
+            });
+
             const stars = document.querySelectorAll('.star');
             let selectedStar = 0;
 
-            // Cập nhật các sao khi người dùng di chuột qua hoặc nhấp vào
             stars.forEach(star => {
                 star.addEventListener('click', function () {
                     selectedStar = this.getAttribute('data-value');
-                    document.getElementById('selectedRating').value = selectedStar; // Lưu giá trị sao vào input
+                    document.getElementById('selectedRating').value = selectedStar;
                     updateStars(selectedStar);
                 });
 
                 star.addEventListener('mouseover', function () {
-                    updateStars(this.getAttribute('data-value'));
+                    const hoverValue = this.getAttribute('data-value');
+                    document.getElementById('hoveredStars').textContent = `${hoverValue} sao`;
+                    updateStars(hoverValue);
                 });
 
                 star.addEventListener('mouseout', function () {
+                    document.getElementById('hoveredStars').textContent = '';
                     updateStars(selectedStar);
                 });
             });
 
-            // Cập nhật các sao theo giá trị đã chọn
             function updateStars(value) {
                 stars.forEach(star => {
                     if (star.getAttribute('data-value') <= value) {
@@ -138,15 +184,6 @@
                     }
                 });
             }
-
-            // Cập nhật ID sản phẩm vào modal khi nhấn nút Đánh giá/-strong/-heart:>:o:-((:-h const reviewButtons = document.querySelectorAll('.btn-review');
-            reviewButtons.forEach(button => {
-                button.addEventListener('click', function () {
-                    const productId = this.getAttribute('data-id');
-                    document.getElementById('productId').value = productId; // Gán giá trị productId vào input ẩn trong form
-                });
-            });
-
         });
     </script>
 

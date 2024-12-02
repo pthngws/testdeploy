@@ -33,11 +33,11 @@
 <!--                                    </div>-->
 <!--                                </li>-->
                                 <li>
-                                    <a href="/cart">Giỏ hàng</a>
+                                    <a th:href="@{/cart}">Giỏ hàng</a>
                                 </li>
                                 <th:block th:if="${session.username}">
                                     <li>
-                                        <a th:text="${session.fullName}"></a>
+                                        <a  href="/personal-info" th:text="${session.fullName}"></a>
                                         <a href="/logout">Đăng xuất</a>
                                     </li>
                                 </th:block>
@@ -76,11 +76,10 @@
                                 <button class="search-btn"><i class="fa fa-search"></i></button>
                             </div>
                             <div class="header-mini-cart">
-                                <div class="mini-cart-btn">
+                                <a href="/cart" class="mini-cart-btn">
                                     <i class="fa fa-shopping-cart"></i>
-                                </div>
+                                </a>
                                 <div class="cart-total-price">
-                                    $0.00
                                 </div>
                                 <ul class="cart-list">
                                     <li>
@@ -144,6 +143,9 @@
                                         <a href="/admin/rate-list">Phản hồi đánh giá</a>
                                         <a href="/admin/orders">Quản lý đơn hàng</a>
                                         <a href="/admin/customers">Quản lý khách hàng</a>
+                                    </li>
+                                    <li th:if="${session.roleName == 'Admin'}">
+                                        <a th:href="@{/admin/dashboard}">Doanh Thu</a>
                                     </li>
                                 </ul>
                             </nav>

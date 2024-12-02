@@ -39,6 +39,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public UserEntity saveUser(UserEntity user) {
+        user.setActive(true);
         return userRepository.save(user);
     }
 
