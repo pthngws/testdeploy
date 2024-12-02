@@ -5,7 +5,6 @@ import com.group4.entity.OrderEntity;
 import com.group4.repository.CustomerRepository;
 import com.group4.service.ICustomerService;
 import com.group4.service.IOrderService;
-import com.group4.service.impl.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,6 +47,7 @@ public class AdminCustomerController {
 
     @GetMapping("/{id}")
     public String getCustomerDetails(@PathVariable Long id, Model model) {
+
         // Lấy thông tin khách hàng
         CustomerEntity customer = customerService.getCustomerById(id)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy khách hàng"));

@@ -2,8 +2,6 @@ package com.group4.service.impl;
 
 import com.group4.entity.CustomerEntity;
 import com.group4.entity.UserEntity;
-import com.group4.model.AddressModel;
-import com.group4.model.UserModel;
 import com.group4.repository.CustomerRepository;
 import com.group4.repository.UserRepository;
 import com.group4.service.ICustomerService;
@@ -14,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CustomerService implements ICustomerService {
+public class CustomerServiceImpl implements ICustomerService {
 
     @Autowired
     private CustomerRepository customerRepository;
