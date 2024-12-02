@@ -82,12 +82,14 @@ public class PurchaseController {
     }
 
     @PostMapping("/purchase/checkout/buyInCart")
-    public String buyInCart(@RequestParam("cartData") String cartData, HttpSession session, Model model) throws JsonProcessingException {
+    public String buyInCart(@RequestParam("cartData") String cartData,
+                            @RequestParam("total") String totalStr,
+                            @RequestParam("discount") String discountStr,
+                            HttpSession session, Model model) throws JsonProcessingException {
         cartData = cartData.substring(1, cartData.length() - 1);
 
         String[] items = cartData.split(",");
         List<LineItemEntity> lineItems = new ArrayList<>();
-        long total = 0;
         for (String item : items) {
             String[] parts = item.split(" ");
             LineItemEntity lineItem = new LineItemEntity();
@@ -96,7 +98,6 @@ public class PurchaseController {
             lineItem.setProduct(product);
             int quantity = Integer.parseInt(parts[1]);
             lineItem.setQuantity(quantity);
-            total += (long) quantity * product.getPrice();
             lineItems.add(lineItem);
         }
 
@@ -106,11 +107,16 @@ public class PurchaseController {
         }
         AddressEntity address = currentUser.getAddress();
 
+        int total = Integer.parseInt(totalStr);
+        int discount = Integer.parseInt(discountStr);
+
         model.addAttribute("address", address);
         model.addAttribute("lineitems", lineItems);
         model.addAttribute("total", total);
+        model.addAttribute("discount", discount);
 
         session.setAttribute("lineitems", lineItems);
+        session.setAttribute("discount", discount);
         session.setAttribute("total", total);
         session.setAttribute("address", address);
 
@@ -139,8 +145,6 @@ public class PurchaseController {
             return "checkout";
         }
 
-
-
         CustomerEntity currentUser = (CustomerEntity) session.getAttribute("user");
         boolean checkAddress = true;
         if (currentUser.getAddress() == null)
@@ -158,8 +162,7 @@ public class PurchaseController {
         address.setCommune(commune);
         address.setOther(other);
 
-        String totalStr = request.getParameter("total");
-        Long total = Long.parseLong(totalStr);
+        int total = (int)session.getAttribute("total");
         String phone = request.getParameter("phone");
         String note = request.getParameter("ordernote");
 

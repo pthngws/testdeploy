@@ -210,7 +210,13 @@
         const string = getCartData();
         const totalAmountElement = document.getElementById('total-amount');
         const totalAmountText = totalAmountElement.textContent.trim();
-        const totalAmount = totalAmountText.split(' ')[0];
+        const totalAmount = totalAmountText.replace(/\./g, "");
+
+        const discountAmountElement = document.getElementById('discount-amount');
+        const discountAmountText = discountAmountElement.textContent.trim();
+        const discountAmount = discountAmountText.replace(/\./g, "");
+
+
         const form = document.createElement('form');
         form.method = 'POST';
         form.action = '/purchase/checkout/buyInCart';
@@ -224,9 +230,16 @@
         // Thêm totalAmount vào form
         const totalAmountInput = document.createElement('input');
         totalAmountInput.type = 'hidden';
-        totalAmountInput.name = 'totalAmount'; // Thay đổi theo yêu cầu của controller
+        totalAmountInput.name = 'total'; // Thay đổi theo yêu cầu của controller
         totalAmountInput.value = totalAmount;
         form.appendChild(totalAmountInput);
+
+        // Thêm totalAmount vào form
+        const discount = document.createElement('input');
+        discount.type = 'hidden';
+        discount.name = 'discount'; // Thay đổi theo yêu cầu của controller
+        discount.value = discountAmount;
+        form.appendChild(discount);
 
 
         document.body.appendChild(form);
@@ -241,11 +254,6 @@
         // Hàm định dạng tiền tệ với dấu phân cách
         function formatCurrency(value) {
             return new Intl.NumberFormat('vi-VN', { style: 'decimal', maximumFractionDigits: 0 }).format(value);
-        }
-
-        function parseCurrency(value) {
-            // Loại bỏ ký tự không phải số và chuyển đổi về số thực
-            return parseFloat(value.replace(/[^\d.-]/g, "").replace(/,/g, ""));
         }
 
         // Hàm cập nhật Total cho từng hàng

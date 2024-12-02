@@ -64,25 +64,17 @@
                                 <a th:href="@{/product/{id}(id=${lineItem.product.productID})}"  th:text="${lineItem.product.name}"></a>
                                 <strong> × <span th:text="${lineItem.quantity}"></span></strong>
                             </td>
-                            <td><span th:text="${lineItem.quantity * lineItem.product.price}"></span></td>
+                            <td><span id="total" th:text="${lineItem.quantity * lineItem.product.price}"></span></td>
                         </tr>
                         </tbody>
                         <tfoot>
                         <tr>
                             <td>Thành tiền</td>
-                            <td><strong th:text="${session.total}"></strong></td>
+                            <td><strong id="subtotal" th:text="${session.total}"></strong></td>
                         </tr>
                         <tr>
-                            <td>Vận chuyển</td>
-                            <td>
-                                <ul class="shipping-type">
-                                        <div class="custom-control custom-radio">
-                                            <input type="radio" id="freeshipping" name="shipping" class="custom-control-input" value="0" onchange="updateTotal()" />
-                                            <label class="custom-control-label" for="freeshipping"> Miễn phí vận chuyển</label>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </td>
+                            <td>Giảm giá</td>
+                            <td><strong id="discount" th:text="${session.discount}"></strong></td>
                         </tr>
                         <tr>
                             <td>Total Amount</td>
@@ -161,7 +153,27 @@
 </div>
 </div>
 </div>
+<script>
+    function formatCurrency(amount) {
+        return new Intl.NumberFormat('vi-VN', { style: 'decimal', maximumFractionDigits: 0 }).format(amount);
+    }
+
+    // Định dạng các số sau khi trang load
+    document.addEventListener("DOMContentLoaded", function () {
+        const totalElement = document.getElementById("total");
+        const subtotalElement = document.getElementById("subtotal");
+        const discountElement = document.getElementById("discount");
+        const totalAmountElement = document.getElementById("total-amount");
+
+
+
+        totalElement.textContent = formatCurrency(totalElement.textContent.trim())
+        subtotalElement.textContent = formatCurrency(subtotalElement.textContent.trim())
+        discountElement.textContent = formatCurrency(discountElement.textContent.trim())
+        totalAmountElement.textContent = formatCurrency(totalAmountElement.textContent.trim())
+    });
+
+</script>
 </body>
 </section>
-
 </html>
