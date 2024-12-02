@@ -87,48 +87,49 @@ public class AdminOrderController {
 
         return "order-details";
     }
+//
+//    @PostMapping("/{id}/confirm")
+//    public String confirmCancelOrder(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+//        try {
+//            OrderEntity order = orderService.getOrderById(id)
+//                    .orElseThrow(() -> new RuntimeException("Không tìm thấy đơn hàng"));
+//
+//            // Chỉ xử lý nếu trạng thái là "Yêu cầu hủy"
+//            if (!"Yêu cầu huỷ".equals(order.getShippingStatus())) {
+//                redirectAttributes.addFlashAttribute("errorMessage", "Chỉ có thể xác nhận hủy khi đơn hàng ở trạng thái 'Yêu cầu hủy'.");
+//                return "redirect:/admin/orders";
+//            }
+//
+//            orderService.confirmCancelOrder(id);
+//            redirectAttributes.addFlashAttribute("successMessage", "Huỷ đơn thành công.");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            redirectAttributes.addFlashAttribute("errorMessage", "Huỷ đơn không thành công.");
+//        }
+//        return "redirect:/admin/orders";
+//    }
+//
+//    @PostMapping("/{id}/cancel")
+//    public String rejectCancelOrder(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+//        try {
+//            OrderEntity order = orderService.getOrderById(id)
+//                    .orElseThrow(() -> new RuntimeException("Không tìm thấy đơn hàng"));
+//
+//            // Chỉ xử lý nếu trạng thái là "Yêu cầu hủy"
+//            if (!"Yêu cầu huỷ".equals(order.getShippingStatus())) {
+//                redirectAttributes.addFlashAttribute("errorMessage", "Chỉ có thể từ chối hủy khi đơn hàng ở trạng thái 'Yêu cầu hủy'.");
+//                return "redirect:/admin/orders";
+//            }
+//
+//            orderService.rejectCancelOrder(id);
+//            redirectAttributes.addFlashAttribute("successMessage", "Từ chối thành công.");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            redirectAttributes.addFlashAttribute("errorMessage", "Từ chối không thành công.");
+//        }
+//        return "redirect:/admin/orders";
+//    }
 
-    @PostMapping("/{id}/confirm")
-    public String confirmCancelOrder(@PathVariable Long id, RedirectAttributes redirectAttributes) {
-        try {
-            OrderEntity order = orderService.getOrderById(id)
-                    .orElseThrow(() -> new RuntimeException("Không tìm thấy đơn hàng"));
-
-            // Chỉ xử lý nếu trạng thái là "Yêu cầu hủy"
-            if (!"Yêu cầu huỷ".equals(order.getShippingStatus())) {
-                redirectAttributes.addFlashAttribute("errorMessage", "Chỉ có thể xác nhận hủy khi đơn hàng ở trạng thái 'Yêu cầu hủy'.");
-                return "redirect:/admin/orders";
-            }
-
-            orderService.confirmCancelOrder(id);
-            redirectAttributes.addFlashAttribute("successMessage", "Huỷ đơn thành công.");
-        } catch (Exception e) {
-            e.printStackTrace();
-            redirectAttributes.addFlashAttribute("errorMessage", "Huỷ đơn không thành công.");
-        }
-        return "redirect:/admin/orders";
-    }
-
-    @PostMapping("/{id}/cancel")
-    public String rejectCancelOrder(@PathVariable Long id, RedirectAttributes redirectAttributes) {
-        try {
-            OrderEntity order = orderService.getOrderById(id)
-                    .orElseThrow(() -> new RuntimeException("Không tìm thấy đơn hàng"));
-
-            // Chỉ xử lý nếu trạng thái là "Yêu cầu hủy"
-            if (!"Yêu cầu huỷ".equals(order.getShippingStatus())) {
-                redirectAttributes.addFlashAttribute("errorMessage", "Chỉ có thể từ chối hủy khi đơn hàng ở trạng thái 'Yêu cầu hủy'.");
-                return "redirect:/admin/orders";
-            }
-
-            orderService.rejectCancelOrder(id);
-            redirectAttributes.addFlashAttribute("successMessage", "Từ chối thành công.");
-        } catch (Exception e) {
-            e.printStackTrace();
-            redirectAttributes.addFlashAttribute("errorMessage", "Từ chối không thành công.");
-        }
-        return "redirect:/admin/orders";
-    }
     @GetMapping("/order-details")
     public String showOrderDetails(
             @RequestParam Long userId,

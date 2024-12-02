@@ -65,8 +65,7 @@
                 <td th:text="${customer.address.other} + ' ' + ${customer.address.commune} + ', ' +${customer.address.district} + ', ' +${customer.address.province} + ', ' +${customer.address.country}"></td>
 
                 <td style="text-align: center; vertical-align: middle;">
-                    <a th:href="@{/admin/customers/{id}(id=${customer.userID})}" class="btn btn-info btn-sm text-white">Chi
-                        tiết</a>
+                    <a th:href="@{/admin/customers/{id}(id=${customer.userID})}" class="btn btn-danger custom-hover">Chi tiết</a>
                 </td>
 
                 <td style="text-align: center; vertical-align: middle;">

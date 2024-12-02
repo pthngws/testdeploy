@@ -90,26 +90,26 @@ public class OrderServiceImpl implements IOrderService {
     public OrderEntity placeOrder(OrderEntity order) {
         return orderRepository.save(order);
     }
-
-    @Override
-    public void confirmCancelOrder(Long orderId) {
-        OrderEntity order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy đơn hàng"));
-
-        // Thay đổi trạng thái đơn hàng thành "Đã hủy"
-        order.setShippingStatus("Đã hủy");
-        orderRepository.save(order);
-    }
-
-    @Override
-    public void rejectCancelOrder(Long orderId) {
-        OrderEntity order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy đơn hàng"));
-
-        // Thay đổi trạng thái đơn hàng thành "Đang giao" hoặc trạng thái trước đó
-        order.setShippingStatus("Đang giao");
-        orderRepository.save(order);
-    }
+//
+//    @Override
+//    public void confirmCancelOrder(Long orderId) {
+//        OrderEntity order = orderRepository.findById(orderId)
+//                .orElseThrow(() -> new RuntimeException("Không tìm thấy đơn hàng"));
+//
+//        // Thay đổi trạng thái đơn hàng thành "Đã hủy"
+//        order.setShippingStatus("Đã hủy");
+//        orderRepository.save(order);
+//    }
+//
+//    @Override
+//    public void rejectCancelOrder(Long orderId) {
+//        OrderEntity order = orderRepository.findById(orderId)
+//                .orElseThrow(() -> new RuntimeException("Không tìm thấy đơn hàng"));
+//
+//        // Thay đổi trạng thái đơn hàng thành "Đang giao" hoặc trạng thái trước đó
+//        order.setShippingStatus("Đang giao");
+//        orderRepository.save(order);
+//    }
 
     @Override
     public OrderEntity createOrder(List<LineItemEntity> lineItems, CustomerEntity currentUser, AddressEntity address, long total, boolean checkAddress, String phone, String note) {
