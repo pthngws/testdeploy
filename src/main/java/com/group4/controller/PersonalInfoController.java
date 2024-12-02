@@ -42,10 +42,11 @@ public class PersonalInfoController {
     @PostMapping("/profile")
     public String updatePersonalInfo(HttpSession session, UserModel userModel, Model model) {
         UserEntity userEntity = (UserEntity) session.getAttribute("user"); // Lấy userID từ session
+
         Long userID = userEntity.getUserID();
         userModel.setUserID(userID);
-        boolean status = service.savePersonalInfo(userModel, userModel.getUserID()); // Lưu thông tin mới
-        if (status) {
+         // Lưu thông tin mới
+        if (service.savePersonalInfo(userModel, userModel.getUserID())) {
             model.addAttribute("message", "Cập nhật thông tin cá nhân thành công!");
             return "redirect:/personal-info?success"; // Chuyển hướng với trạng thái thành công
         } else {
@@ -58,6 +59,7 @@ public class PersonalInfoController {
     @PostMapping("/address")
     public String updateAddress(HttpSession session, @ModelAttribute AddressModel addressModel, Model model) {
         UserEntity userEntity = (UserEntity) session.getAttribute("user"); // Lấy userID từ session
+
         Long userID = userEntity.getUserID();
         UserModel user = service.fetchPersonalInfo(userID);
 

@@ -9,13 +9,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PersonalInfoRepository extends JpaRepository<UserEntity, Long> {
-
-    // Truy vấn thông tin người dùng từ database
-    @Query("SELECT u FROM UserEntity u  WHERE u.userID = :userID")
-    UserEntity retrieveInfoFormDB(@Param("userID") Long userID);
-
-    default void saveInfoToDB(UserEntity userEntity) {
-        save(userEntity);
-    }
 }
 
