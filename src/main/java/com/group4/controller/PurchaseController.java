@@ -158,8 +158,8 @@ public class PurchaseController {
         address.setCommune(commune);
         address.setOther(other);
 
-
-        Long total = (Long) session.getAttribute("total");
+        String totalStr = request.getParameter("total");
+        Long total = Long.parseLong(totalStr);
         String phone = request.getParameter("phone");
         String note = request.getParameter("ordernote");
 

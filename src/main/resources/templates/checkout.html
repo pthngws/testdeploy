@@ -40,9 +40,8 @@
             </div>
         </div>
 
-
-        <div th:if="${msg}" style="color: red;">
-            <p th:text="${msg}"></p>
+        <div th:if="${msg}" class="alert alert-danger" role="alert">
+            <span th:text="${msg}"></span>
         </div>
 <div class="row">
     <!-- Order Summary Details -->
