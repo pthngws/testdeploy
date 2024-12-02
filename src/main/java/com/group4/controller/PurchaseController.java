@@ -67,8 +67,8 @@ public class PurchaseController {
         lineItem.setQuantity(quantity);
         lineItem.setProduct(product);
         lineItems.add(lineItem);
-        long total = lineItems.stream()
-                .mapToLong(li -> (long) li.getQuantity() * li.getProduct().getPrice())
+        int total = lineItems.stream()
+                .mapToInt(li -> li.getQuantity() * li.getProduct().getPrice())
                 .sum();
 
         model.addAttribute("lineitems", lineItems);

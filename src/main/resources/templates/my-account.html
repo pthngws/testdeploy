@@ -48,7 +48,12 @@
                                                             <td th:text="${order.payment.total}"></td>
                                                             <td>
                                                                 <a th:href="@{/purchasedProduct(orderId=${order.orderId})}" class="btn btn-info btn-sm">Xem chi tiết</a>
-                                                                <button th:data-order-id="${order.orderId}" onclick="showCancelForm(this)" class="btn btn-danger btn-sm">Hủy đơn hàng</button>
+                                                                <button th:data-order-id="${order.orderId}"
+                                                                        th:if="${order.shippingStatus.toUpperCase() != 'CANCELED'}"
+                                                                        onclick="showCancelForm(this)"
+                                                                        class="btn btn-danger btn-sm">
+                                                                    Hủy đơn hàng
+                                                                </button>
 
                                                             </td>
                                                         </tr>
@@ -67,32 +72,42 @@
             </div>
         </div>
 
-        <!-- Hộp thoại nhập thông tin hủy đơn -->
-        <div id="cancelModal" style="display:none;">
-            <form id="cancelForm" action="/history/cancel" method="post">
-                <input type="hidden" name="orderId" id="cancelOrderId">
-                <div>
-                    <label for="bankName">Tên Ngân Hàng:</label>
-                    <input type="text" id="bankName" name="bankName" required>
+        <!-- Modal Popup -->
+        <div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="cancelModalLabel">Hủy Đơn Hàng</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="cancelForm" action="/history/cancel" method="post">
+                        <div class="modal-body">
+                            <input type="hidden" name="orderId" id="cancelOrderId">
+                            <div class="mb-3">
+                                <label for="bankName" class="form-label">Tên Ngân Hàng:</label>
+                                <input type="text" id="bankName" name="bankName" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="accountName" class="form-label">Tên Chủ Tài Khoản:</label>
+                                <input type="text" id="accountName" name="accountName" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="accountNumber" class="form-label">Số Tài Khoản:</label>
+                                <input type="text" id="accountNumber" name="accountNumber" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                            <button type="submit" class="btn btn-danger">Xác nhận hủy</button>
+                        </div>
+                    </form>
                 </div>
-                <div>
-                    <label for="accountName">Tên Chủ Tài Khoản:</label>
-                    <input type="text" id="accountName" name="accountName" required>
-                </div>
-                <div>
-                    <label for="accountNumber">Số Tài Khoản:</label>
-                    <input type="text" id="accountNumber" name="accountNumber" required>
-                </div>
-                <div>
-                    <button type="submit" class="btn btn-danger">Xác nhận hủy</button>
-                    <button type="button" class="btn btn-secondary" onclick="closeCancelForm()">Hủy bỏ</button>
-                </div>
-            </form>
+            </div>
         </div>
+
 
         <script>
             function showCancelForm(button) {
-
                 // Lấy hàng hiện tại (row) từ nút nhấn
                 const row = button.closest('tr');
 
@@ -101,7 +116,7 @@
                 const status = statusCell ? statusCell.textContent.trim() : "";
 
                 // Kiểm tra trạng thái
-                if (status.toUpperCase() === "Đã huỷ") {
+                if (status.toUpperCase() === "CANCELED") {
                     alert("Đơn hàng này đã bị hủy trước đó!");
                     return;
                 }
@@ -112,13 +127,14 @@
                     alert('ID đơn hàng không hợp lệ');
                     return;
                 }
+
                 document.getElementById("cancelOrderId").value = orderId;
-                document.getElementById("cancelModal").style.display = "block";
+
+                // Hiển thị modal
+                const cancelModal = new bootstrap.Modal(document.getElementById('cancelModal'));
+                cancelModal.show();
             }
 
-            function closeCancelForm() {
-                document.getElementById("cancelModal").style.display = "none";
-            }
         </script>
     </body>
 </section>

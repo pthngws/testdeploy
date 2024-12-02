@@ -37,7 +37,7 @@
                                 </li>
                                 <th:block th:if="${session.username}">
                                     <li>
-                                        <a th:text="${session.fullName}"></a>
+                                        <a  href="/personal-info" th:text="${session.fullName}"></a>
                                         <a href="/logout">Đăng xuất</a>
                                     </li>
                                 </th:block>
