@@ -9,18 +9,22 @@
         <title>Lịch sử mua hàng</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
         <style>
+            .container {
+                width: 80%;       /* Thiết lập chiều rộng container chiếm 80% */
+                margin: 0 auto;   /* Căn giữa container */
+            }
             .table thead {
-                background-color: #ff4d4d;
+                background-color: #d8373e;
                 color: white;
             }
 
             .btn-review {
-                background-color: #ff4d4d;
+                background-color: #d8373e;
                 color: white;
             }
 
             .btn-review:hover {
-                background-color: #cc0000;
+                background-color: #6c0222;
             }
 
             .star-rating .star {
@@ -32,7 +36,7 @@
 
             .star-rating .star.selected,
             .star-rating .star:hover {
-                color: #ff4d4d;
+                color: #d8373e;
             }
 
         </style>
@@ -40,8 +44,6 @@
 
     <body>
     <div class="container">
-        <h1 style="color: #ff4d4d;">Danh sách các sản phẩm đã mua</h1>
-
         <table class="table table-bordered table-hover">
             <thead>
             <tr>
@@ -50,8 +52,6 @@
                 <th>Giá</th>
                 <th>Số lượng</th>
                 <th>Tổng tiền</th>
-                <th>Trạng thái</th>
-                <th>Mã đơn hàng</th> <!-- Dùng lại ID -->
                 <th>Hành động</th>
             </tr>
             </thead>
@@ -61,13 +61,11 @@
             </tr>
 
             <tr th:each="item : ${purchasedProducts}">
-                <td th:text="${item.id}"></td>
+                <td th:text="${orderId} + '_' + ${item.id}"></td>
                 <td th:text="${item.product.name}"></td>
                 <td th:text="${item.product.price}"></td>
                 <td th:text="${item.quantity}"></td>
                 <td th:text="${item.total}"></td>
-                <td th:text="${item.product.status}"></td>
-                <td th:text="'ĐH-' + ${item.id}"></td> <!-- Hiển thị ID làm mã đơn hàng -->
                 <td>
                     <button class="btn btn-review" data-toggle="modal" data-target="#reviewModal"
                             th:if="${!hasReviewedMap[item.product.productID]}"
@@ -79,8 +77,6 @@
             </tbody>
         </table>
     </div>
-
-    <!-- Modal Đánh giá -->
     <!-- Modal Đánh giá -->
     <div class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="reviewModalLabel"
          aria-hidden="true">
@@ -96,6 +92,7 @@
                     <!-- Form đánh giá -->
                     <form method="post" action="/submitReview">
                         <input type="hidden" name="productId" id="productId"> <!-- Input chứa productID -->
+                        <input type="hidden" name="orderId" th:value="${orderId}" /> <!-- Correct way to pass 'test' -->
 
                         <div class="star-rating" id="starRating">
                             <span class="star" data-value="1">&#9733;</span>
@@ -103,10 +100,8 @@
                             <span class="star" data-value="3">&#9733;</span>
                             <span class="star" data-value="4">&#9733;</span>
                             <span class="star" data-value="5">&#9733;</span>
-                            <span id="hoveredStars"
-                                  style="margin-left: 10px; font-weight: bold; color: #ff4d4d;"></span>
+                            <span id="hoveredStars" style="margin-left: 10px; font-weight: bold; color: #d8373e;"></span>
                         </div>
-
                         <input type="hidden" id="selectedRating" name="rating">
 
                         <div class="form-group">
@@ -126,6 +121,19 @@
         document.addEventListener('DOMContentLoaded', function () {
             const reviewModal = document.getElementById('reviewModal');
             const productIdInput = document.getElementById('productId'); // Input ẩn để chứa productID
+            const reviewContent = document.getElementById('reviewContent');
+            const selectedRatingInput = document.getElementById('selectedRating');
+            const stars = document.querySelectorAll('.star');
+            const orderId = "${test}";
+            let selectedStar = 5; // Mặc định là 5 sao
+
+            // Gán mặc định 5 sao khi mở modal
+            $('#reviewModal').on('show.bs.modal', function () {
+                selectedStar = 5;
+                selectedRatingInput.value = selectedStar;
+                updateStars(selectedStar); // Cập nhật giao diện
+                reviewContent.value = ''; // Reset nội dung đánh giá
+            });
 
             // Bắt sự kiện khi nút đánh giá được click
             document.querySelectorAll('.btn-review').forEach(button => {
@@ -135,13 +143,9 @@
                 });
             });
 
-            // Các sự kiện khác không thay đổi
-            const form = document.querySelector('form');
-            const reviewContent = document.getElementById('reviewContent');
-
-            form.addEventListener('submit', function (e) {
-                const rating = document.getElementById('selectedRating').value;
-                if (!rating || rating == 0) {
+            // Kiểm tra trước khi gửi
+            document.querySelector('form').addEventListener('submit', function (e) {
+                if (!selectedRatingInput.value || selectedRatingInput.value == 0) {
                     alert('Vui lòng chọn số sao để đánh giá.');
                     e.preventDefault();
                     return;
@@ -153,13 +157,11 @@
                 }
             });
 
-            const stars = document.querySelectorAll('.star');
-            let selectedStar = 0;
-
+            // Sự kiện chọn số sao
             stars.forEach(star => {
                 star.addEventListener('click', function () {
                     selectedStar = this.getAttribute('data-value');
-                    document.getElementById('selectedRating').value = selectedStar;
+                    selectedRatingInput.value = selectedStar;
                     updateStars(selectedStar);
                 });
 

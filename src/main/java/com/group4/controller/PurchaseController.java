@@ -51,6 +51,7 @@ public class PurchaseController {
             HttpServletRequest request,
             HttpSession session,
             Model model) {
+        session.removeAttribute("appliedPromotion");
         Long productId = Long.parseLong(request.getParameter("productId"));
         int quantity = Integer.parseInt(request.getParameter("quantity"));
 
@@ -81,7 +82,10 @@ public class PurchaseController {
         session.setAttribute("lineitems", lineItems);
         session.setAttribute("total", total);
         session.setAttribute("address", address);
-
+        PromotionEntity promotion = (PromotionEntity) session.getAttribute("appliedPromotion");
+        if (promotion != null) {
+            session.removeAttribute("appliedPromotion"); // Xóa mã giảm giá khỏi session sau khi áp dụng
+        }
         return "checkout";
     }
 
@@ -90,6 +94,7 @@ public class PurchaseController {
                             @RequestParam("total") String totalStr,
                             @RequestParam("discount") String discountStr,
                             HttpSession session, Model model) throws JsonProcessingException {
+        session.removeAttribute("appliedPromotion");
         cartData = cartData.substring(1, cartData.length() - 1);
 
         String[] items = cartData.split(",");
