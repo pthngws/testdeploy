@@ -93,7 +93,8 @@
                                 <ul>
                                     <li class="active"><a th:href="@{/home}"><i class="fa fa-home"></i>Trang chủ </a></li>
                                     <li class="static"><a th:href="@{/products}">Sản phẩm</a></li>
-                                    <li class="static"><a th:href="@{/history}">Lịch sử mua hàng</a></li>
+                                    <li class="static" th:if="${session.roleName == 'Customer'}">
+                                        <a th:href="@{/history}">Lịch sử mua hàng</a></li>
                                     <li th:if="${session.roleName == 'Admin'}">
                                         <a>Quản Lý Sản Phẩm</a>
                                         <ul class="dropdown">
@@ -101,10 +102,10 @@
                                             <li><a href="/admin/manufacturers">Nhà Sản Xuất</a></li>
                                             <li><a href="/admin/categories">Thể Loại</a></li>
                                             <li><a href="/admin/inventory">Kho</a></li>
+                                            <li><a href="/admin/rate-list">Phản hồi đánh giá</a></li>
+                                            <li><a href="/admin/orders">Quản lý đơn hàng</a></li>
+                                            <li><a href="/admin/customers">Quản lý khách hàng</a></li>
                                         </ul>
-                                        <a href="/admin/rate-list">Phản hồi đánh giá</a>
-                                        <a href="/admin/orders">Quản lý đơn hàng</a>
-                                        <a href="/admin/customers">Quản lý khách hàng</a>
                                     </li>
                                     <li th:if="${session.roleName == 'Admin'}">
                                         <a th:href="@{/admin/dashboard}">Doanh Thu</a>
