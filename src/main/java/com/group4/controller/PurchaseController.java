@@ -92,6 +92,7 @@ public class PurchaseController {
                             HttpSession session, Model model) throws JsonProcessingException {
         cartData = cartData.substring(1, cartData.length() - 1);
 
+        int totalLineItem = 0;
         String[] items = cartData.split(",");
         List<LineItemEntity> lineItems = new ArrayList<>();
         for (String item : items) {
@@ -103,6 +104,7 @@ public class PurchaseController {
             int quantity = Integer.parseInt(parts[1]);
             lineItem.setQuantity(quantity);
             lineItems.add(lineItem);
+            totalLineItem += quantity*product.getPrice();
         }
 
         CustomerEntity currentUser = (CustomerEntity) session.getAttribute("user");
@@ -118,8 +120,11 @@ public class PurchaseController {
         model.addAttribute("lineitems", lineItems);
         model.addAttribute("total", total);
         model.addAttribute("discount", discount);
+        model.addAttribute("totalLineItem", totalLineItem);
+
 
         session.setAttribute("lineitems", lineItems);
+        session.setAttribute("totalLineItem", totalLineItem);
         session.setAttribute("discount", discount);
         session.setAttribute("total", total);
         session.setAttribute("address", address);
@@ -179,6 +184,13 @@ public class PurchaseController {
         String note = request.getParameter("ordernote");
 
         Long orderId = orderService.createOrder(lineItems,currentUser,address,total,checkAddress, phone, note).getOrderId();
+
+        session.removeAttribute("lineitems");
+        session.removeAttribute("totalLineItem");
+        session.removeAttribute("discount");
+        session.removeAttribute("total");
+        session.removeAttribute("address");
+
         return "redirect:/payment?orderId="+orderId+"&amount="+total;
     }
 
