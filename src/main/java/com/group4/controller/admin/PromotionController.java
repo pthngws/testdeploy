@@ -2,6 +2,7 @@ package com.group4.controller.admin;
 
 import com.group4.entity.PromotionEntity;
 import com.group4.service.IPromotionService;
+import jakarta.validation.Valid;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -63,40 +64,35 @@ public class PromotionController {
     }
 
     // Thêm khuyến mãi mới
-    @PostMapping("/adds")
-    public String addPromotion(@ModelAttribute("promotion") PromotionModel promotionModel, BindingResult bindingResult, Model model) {
-        // Kiểm tra lỗi validation
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("errorMessage", "Validation failed. Please check the inputs.");
-            return "add-promotion"; // Trả về form nếu có lỗi
-        }
+    @PostMapping("/save")
+    public String savePromotion(@Valid @ModelAttribute("promotion") PromotionModel promotionModel,
+                                BindingResult bindingResult, Model model) {
+        Date currentDate = new Date();
 
-        // Lưu khuyến mãi vào cơ sở dữ liệu
-        boolean isSaved = promotionService.saveOrUpdatePromotion(promotionModel);
-        if (isSaved) {
-            model.addAttribute("successMessage", "Promotion added successfully!");
-            return "redirect:/admin/promotions"; // Chuyển hướng nếu thành công
-        } else {
-            model.addAttribute("errorMessage", "Failed to add promotion.");
+        // Kiểm tra validFrom và validTo
+        if (promotionModel.getValidFrom().before(currentDate) && promotionModel.getPromotionID() == null) {
+            model.addAttribute("errorMessage", "Ngày bắt đầu áp dụng phải từ hôm nay trở đi.");
             return "add-promotion";
         }
-    }
 
-    @PostMapping("/save")
-    public String savePromotion(@ModelAttribute PromotionModel promotion) {
-        promotionService.saveOrUpdatePromotion(promotion);
-        return "redirect:/admin/promotions";
-    }
+        if (promotionModel.getValidFrom().after(promotionModel.getValidTo()) && promotionModel.getPromotionID() == null) {
+            model.addAttribute("errorMessage",  "Ngày kết thúc phải sau ngày bắt đầu.");
+            return "add-promotion";
+        }
 
-    @PutMapping("/update")
-    public String updatePromotion(@ModelAttribute PromotionModel promotionModel, Model model) {
-        boolean isUpdated = promotionService.saveOrUpdatePromotion(promotionModel);
-        if (isUpdated) {
-            model.addAttribute("successMessage", "Promotion updated successfully!");
-            return "redirect:/admin/promotions"; // Chuyển hướng sau khi cập nhật
+        // Kiểm tra mã khuyến mãi trùng
+        if (promotionService.isPromotionCodeExists(promotionModel.getPromotionCode()) && promotionModel.getPromotionID() == null) {
+            model.addAttribute("errorMessage", "Mã khuyến mãi đã tồn tại.");
+            return "add-promotion";
+        }
+
+        boolean isSaved = promotionService.saveOrUpdatePromotion(promotionModel);
+        if (isSaved) {
+            model.addAttribute("successMessage", "Khuyến mãi được lưu thành công!");
+            return "redirect:/admin/promotions?success";
         } else {
-            model.addAttribute("errorMessage", "Failed to update promotion.");
-            return "promotion";
+            model.addAttribute("errorMessage", "Không thể lưu khuyến mãi.");
+            return "redirect:/admin/promotions?error";
         }
     }
 

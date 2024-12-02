@@ -20,33 +20,12 @@ public class PromotionServiceImpl implements IPromotionService {
     // Lấy danh sách khuyến mãi từ DB
     public Page<PromotionEntity> fetchPromotionList(Pageable pageable) {
         return promotionRepository.findAll(pageable);
-//        List<PromotionEntity> promotionEntities = promotionRepository.findAll(pageable);
-////        return promotionEntities.stream()
-////                .map(this::convertToModel)
-////                .collect(Collectors.toList());
-    }
-
-    // Lưu khuyến mãi mới
-    public boolean savePromotion(PromotionModel promotionModel) {
-        PromotionEntity promotionEntity = convertToEntity(promotionModel);
-        return promotionRepository.savePromotionToDB(promotionEntity);
     }
 
     public boolean isPromotionCodeExists(String promotionCode) {
         return promotionRepository.checkPromotionCodeExist(promotionCode);
     }
 
-    // Cập nhật khuyến mãi
-    public boolean updatePromotion(PromotionModel promotionModel) {
-        if (promotionRepository.checkPromotionExist(promotionModel.getPromotionID())) {
-            PromotionEntity promotionEntity = convertToEntity(promotionModel);
-            return promotionRepository.saveUpdatePromotion(promotionEntity);
-        }
-        return false; // Không tồn tại khuyến mãi
-    }
-
-
-    // Lưu hoặc cập nhật khuyến mãi
     // Lưu hoặc cập nhật khuyến mãi
     public boolean saveOrUpdatePromotion(PromotionModel promotionModel) {
         PromotionEntity promotionEntity;

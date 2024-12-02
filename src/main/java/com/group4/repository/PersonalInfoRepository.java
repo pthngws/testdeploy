@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 
 @Repository
 public interface PersonalInfoRepository extends JpaRepository<UserEntity, Long> {
@@ -16,10 +18,6 @@ public interface PersonalInfoRepository extends JpaRepository<UserEntity, Long> 
 
     default void saveInfoToDB(UserEntity userEntity) {
         save(userEntity);
-    }
-
-    default UserEntity findByUserID(Long userID) {
-        return findById(userID).orElse(null);
     }
 }
 

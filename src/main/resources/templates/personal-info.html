@@ -253,6 +253,11 @@
             </div>
           </div>
           <!-- My Account Page End -->
+          <div th:if="${param.success}" class="alert alert-success">
+            <p th:if="${param.success == 'password-changed'}">Thay đổi mật khẩu thành công!</p>
+          </div>
+
+
         </div>
       </div>
     </div>

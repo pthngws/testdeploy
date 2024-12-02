@@ -4,7 +4,6 @@
 <head>
     <!-- Sử dụng fragment để tái sử dụng header -->
     <th:block th:replace="~{fragments/head.html}"></th:block>
-    <script th:src="@{/assets/js/promotion.js}"></script>
 </head>
 
 <body>
@@ -21,7 +20,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="myaccount-page-wrapper">
-                        <h2 class="section-title" th:text="${promotion.promotionID != null ? 'Edit Promotion' : 'Add New Promotion'}"></h2>
+                        <h2 class="section-title" th:text="${promotion.promotionID != null ? 'Sửa mã khuyến mãi' : 'Tạo mới mã khuyến mãi'}"></h2>
 
                         <!-- Form -->
                         <form th:action="@{/admin/promotions/save}" method="post" class="mt-4">
@@ -45,12 +44,13 @@
                                                th:value="${promotion.remainingUses}" placeholder="Nhập số lượt sử dụng mã khuyến mãi" required />
                                     </div>
                                 </div>
+
                                 <!-- Valid From -->
                                 <div class="col-lg-6">
                                     <div class="single-input-item">
                                         <label for="validFrom" class="required">Ngày bắt đầu áp dụng</label>
                                         <input type="date" id="validFrom" name="validFrom" class="form-control"
-                                               th:value="${#dates.format(promotion.validFrom, 'yyyy-MM-dd')}" required />
+                                               th:value="${#dates.format(promotion.validFrom, 'yyyy-MM-dd')}" min="${#dates.format(new java.util.Date(), 'yyyy-MM-dd')}" required />
                                     </div>
                                 </div>
                             </div>
@@ -70,7 +70,7 @@
                                     <div class="single-input-item">
                                         <label for="promotionCode" class="required">Mã khuyến mãi</label>
                                         <input type="text" id="promotionCode" name="promotionCode" class="form-control"
-                                               th:value="${promotion.promotionCode}" placeholder="Enter promotion code" required />
+                                               th:value="${promotion.promotionCode}" placeholder="Nhập mã khuyến mãi" required />
                                     </div>
                                 </div>
                             </div>
@@ -86,10 +86,13 @@
                                 </div>
                             </div>
 
+                            <!-- Thông báo -->
+                            <div th:if="${errorMessage != null}" class="alert alert-danger mt-3" th:text="${errorMessage}"></div>
+                            <div th:if="${successMessage != null}" class="alert alert-success mt-3" th:text="${successMessage}"></div>
                             <!-- Buttons -->
                             <div class="single-input-item mt-3">
-                                <button type="submit" class="check-btn sqr-btn" th:text="${promotion.promotionID != null ? 'Save Changes' : 'Add Promotion'}"></button>
-                                <a href="javascript:void(0);" class="check-btn sqr-btn btn-secondary" onclick="history.back()">Cancel</a>
+                                <button type="submit" class="check-btn sqr-btn" th:text="${promotion.promotionID != null ? 'Lưu thay đổi' : 'Lưu'}"></button>
+                                <a href="javascript:void(0);" class="check-btn sqr-btn btn-secondary" onclick="history.back()">Trở về</a>
                             </div>
                         </form>
                     </div>
