@@ -2,12 +2,16 @@ package com.group4.controller;
 
 import com.group4.model.AddressModel;
 import com.group4.model.UserModel;
-import com.group4.service.IAddressService;
 import com.group4.service.IPersonalInfoService;
+import com.group4.service.impl.AddressServiceImpl;
+import com.group4.service.impl.PersonalInfoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -15,15 +19,12 @@ import jakarta.servlet.http.HttpSession;
 public class PersonalInfoController {
 
     @Autowired
-    private IAddressService addressService ;
-    @Autowired
     private IPersonalInfoService service;
+    @Autowired
+    private AddressServiceImpl addressServiceImpl ;
+    @Autowired
+    private PersonalInfoServiceImpl personalInfoServiceImpl;
 
-    @ExceptionHandler(Exception.class)
-    public String handleException(Exception e, Model model) {
-        model.addAttribute("error", "Đã xảy ra lỗi: " + e.getMessage());
-        return "error";  // Trang lỗi tùy chỉnh
-    }
     // Lấy thông tin cá nhân và địa chỉ
     @GetMapping
     public String getPersonalInfo(HttpSession session,Model model) {
@@ -61,7 +62,7 @@ public class PersonalInfoController {
             addressModel.setAddressID(existingAddress.getAddressID());
         }
 
-        boolean status = addressService.updateAddressForUser(addressModel, addressModel.getAddressID());
+        boolean status = addressServiceImpl.updateAddressForUser(addressModel, addressModel.getAddressID());
         if (status) {
             model.addAttribute("message", "Cập nhật địa chỉ thành công!");
             return "redirect:/personal-info?address-success";
