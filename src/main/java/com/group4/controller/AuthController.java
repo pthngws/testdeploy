@@ -37,6 +37,7 @@ public class AuthController {
 
     @RequestMapping(value = "register")
     public String addUser(Model model) {
+
         model.addAttribute("user", new UserEntity());
         return "register";
     }
@@ -50,7 +51,7 @@ public class AuthController {
             model.addAttribute("mess", "Email đã tồn tại. Hãy nhập Email mới!");
             return "register";
         }
-
+        user.setActive(true);
         session.setAttribute("otp-register", otpCode());
         session.setMaxInactiveInterval(360);
 
