@@ -100,14 +100,14 @@ public class ShoppingCartController {
         redirectAttributes.addFlashAttribute("message", "Đã thêm sản phẩm vào giỏ hàng!");
 
         // Chuyển hướng về trang sản phẩm hoặc giỏ hàng
-        return "redirect:/cart"; // Hoặc "redirect:/products" nếu muốn quay lại danh sách sản phẩm
+        return "redirect:/products"; // Hoặc "redirect:/products" nếu muốn quay lại danh sách sản phẩm
     }
 
     @PostMapping("/apply-coupon")
     public String applyCoupon(@RequestParam String couponCode, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
         CustomerEntity currentUser = (CustomerEntity) session.getAttribute("user");
         if (currentUser == null) {
-            return "redirect:/login";
+            return "redirect:cart";
         }
 
         Optional<PromotionEntity> promotionOpt = promotionService.findByPromotionCode(couponCode);

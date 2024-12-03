@@ -19,7 +19,21 @@
 			<!-- page wrapper start -->
 			<div class="page-main-wrapper">
 				<div class="container">
-					<div class="row">
+					<div class="container">
+						<!-- Thêm đoạn hiển thị thông báo tại đây -->
+						<div th:if="${message}" class="alert alert-success alert-dismissible fade show" role="alert">
+							<span th:text="${message}">Thông báo thành công</span>
+							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+						</div>
+
+						<div class="row">
+							<!-- Đoạn tự thêm -->
+							<div class="card mb-4 shadow">
+								<div class="card-body">
+									<form action="/products" method="get">
+										<!-- Nội dung form tìm kiếm -->
+
+										<div class="row">
 						<!-- Đoạn tự thêm -->
 						<div class="card mb-4 shadow">
 							<div class="card-body">
@@ -178,8 +192,24 @@
 				</div>
 			</div>
 
-
 		</div>
+						<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+							<div class="modal-dialog modal-dialog-centered">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="successModalLabel">Thông báo</h5>
+										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<div class="modal-body">
+										<span th:text="${message}">Đã thêm sản phẩm vào giỏ hàng!</span>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+									</div>
+								</div>
+							</div>
+						</div>
+
 
 
 
@@ -218,9 +248,15 @@
 								element.textContent = formattedPrice + ' VND';
 							}
 						});
+				const message = /*[[${message}]]*/ ''; // Thymeleaf sẽ xử lý giá trị này
+				if (message) {
+					const modal = new bootstrap.Modal(document.getElementById('successModal'));
+					modal.show();
+				}
 			});
 		</script>
 	</section>
+
 </body>
 
 
